@@ -46,6 +46,7 @@ const Login: React.FC<LoginProps> = props => {
   };
   return (
     <div className={styles.main}>
+      <h1 style={{ width: "370px", margin: "auto 0", textAlign: "center" }}>安全生产责任监管平台</h1>
       <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
         <Tab key="account" tab="账户密码登录">
           {status === 'error' && loginType === 'account' && !submitting && (
@@ -128,7 +129,7 @@ const Login: React.FC<LoginProps> = props => {
           </Link>
         </div> */}
       </LoginFrom>
-    </div>
+    </div >
   );
 };
 
