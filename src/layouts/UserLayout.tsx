@@ -60,14 +60,9 @@ const UserLayout: React.FC<UserLayoutProps> = props => {
         </div>
         <DefaultFooter
           style={{ backgroundColor: 'rgba(255,255,255,0)', color: 'rgba(0,0,0,1)', fontWeight: 'bold' }}
-          copyright="浙江大学城市学院"
+          copyright="桐乡市应急局"
           links={[
-            {
-              key: 'github',
-              title: <GithubOutlined />,
-              href: 'https://github.com/mayiliang/activity-web',
-              blankTarget: true,
-            },
+
           ]}
         />
       </div>

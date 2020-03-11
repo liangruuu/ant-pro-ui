@@ -55,7 +55,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: '生产责任监管平台',
+  title: '桐乡市应急局安全生产责任监管平台',
   pwa: false,
   iconfontUrl: '',
 } as DefaultSettings;

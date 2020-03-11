@@ -30,11 +30,16 @@ export default [
             routes: [
               {
                 path: '/info',
-                redirect: '/info/company',
+                redirect: '/info/companylist',
               }, {
-                path: '/info/company',
-                name: 'company',
+                path: '/info/companylist',
+                name: 'companylist',
+                component: './info/CompanyList',
+              }, {
+                path: '/info/companyinfo',
+                name: 'companyinfo',
                 component: './info/CompanyInfo',
+                hideInMenu: true
               }, {
                 path: '/info/manager',
                 name: 'manager',

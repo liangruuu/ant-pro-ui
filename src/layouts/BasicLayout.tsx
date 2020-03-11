@@ -14,13 +14,11 @@ import React, { useEffect } from 'react';
 import { Link } from 'umi';
 import { Dispatch } from 'redux';
 import { connect } from 'dva';
-import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
-import logo from '../assets/bg01.jpg';
 
 const noMatch = (
   <Result
@@ -149,6 +147,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   };
   return (
     <ProLayout
+      style={{}}
       logo={}
       formatMessage={formatMessage}
       menuHeaderRender={(logoDom, titleDom) => (
