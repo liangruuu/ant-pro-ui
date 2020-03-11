@@ -127,7 +127,7 @@ const CompanyList: React.FC<IProps> = props => {
             </Col>
             <Col span={6} >
               <Form.Item
-                label="行业">
+                label="所处行业">
                 <Input placeholder="请输入行业" />
               </Form.Item>
             </Col>
