@@ -131,6 +131,58 @@ export default [
                 name: 'riskpromisecheck',
                 component: './risk/RiskManagePromiseCheck',
                 hideInMenu: true
+              }, {
+                path: '/risk/dailyriskmanagepromise',
+                name: 'dailyriskmanagepromise',
+                component: './risk/DailyRiskManagePromise'
+              }, {
+                path: '/risk/tbdmission',
+                name: 'tbdmission',
+                component: './risk/TBDMission'
+              }, {
+                path: '/risk/checksituationrecord',
+                name: 'checksituationrecord',
+                component: './risk/CheckSituationRecord'
+              }, {
+                path: '/risk/hiddentroubleshootsituation',
+                name: 'hiddentroubleshootsituation',
+                component: './risk/HiddenTroubleShootSituation'
+              }, {
+                path: '/risk/hiddentroubleshootsituationrecord',
+                name: 'hiddentroubleshootsituationrecord',
+                component: './risk/HiddenTroubleShootSituationRecord'
+              }, {
+                path: '/risk/tbdhiddentroublelist',
+                name: 'tbdhiddentroublelist',
+                component: './risk/TBDHiddenTroubleList'
+              }, {
+                path: '/risk/hiddentroubleresolverecord',
+                name: 'hiddentroubleresolverecord',
+                component: './risk/HiddenTroubleResolveRecord'
+              }, {
+                path: '/risk/hiddentrouberesolvechecklist',
+                name: 'hiddentrouberesolvechecklist',
+                component: './risk/HiddenTroubleResolveCheckList'
+              }, {
+                path: '/risk/hiddentroubleresolveecheck',
+                name: 'hiddentroubleresolveecheck',
+                component: './risk/HiddenTroubleResolveCheck'
+              }, {
+                path: '/risk/hiddentroubleresolvetbdmiddlechecklist',
+                name: 'hiddentroubleresolvetbdmiddlechecklist',
+                component: './risk/HiddenTroubleResolveTBDMiddleCheckList'
+              }, {
+                path: '/risk/hiddentroubleresolvetbdmiddlecheck',
+                name: 'hiddentroubleresolvetbdmiddlecheck',
+                component: './risk/HiddenTroubleResolveTBDMiddleCheck'
+              }, {
+                path: '/risk/hiddentroubleresolvesituation',
+                name: 'hiddentroubleresolvesituation',
+                component: './risk/HiddenTroubleResolveSituation'
+              }, {
+                path: '/risk/hiddentroubleresolvetmiddlecheckstatus',
+                name: 'hiddentroubleresolvetmiddlecheckstatus',
+                component: './risk/HiddenTroubleResolveMiddleCheckStatus'
               }
             ]
           }, {
