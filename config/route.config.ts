@@ -36,7 +36,7 @@ export default [
                 name: 'companylist',
                 component: './info/CompanyList',
               }, {
-                path: '/info/companyinfo',
+                path: '/info/companyinfo/:id',
                 name: 'companyinfo',
                 component: './info/CompanyInfo',
                 hideInMenu: true
@@ -49,13 +49,23 @@ export default [
                 name: 'organization',
                 component: './info/SecurityOrganization'
               }, {
-                path: '/info/proxy',
-                name: 'proxy',
+                path: '/info/proxylist',
+                name: 'proxylist',
                 component: './info/ProxyOrganization'
               }, {
-                path: '/info/insurance',
-                name: 'insurance',
+                path: '/info/proxyinfo',
+                name: 'proxyinfo',
+                component: './info/ProxyInfo',
+                hideInMenu: true
+              }, {
+                path: '/info/insurancelist',
+                name: 'insurancelist',
                 component: './info/InsuranceOrganization'
+              }, {
+                path: '/info/insuranceinfo',
+                name: 'insuranceinfo',
+                component: './info/InsuranceOrganizationInfo',
+                hideInMenu: true
               }
             ],
           }, {
@@ -67,13 +77,35 @@ export default [
                 path: '/risk',
                 redirect: '/risk/diagram',
               }, {
-                path: '/risk/diagram',
-                name: 'diagram',
-                component: './risk/Diagram',
+                path: '/risk/diagramupload',
+                name: 'diagramupload',
+                component: './risk/DiagramUpload',
+              }, {
+                path: '/risk/diagramdetail/:id',
+                name: 'diagramdetail',
+                component: './risk/DiagramDetail',
+                hideInMenu: true
+              }, {
+                path: '/risk/diagramlist',
+                name: 'diagramlist',
+                component: './risk/DiagramList',
               }, {
                 path: '/risk/risklist',
                 name: 'risklist',
                 component: './risk/RiskList'
+              }, {
+                path: '/risk/riskchecklist',
+                name: 'riskchecklist',
+                component: './risk/RiskCheckList'
+              }, {
+                path: '/risk/riskcheckdetail/:id',
+                name: 'riskcheckdetail',
+                component: './risk/RiskCheckDetail',
+                hideInMenu: true
+              }, {
+                path: '/risk/legalpersoncheck',
+                name: 'legalpersoncheck',
+                component: './risk/LegalPersonCheck',
               }, {
                 path: '/risk/chemicalsmanage',
                 name: 'chemicalsmanage',
@@ -90,6 +122,15 @@ export default [
                 path: '/risk/riskmanagepromise',
                 name: 'riskmanagepromise',
                 component: './risk/RiskManagePromise'
+              }, {
+                path: '/risk/riskreadytochecklist',
+                name: 'riskreadytochecklist',
+                component: './risk/RiskReadyToCheckList'
+              }, {
+                path: '/risk/riskpromisecheck/:id',
+                name: 'riskpromisecheck',
+                component: './risk/RiskManagePromiseCheck',
+                hideInMenu: true
               }
             ]
           }, {

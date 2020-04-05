@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Form, Table, Input, Row, Col, Button } from 'antd';
+import { Card, Form, Table, Input, Row, Col, Button, Select } from 'antd';
+const { Option } = Select;
 import { Link } from 'umi'
 import { connect } from 'dva';
 import styles from './index'
@@ -17,74 +18,46 @@ const CompanyList: React.FC<IProps> = props => {
   const columns = [
     {
       title: '企业名称',
-      dataIndex: 'name',
       key: 'name',
+      render: (text, record) => (
+        <span>
+          {console.log(record)}
+          <Link to={`/info/companyinfo/${record.key}`}>{record.name}</Link>
+        </span>
+      )
     }, {
-      title: '信用代码',
-      dataIndex: 'code',
-      key: 'code',
-    }, {
-      title: '地址',
+      title: '生产经营地址',
       dataIndex: 'address',
       key: 'address',
-    }, {
-      title: '所属区域 ',
-      dataIndex: 'area',
-      key: 'area',
-    }, {
-      title: '行业',
-      dataIndex: 'business',
-      key: 'business',
     }, {
       title: '法定代表人',
       dataIndex: 'legal',
       key: 'legal',
     }, {
-      title: '电话',
+      title: '手机号码 ',
       dataIndex: 'phone',
       key: 'phone',
     }, {
-      title: '详情',
-      key: 'detail',
-      render: (text, record) => (
-        <span>
-          <Link to="/info/companyinfo">查看详情</Link>
-        </span>
-      ),
+      title: '所属行业/专业',
+      dataIndex: 'business',
+      key: 'business',
+    }, {
+      title: '企业规模',
+      dataIndex: 'size',
+      key: 'size',
     }
   ]
 
   const data = [
     {
-      key: '1',
-      name: '浙江新澳纺织股份有限公司',
-      code: '180040800073',
-      address: '崇福镇',
-      area: '所属区域',
-      business: '所属行业',
-      legal: '沈剑波',
-      phone: '12345678910'
-    },
-    {
-      key: '1',
-      name: '浙江新澳纺织股份有限公司',
-      code: '180040800073',
-      address: '崇福镇',
-      area: '所属区域',
-      business: '所属行业',
-      legal: '沈剑波',
-      phone: '12345678910'
-    },
-    {
-      key: '1',
-      name: '浙江新澳纺织股份有限公司',
-      code: '180040800073',
-      address: '崇福镇',
-      area: '所属区域',
-      business: '所属行业',
-      legal: '沈剑波',
-      phone: '12345678910'
-    },
+      "key": "1234",
+      "name": "浙江飞帆纺织股份信息有限公司",
+      "address": "嘉兴市桐乡市",
+      "legal": "张忠华",
+      "phone": "123456798",
+      "business": "纺织工业",
+      "size": "规上"
+    }
   ];
 
   return (
@@ -103,8 +76,8 @@ const CompanyList: React.FC<IProps> = props => {
             </Col>
             <Col span={6} >
               <Form.Item
-                label="信用代码">
-                <Input placeholder="请输入信用代码" />
+                label="行政区划">
+                <Input placeholder="请输入行政区划" />
               </Form.Item>
             </Col>
             <Col span={6} >
@@ -115,27 +88,42 @@ const CompanyList: React.FC<IProps> = props => {
             </Col>
             <Col span={6} >
               <Form.Item
-                label="地址">
-                <Input placeholder="请输入地址" />
+                label="规模情况">
+                <Input placeholder="请输入规模情况" />
               </Form.Item>
             </Col>
-            <Col span={6} >
+            <Col span={7} >
               <Form.Item
-                label="所属区域">
-                <Input placeholder="请输入所属区域" />
+                label="所属行业/专业">
+                <Select style={{ width: 200 }}>
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="Yiminghe">yiminghe</Option>
+                </Select>
               </Form.Item>
             </Col>
-            <Col span={6} >
+            <Col span={7} >
               <Form.Item
-                label="所处行业">
-                <Input placeholder="请输入行业" />
+                label="企业规模">
+                <Select style={{ width: 200 }}>
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="Yiminghe">yiminghe</Option>
+                </Select>
               </Form.Item>
             </Col>
             <Col span={9} style={{ textAlign: 'right' }}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary">
                 查询
               </Button>
-              <Button style={{ marginLeft: 24 }}
+              <Button
+                type="primary"
+                style={{ margin: '0 16px' }}
+                onClick={() => {
+                }}>
+                新增
+              </Button>
+              <Button
                 onClick={() => {
                   form.resetFields();
                 }}>
