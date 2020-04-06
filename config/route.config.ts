@@ -31,44 +31,53 @@ export default [
               {
                 path: '/info',
                 redirect: '/info/companylist',
-              }, {
+              },
+              {
                 path: '/info/companylist',
                 name: 'companylist',
                 component: './info/CompanyList',
-              }, {
+              },
+              {
                 path: '/info/companyinfo/:id',
                 name: 'companyinfo',
                 component: './info/CompanyInfo',
-                hideInMenu: true
-              }, {
+                hideInMenu: true,
+              },
+              {
                 path: '/info/manager',
                 name: 'manager',
-                component: './info/SecurityManager'
-              }, {
+                component: './info/SecurityManager',
+              },
+              {
                 path: '/info/organization',
                 name: 'organization',
-                component: './info/SecurityOrganization'
-              }, {
+                component: './info/SecurityOrganization',
+              },
+              {
                 path: '/info/proxylist',
                 name: 'proxylist',
-                component: './info/ProxyOrganization'
-              }, {
+                component: './info/ProxyOrganization',
+              },
+              {
                 path: '/info/proxyinfo',
                 name: 'proxyinfo',
                 component: './info/ProxyInfo',
-                hideInMenu: true
-              }, {
+                hideInMenu: true,
+              },
+              {
                 path: '/info/insurancelist',
                 name: 'insurancelist',
-                component: './info/InsuranceOrganization'
-              }, {
+                component: './info/InsuranceOrganization',
+              },
+              {
                 path: '/info/insuranceinfo',
                 name: 'insuranceinfo',
                 component: './info/InsuranceOrganizationInfo',
-                hideInMenu: true
-              }
+                hideInMenu: true,
+              },
             ],
-          }, {
+          },
+          {
             path: '/risk',
             icon: 'table',
             name: 'risk',
@@ -76,116 +85,149 @@ export default [
               {
                 path: '/risk',
                 redirect: '/risk/diagram',
-              }, {
+              },
+              {
                 path: '/risk/diagramupload',
                 name: 'diagramupload',
                 component: './risk/DiagramUpload',
-              }, {
+              },
+              {
                 path: '/risk/diagramdetail/:id',
                 name: 'diagramdetail',
                 component: './risk/DiagramDetail',
-                hideInMenu: true
-              }, {
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/diagramlist',
                 name: 'diagramlist',
                 component: './risk/DiagramList',
-              }, {
+              },
+              {
                 path: '/risk/risklist',
                 name: 'risklist',
-                component: './risk/RiskList'
-              }, {
+                component: './risk/RiskList',
+              },
+              {
                 path: '/risk/riskchecklist',
                 name: 'riskchecklist',
-                component: './risk/RiskCheckList'
-              }, {
+                component: './risk/RiskCheckList',
+              },
+              {
                 path: '/risk/riskcheckdetail/:id',
                 name: 'riskcheckdetail',
                 component: './risk/RiskCheckDetail',
-                hideInMenu: true
-              }, {
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/legalpersoncheck',
                 name: 'legalpersoncheck',
                 component: './risk/LegalPersonCheck',
-              }, {
+              },
+              {
                 path: '/risk/chemicalsmanage',
                 name: 'chemicalsmanage',
-                component: './risk/ChemicalsManage'
-              }, {
+                component: './risk/ChemicalsManage',
+              },
+              {
                 path: '/risk/riskwarning',
                 name: 'riskwarning',
-                component: './risk/RiskWarning'
-              }, {
+                component: './risk/RiskWarning',
+              },
+              {
                 path: '/risk/hiddendangerlist',
                 name: 'hiddendangerlist',
-                component: './risk/HiddenDangerList'
-              }, {
+                component: './risk/HiddenDangerList',
+              },
+              {
                 path: '/risk/riskmanagepromise',
                 name: 'riskmanagepromise',
-                component: './risk/RiskManagePromise'
-              }, {
+                component: './risk/RiskManagePromise',
+              },
+              {
                 path: '/risk/riskreadytochecklist',
                 name: 'riskreadytochecklist',
-                component: './risk/RiskReadyToCheckList'
-              }, {
+                component: './risk/RiskReadyToCheckList',
+              },
+              {
                 path: '/risk/riskpromisecheck/:id',
                 name: 'riskpromisecheck',
                 component: './risk/RiskManagePromiseCheck',
-                hideInMenu: true
-              }, {
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/dailyriskmanagepromise',
                 name: 'dailyriskmanagepromise',
-                component: './risk/DailyRiskManagePromise'
-              }, {
+                component: './risk/DailyRiskManagePromise',
+              },
+              {
                 path: '/risk/tbdmission',
                 name: 'tbdmission',
-                component: './risk/TBDMission'
-              }, {
+                component: './risk/TBDMission',
+              },
+              {
                 path: '/risk/checksituationrecord',
                 name: 'checksituationrecord',
-                component: './risk/CheckSituationRecord'
-              }, {
+                component: './risk/CheckSituationRecord',
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/hiddentroubleshootsituation',
                 name: 'hiddentroubleshootsituation',
-                component: './risk/HiddenTroubleShootSituation'
-              }, {
+                component: './risk/HiddenTroubleShootSituation',
+              },
+              {
                 path: '/risk/hiddentroubleshootsituationrecord',
                 name: 'hiddentroubleshootsituationrecord',
-                component: './risk/HiddenTroubleShootSituationRecord'
-              }, {
+                component: './risk/HiddenTroubleShootSituationRecord',
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/tbdhiddentroublelist',
                 name: 'tbdhiddentroublelist',
-                component: './risk/TBDHiddenTroubleList'
-              }, {
+                component: './risk/TBDHiddenTroubleList',
+              },
+              {
                 path: '/risk/hiddentroubleresolverecord',
                 name: 'hiddentroubleresolverecord',
-                component: './risk/HiddenTroubleResolveRecord'
-              }, {
+                component: './risk/HiddenTroubleResolveRecord',
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/hiddentrouberesolvechecklist',
                 name: 'hiddentrouberesolvechecklist',
-                component: './risk/HiddenTroubleResolveCheckList'
-              }, {
+                component: './risk/HiddenTroubleResolveCheckList',
+              },
+              {
                 path: '/risk/hiddentroubleresolveecheck',
                 name: 'hiddentroubleresolveecheck',
-                component: './risk/HiddenTroubleResolveCheck'
-              }, {
+                component: './risk/HiddenTroubleResolveCheck',
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/hiddentroubleresolvetbdmiddlechecklist',
                 name: 'hiddentroubleresolvetbdmiddlechecklist',
-                component: './risk/HiddenTroubleResolveTBDMiddleCheckList'
-              }, {
+                component: './risk/HiddenTroubleResolveTBDMiddleCheckList',
+              },
+              {
                 path: '/risk/hiddentroubleresolvetbdmiddlecheck',
                 name: 'hiddentroubleresolvetbdmiddlecheck',
-                component: './risk/HiddenTroubleResolveTBDMiddleCheck'
-              }, {
+                component: './risk/HiddenTroubleResolveTBDMiddleCheck',
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/hiddentroubleresolvesituation',
                 name: 'hiddentroubleresolvesituation',
-                component: './risk/HiddenTroubleResolveSituation'
-              }, {
+                component: './risk/HiddenTroubleResolveSituation',
+              },
+              {
                 path: '/risk/hiddentroubleresolvetmiddlecheckstatus',
                 name: 'hiddentroubleresolvetmiddlecheckstatus',
-                component: './risk/HiddenTroubleResolveMiddleCheckStatus'
-              }
-            ]
-          }, {
+                component: './risk/HiddenTroubleResolveMiddleCheckStatus',
+                hideInMenu: true,
+              },
+            ],
+          },
+          {
             path: '/rule',
             icon: 'table',
             name: 'rule',
@@ -193,33 +235,40 @@ export default [
               {
                 path: '/rule',
                 redirect: '/rule/dangecheckrule',
-              }, {
+              },
+              {
                 path: '/rule/dangecheckrule',
                 name: 'dangecheckrule',
                 component: './rule/DangeCheckRule',
-              }, {
+              },
+              {
                 path: '/rule/educationrule',
                 name: 'educationrule',
-                component: './rule/EducationRule'
-              }, {
+                component: './rule/EducationRule',
+              },
+              {
                 path: '/rule/meetingrule',
                 name: 'meetingrule',
-                component: './rule/MeetingRule'
-              }, {
+                component: './rule/MeetingRule',
+              },
+              {
                 path: '/rule/operationrule',
                 name: 'operationrule',
-                component: './rule/OperationRule'
-              }, {
+                component: './rule/OperationRule',
+              },
+              {
                 path: '/rule/responsiblerule',
                 name: 'responsiblerule',
-                component: './rule/ResponsibleRule'
-              }, {
+                component: './rule/ResponsibleRule',
+              },
+              {
                 path: '/rule/contingencyplan',
                 name: 'contingencyplan',
-                component: './rule/ContingencyPlan'
-              }
-            ]
-          }, {
+                component: './rule/ContingencyPlan',
+              },
+            ],
+          },
+          {
             path: '/report',
             icon: 'table',
             name: 'report',
@@ -232,9 +281,10 @@ export default [
                 path: '/report/reportmanage',
                 name: 'reportmanage',
                 component: './report/ReportManage',
-              }
-            ]
-          }, {
+              },
+            ],
+          },
+          {
             path: '/system',
             icon: 'table',
             name: 'system',
@@ -242,28 +292,33 @@ export default [
               {
                 path: '/system',
                 redirect: '/system/dangecheckrule',
-              }, {
+              },
+              {
                 path: '/system/authoritymanage',
                 name: 'authoritymanage',
                 component: './system/AuthorityManage',
-              }, {
+              },
+              {
                 path: '/system/emergencymanage',
                 name: 'emergencymanage',
-                component: './system/EmergencyManage'
-              }, {
+                component: './system/EmergencyManage',
+              },
+              {
                 path: '/system/rolemanage',
                 name: 'rolemanage',
-                component: './system/RoleManage'
-              }, {
+                component: './system/RoleManage',
+              },
+              {
                 path: '/system/systemlog',
                 name: 'systemlog',
-                component: './system/SystemLog'
-              }, {
+                component: './system/SystemLog',
+              },
+              {
                 path: '/system/thirdpartymanage',
                 name: 'thirdpartymanage',
-                component: './system/ThirdPartyManage'
-              }
-            ]
+                component: './system/ThirdPartyManage',
+              },
+            ],
           },
           {
             component: './404',
@@ -278,4 +333,4 @@ export default [
   {
     component: './404',
   },
-]
+];
