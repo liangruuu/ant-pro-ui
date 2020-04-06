@@ -4,6 +4,7 @@ import { Card, Row, Col, Select, Input, Form, Radio, Button } from 'antd';
 const { Option } = Select;
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
+import StandardFormRow from './components/StandardFormRow';
 
 interface IProps {
   dispatch: any;
@@ -11,6 +12,15 @@ interface IProps {
 
 const BasicInfo: React.FC<IProps> = props => {
   const { dispatch } = props;
+
+  const layout = {
+    labelCol: {
+      span: 9,
+    },
+    wrapperCol: {
+      span: 15,
+    },
+  };
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
@@ -23,14 +33,17 @@ const BasicInfo: React.FC<IProps> = props => {
   return (
     <PageHeaderWrapper>
       <Card>
-        <Form name="basicForm" onFinish={onFinish}>
+        <Form
+          {...layout}
+          name="basicForm"
+          onFinish={onFinish}>
           <Row gutter={[16, 24]}>
             <Col className="gutter-row" span={6}>
               <div style={{ fontSize: "20px", fontWeight: 'bold' }}>企业基本信息</div>
             </Col>
           </Row>
-          <Row gutter={8}>
-            <Col span={8}>
+          <Row>
+            <Col>
               <Form.Item
                 name="name"
                 label="企业名称"
@@ -43,8 +56,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={8}>
-            <Col span={8}>
+          <Row>
+            <Col >
               <Form.Item
                 name="name"
                 label="详细地址"
@@ -57,8 +70,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row>
+            <Col>
               <Form.Item
                 name="name"
                 label="统一社会信用代码"
@@ -66,11 +79,11 @@ const BasicInfo: React.FC<IProps> = props => {
               >
                 <Input
                   placeholder="请输入统一社会信用代码"
-                  style={{ width: 300 }}
+                  style={{ width: 243 }}
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="成立时间"
@@ -83,8 +96,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row>
+            <Col >
               <Form.Item
                 name="name"
                 label="注册资金"
@@ -96,7 +109,7 @@ const BasicInfo: React.FC<IProps> = props => {
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="年销售额"
@@ -109,8 +122,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row >
+            <Col >
               <Form.Item
                 name="name"
                 label="行政区域"
@@ -122,7 +135,7 @@ const BasicInfo: React.FC<IProps> = props => {
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="法定代表人"
@@ -135,8 +148,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row >
+            <Col >
               <Form.Item
                 name="name"
                 label="风险隐患"
@@ -148,7 +161,7 @@ const BasicInfo: React.FC<IProps> = props => {
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="联系电话"
@@ -161,8 +174,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={8}>
-            <Col span={8}>
+          <Row >
+            <Col >
               <Form.Item
                 name="name"
                 label="经营范围"
@@ -175,8 +188,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row>
+            <Col>
               <Form.Item
                 name="name"
                 label="行业类别"
@@ -188,7 +201,7 @@ const BasicInfo: React.FC<IProps> = props => {
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="规模情况"
@@ -201,8 +214,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row >
+            <Col>
               <Form.Item
                 name="name"
                 label="从业人员数量"
@@ -210,11 +223,11 @@ const BasicInfo: React.FC<IProps> = props => {
               >
                 <Input
                   placeholder="请输入从业人员数量："
-                  style={{ width: 300 }}
+                  style={{ width: 270 }}
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="经营状态"
@@ -232,37 +245,23 @@ const BasicInfo: React.FC<IProps> = props => {
               <div style={{ fontSize: "20px", fontWeight: 'bold' }}>安全生产基本信息</div>
             </Col>
           </Row>
-          <Row gutter={12}>
-            <Col span={6} >
+          <Row >
+            <Col  >
               <Form.Item
                 name="name"
                 label="所属地区"
               >
-                <Select style={{ width: 200 }}>
+                <Select style={{ width: 300 }}>
                   <Option value="jack">Jack</Option>
                   <Option value="lucy">Lucy</Option>
                   <Option value="Yiminghe">yiminghe</Option>
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={6} >
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="行业类别"
-              >
-                <Select style={{ width: 200 }}>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={10}>
-            <Col span={10} >
-              <Form.Item
-                name="name"
-                label="生产经营地址"
               >
                 <Select style={{ width: 300 }}>
                   <Option value="jack">Jack</Option>
@@ -272,25 +271,39 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={12}>
-            <Col span={6} >
+          <Row >
+            <Col  >
+              <Form.Item
+                name="name"
+                label="生产经营地址"
+              >
+                <Select style={{ width: 270 }}>
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="Yiminghe">yiminghe</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row >
+            <Col >
               <Form.Item
                 name="name"
                 label="监管层级"
               >
-                <Select style={{ width: 200 }}>
+                <Select style={{ width: 300 }}>
                   <Option value="jack">Jack</Option>
                   <Option value="lucy">Lucy</Option>
                   <Option value="Yiminghe">yiminghe</Option>
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={6} >
+            <Col span={10} offset={1} >
               <Form.Item
                 name="name"
                 label="监管等级"
               >
-                <Select style={{ width: 200 }}>
+                <Select style={{ width: 300 }}>
                   <Option value="jack">Jack</Option>
                   <Option value="lucy">Lucy</Option>
                   <Option value="Yiminghe">yiminghe</Option>
@@ -298,25 +311,25 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={14}>
-            <Col span={7} >
+          <Row >
+            <Col >
               <Form.Item
                 name="name"
                 label="安全检查种类"
               >
-                <Select style={{ width: 200 }}>
+                <Select style={{ width: 270 }}>
                   <Option value="jack">Jack</Option>
                   <Option value="lucy">Lucy</Option>
                   <Option value="Yiminghe">yiminghe</Option>
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={6} >
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="监管分类"
               >
-                <Select style={{ width: 200 }}>
+                <Select style={{ width: 300 }}>
                   <Option value="jack">Jack</Option>
                   <Option value="lucy">Lucy</Option>
                   <Option value="Yiminghe">yiminghe</Option>
@@ -324,25 +337,25 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={13}>
-            <Col span={7} >
+          <Row >
+            <Col  >
               <Form.Item
                 name="name"
                 label="标准化等级"
               >
-                <Select style={{ width: 200 }}>
+                <Select style={{ width: 285 }}>
                   <Option value="jack">Jack</Option>
                   <Option value="lucy">Lucy</Option>
                   <Option value="Yiminghe">yiminghe</Option>
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={6} >
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="诚信等级"
               >
-                <Select style={{ width: 200 }}>
+                <Select style={{ width: 300 }}>
                   <Option value="jack">Jack</Option>
                   <Option value="lucy">Lucy</Option>
                   <Option value="Yiminghe">yiminghe</Option>
@@ -350,8 +363,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row >
+            <Col>
               <Form.Item
                 name="name"
                 label="企业主要负责人"
@@ -359,11 +372,11 @@ const BasicInfo: React.FC<IProps> = props => {
               >
                 <Input
                   placeholder="请输入企业主要负责人："
-                  style={{ width: 300 }}
+                  style={{ width: 240 }}
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="主要负责人手机"
@@ -376,8 +389,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row>
+            <Col >
               <Form.Item
                 name="name"
                 label="安全负责人"
@@ -385,11 +398,11 @@ const BasicInfo: React.FC<IProps> = props => {
               >
                 <Input
                   placeholder="请输入安全负责人："
-                  style={{ width: 300 }}
+                  style={{ width: 270 }}
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={10} offset={1}>
               <Form.Item
                 name="name"
                 label="安全负责人手机"
@@ -402,8 +415,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row >
+            <Col >
               <Form.Item
                 name="name"
                 label="安全负责人固定电话"
@@ -411,7 +424,7 @@ const BasicInfo: React.FC<IProps> = props => {
               >
                 <Input
                   placeholder="请输入安全负责人固定电话："
-                  style={{ width: 300 }}
+                  style={{ width: 260 }}
                 />
               </Form.Item>
             </Col>
@@ -428,8 +441,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={10}>
+          <Row>
+            <Col>
               <Form.Item
                 name="name"
                 label="社会化服务机构名称"
@@ -437,11 +450,11 @@ const BasicInfo: React.FC<IProps> = props => {
               >
                 <Input
                   placeholder="请输入社会化服务机构名称："
-                  style={{ width: 300 }}
+                  style={{ width: 260 }}
                 />
               </Form.Item>
             </Col>
-            <Col span={10}>
+            <Col span={10} >
               <Form.Item
                 name="name"
                 label="保险公司名称"
@@ -454,8 +467,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={12}>
-            <Col span={6}>
+          <Row>
+            <Col span={8}>
               <Form.Item
                 name="radio1"
                 label="危化品企业"
@@ -467,7 +480,7 @@ const BasicInfo: React.FC<IProps> = props => {
                 </Radio.Group>
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8} style={{ marginLeft: -100 }}>
               <Form.Item
                 name="radio2"
                 label="社会化服务机构"
@@ -480,8 +493,8 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={12}>
-            <Col span={6}>
+          <Row >
+            <Col span={8}>
               <Form.Item
                 name="radio3"
                 label="三场所三企业"
@@ -493,7 +506,7 @@ const BasicInfo: React.FC<IProps> = props => {
                 </Radio.Group>
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8} style={{ marginLeft: -100 }}>
               <Form.Item
                 name="radio4"
                 label="安责险"

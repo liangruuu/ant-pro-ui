@@ -144,6 +144,7 @@ const RiskManagePromise: React.FC<IProps> = () => {
             <img alt="example" style={{ width: '100%' }} src={previewImage} />
           </Modal>
         </Card>
+<<<<<<< HEAD
         <Card style={{ textAlign: 'right' }}>
           <Button
             type="primary"
@@ -157,6 +158,11 @@ const RiskManagePromise: React.FC<IProps> = () => {
           <Button style={{ marginLeft: '10px' }} onClick={() => router.replace('/risk/tbdmission')}>
             取消
           </Button>
+=======
+        <Card style={{ textAlign: "right" }}>
+          <Button type="primary" onClick={() => { message.success("保存成功"); router.replace('/risk/tbdmission'); }}>保存</Button>
+          <Button style={{ marginLeft: "10px" }} onClick={() => router.replace('/risk/tbdmission')}>取消</Button>
+>>>>>>> 338f75d88ecaeebaec4ed873a7d0ed09925f6cc7
         </Card>
       </Form>
     </PageHeaderWrapper>

@@ -17,7 +17,7 @@ export default [
       {
         path: '/',
         component: '../layouts/BasicLayout',
-        authority: ['admin', 'user'],
+        authority: ['admin', 'user', 'qy100', 'qy200'],
         routes: [
           {
             path: '/',
@@ -36,8 +36,13 @@ export default [
                 path: '/info/companylist',
                 name: 'companylist',
                 component: './info/CompanyList',
+<<<<<<< HEAD
               },
               {
+=======
+                authority: ['qy200']
+              }, {
+>>>>>>> 338f75d88ecaeebaec4ed873a7d0ed09925f6cc7
                 path: '/info/companyinfo/:id',
                 name: 'companyinfo',
                 component: './info/CompanyInfo',
@@ -47,8 +52,13 @@ export default [
                 path: '/info/manager',
                 name: 'manager',
                 component: './info/SecurityManager',
+<<<<<<< HEAD
               },
               {
+=======
+                authority: ['qy100']
+              }, {
+>>>>>>> 338f75d88ecaeebaec4ed873a7d0ed09925f6cc7
                 path: '/info/organization',
                 name: 'organization',
                 component: './info/SecurityOrganization',

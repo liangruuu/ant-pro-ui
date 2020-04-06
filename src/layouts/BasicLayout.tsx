@@ -59,7 +59,7 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright="桐乡市应急局"
+    copyright="桐乡市应急管理局安全生产风险预防数字化监管平台"
     links={[
       // {
       //   key: 'Ant Design Pro',
@@ -152,8 +152,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
       formatMessage={formatMessage}
       menuHeaderRender={(logoDom, titleDom) => (
         <Link to="/">
-          {logoDom}
-          {titleDom}
+          <div style={{ fontSize: 17, color: "white" }}>
+            桐乡市应急管理局安全生产风险预防数字化监管平台
+        </div>
         </Link>
       )}
       onCollapse={handleMenuCollapse}

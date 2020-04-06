@@ -10,6 +10,7 @@ interface IProps {
 
 const RiskManagePromise: React.FC<IProps> = props => {
   const { dispatch } = props;
+  const [form] = Form.useForm();
 
   const columns = [
     {
@@ -67,6 +68,25 @@ const RiskManagePromise: React.FC<IProps> = props => {
   return (
     <PageHeaderWrapper>
       <Card>
+        <Row gutter={[24, 18]}>
+          <Col span={24} style={{ textAlign: 'right' }} >
+            <Button
+              type="primary"
+              style={{ margin: '0 16px' }}
+              onClick={() => {
+
+              }}>
+              新增
+              </Button>
+            <Button style={{ marginRight: '30px' }}
+              onClick={() => {
+                form.resetFields();
+                console.log("dataSources:", data)
+              }}>
+              导出
+              </Button>
+          </Col>
+        </Row>
         <Table columns={columns} dataSource={data} />
       </Card>
     </PageHeaderWrapper>
