@@ -148,7 +148,7 @@ const RiskManagePromise: React.FC<IProps> = props => {
         </Card>
         <Card style={{ textAlign: "right" }}>
           <Button type="primary" onClick={() => { message.success("保存成功"); router.replace('/risk/tbdmission'); }}>保存</Button>
-          <Button style={{marginLeft: "10px"}} onClick={() => router.replace('/risk/tbdmission')}>取消</Button>
+          <Button style={{ marginLeft: "10px" }} onClick={() => router.replace('/risk/tbdmission')}>取消</Button>
         </Card>
       </Form >
     </PageHeaderWrapper >

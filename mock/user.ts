@@ -7,7 +7,7 @@ function getFakeCaptcha(req: Request, res: Response) {
 export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': {
-    name: 'admin',
+    name: 'qy100',
     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
     userid: '00000001',
     email: 'antdesign@alipay.com',
@@ -92,6 +92,54 @@ export default {
         status: 'ok',
         type,
         currentAuthority: 'user',
+      });
+      return;
+    }
+    if (password === 'qy100' && userName === 'qy100') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'qy100',
+      });
+      return;
+    }
+    if (password === 'qy200' && userName === 'qy200') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'qy200',
+      });
+      return;
+    }
+    if (password === 'qy300' && userName === 'qy300') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'qy300',
+      });
+      return;
+    }
+    if (password === 'qy500' && userName === 'qy500') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'qy500',
+      });
+      return;
+    }
+    if (password === 'zj100' && userName === 'zj100') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'zj100',
+      });
+      return;
+    }
+    if (password === 'yjj100' && userName === 'yjj100') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'yjj100',
       });
       return;
     }
