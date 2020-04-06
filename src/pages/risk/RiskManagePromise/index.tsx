@@ -62,6 +62,54 @@ const RiskManagePromise: React.FC<IProps> = props => {
       instruction: "安全隐患排查时检查项",
       time: "",
       staff: ""
+    }, {
+      content: "宣传教育制度",
+      period: "每月",
+      legal: "安管员",
+      code: "",
+      instruction: "设置周期提醒",
+      time: "",
+      staff: ""
+    }, {
+      content: "会议制度",
+      period: "每月",
+      legal: "安管员",
+      code: "",
+      instruction: "设置周期提醒",
+      time: "",
+      staff: ""
+    }, {
+      content: "安全生产责任制度",
+      period: "每月",
+      legal: "安管员",
+      code: "",
+      instruction: "设置周期提醒",
+      time: "",
+      staff: ""
+    }, {
+      content: "应急预案",
+      period: "每月",
+      legal: "安管员",
+      code: "",
+      instruction: "设置周期提醒",
+      time: "",
+      staff: ""
+    }, {
+      content: "操作规程",
+      period: "每月",
+      legal: "安管员",
+      code: "",
+      instruction: "安全隐患排查时检查项",
+      time: "",
+      staff: ""
+    }, {
+      content: "隐患排查制度",
+      period: "每月",
+      legal: "安管员",
+      code: "",
+      instruction: "安全隐患排查时检查项",
+      time: "",
+      staff: ""
     }
   ]
 

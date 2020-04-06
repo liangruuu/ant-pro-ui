@@ -4,7 +4,6 @@ import { Card, Row, Col, Select, Input, Form, Radio, Button } from 'antd';
 const { Option } = Select;
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
-import StandardFormRow from './components/StandardFormRow';
 
 interface IProps {
   dispatch: any;

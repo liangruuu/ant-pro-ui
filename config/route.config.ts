@@ -35,7 +35,6 @@ export default [
                 path: '/info/companylist',
                 name: 'companylist',
                 component: './info/CompanyList',
-                authority: ['qy200']
               }, {
                 path: '/info/companyinfo/:id',
                 name: 'companyinfo',
@@ -45,7 +44,7 @@ export default [
                 path: '/info/manager',
                 name: 'manager',
                 component: './info/SecurityManager',
-                authority: ['qy100']
+                hideInMenu: true
               }, {
                 path: '/info/organization',
                 name: 'organization',
@@ -111,15 +110,18 @@ export default [
               }, {
                 path: '/risk/chemicalsmanage',
                 name: 'chemicalsmanage',
-                component: './risk/ChemicalsManage'
+                component: './risk/ChemicalsManage',
+                hideInMenu: true
               }, {
                 path: '/risk/riskwarning',
                 name: 'riskwarning',
-                component: './risk/RiskWarning'
+                component: './risk/RiskWarning',
+                hideInMenu: true
               }, {
                 path: '/risk/hiddendangerlist',
                 name: 'hiddendangerlist',
-                component: './risk/HiddenDangerList'
+                component: './risk/HiddenDangerList',
+                hideInMenu: true
               }, {
                 path: '/risk/riskmanagepromise',
                 name: 'riskmanagepromise',
