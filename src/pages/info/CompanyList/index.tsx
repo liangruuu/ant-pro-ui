@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, Form, Table, Input, Row, Col, Button, Select } from 'antd';
 const { Option } = Select;
 import { Link } from 'umi'
+import router from 'umi/router';
 import { connect } from 'dva';
-import styles from './index'
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 interface IProps {
@@ -120,6 +120,9 @@ const CompanyList: React.FC<IProps> = props => {
                 type="primary"
                 style={{ margin: '0 16px' }}
                 onClick={() => {
+                  router.push({
+                    pathname: "/info/companyinfo/1"
+                  })
                 }}>
                 新增
               </Button>

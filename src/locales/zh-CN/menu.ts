@@ -52,8 +52,8 @@ export default {
 
 
   'menu.info': '基本信息',
-  'menu.info.companylist': '企业基本信息',
-  'menu.info.companyinfo': '企业详细信息',
+  'menu.info.companylist': '企业信息列表',
+  'menu.info.companyinfo': '企业基本信息',
   'menu.info.manager': '安全管理员',
   'menu.info.organization': '安全管理机构',
   'menu.info.proxylist': '中介机构列表',
