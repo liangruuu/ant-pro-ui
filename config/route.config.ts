@@ -36,6 +36,7 @@ export default [
                 path: '/info/companylist',
                 name: 'companylist',
                 component: './info/CompanyList',
+                authority: ['qy200'],
               }, 
               {
                 path: '/info/companyinfo/:id',
@@ -57,6 +58,7 @@ export default [
                 path: '/info/proxylist',
                 name: 'proxylist',
                 component: './info/ProxyOrganization',
+                authority: ['qy200'],
               },
               {
                 path: '/info/proxyinfo',
@@ -68,6 +70,7 @@ export default [
                 path: '/info/insurancelist',
                 name: 'insurancelist',
                 component: './info/InsuranceOrganization',
+                authority: ['qy200'],
               },
               {
                 path: '/info/insuranceinfo',
