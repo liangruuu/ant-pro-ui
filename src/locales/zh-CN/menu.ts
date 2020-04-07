@@ -66,7 +66,7 @@ export default {
   'menu.risk.diagramdetail': '四色分布图审核详情',
   'menu.risk.diagramlist': '四色分布图审核列表',
   'menu.risk.risklist': '安全风险清单',
-  'menu.risk.riskchecklist': '风险审核清单',
+  'menu.risk.riskchecklist': '风险清单审核',
   'menu.risk.riskcheckdetail': '风险审核详情',
   'menu.risk.legalpersoncheck': '风险清单法人审批',
   'menu.risk.chemicalsmanage': '安全风险告知警示',
@@ -87,7 +87,7 @@ export default {
   'menu.risk.hiddentroubleresolvetbdmiddlechecklist': '隐患整改待中介验收列表',
   'menu.risk.hiddentroubleresolvetbdmiddlecheck': '隐患整改中介验收',
   'menu.risk.hiddentroubleresolvesituation': '企业隐患及整改情况',
-  'menu.risk.hiddentroubleresolvetmiddlecheckstatus': '隐患整改中介验收详情',
+  'menu.risk.hiddentroubleresolvetmiddlecheckstatus': '隐患整改及验收详情',
 
   'menu.rule': '制度管理',
   'menu.rule.dangecheckrule': '宣传教育制度',
