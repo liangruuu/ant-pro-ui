@@ -6,7 +6,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { router } from 'umi';
 import StandardFormRow from './components/StandardFormRow';
 
-interface IProps {}
+interface IProps { }
 
 const RiskManagePromise: React.FC<IProps> = () => {
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
@@ -179,6 +179,12 @@ const RiskManagePromise: React.FC<IProps> = () => {
           </Card>
           <br />
           <Divider>请填写整改信息</Divider>
+          <Card title="整改情况">
+            <Form.Item >
+              <Input.TextArea rows={5}/>
+            </Form.Item>
+          </Card>
+          <br />
           <Card title="上传整改情况相关照片（最大三张）">
             <Upload
               listType="picture-card"
