@@ -50,16 +50,20 @@ export default {
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
 
-
   'menu.info': '基本信息',
-  'menu.info.companylist': '企业信息列表',
+  'menu.info.companylist': '企业列表',
   'menu.info.companyinfo': '企业基本信息',
-  'menu.info.manager': '安全管理员',
-  'menu.info.organization': '企业基本信息管理',
-  'menu.info.proxylist': '中介机构管理',
+  'menu.info.manager': '企业负责人和安全管理员',
+  'menu.info.organization': '企业负责人和安全管理员信息管理',
+  'menu.info.proxylist': '中介机构名单',
   'menu.info.proxyinfo': '中介机构信息',
+  'menu.info.proxyvontractputonrecords': '中介机构合同备案',
+  'menu.info.contractputonrecords': '合同备案登记',
+  'menu.info.addcontract': '合同新增',
   'menu.info.insurancelist': '保险机构管理',
   'menu.info.insuranceinfo': '保险机构信息',
+  'menu.info.insurancesalesmanmanagement': '保险业务员管理',
+  'menu.info.addinsurancesalesman': '保险业务员管理',
 
   'menu.risk': '安全风险管控',
   'menu.risk.diagramupload': '四色分布图上传',
@@ -106,5 +110,4 @@ export default {
   'menu.system.rolemanage': '角色管理',
   'menu.system.authoritymanage': '权限管理',
   'menu.system.systemlog': '系统日志',
-
 };
