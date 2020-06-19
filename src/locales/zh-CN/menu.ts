@@ -53,6 +53,7 @@ export default {
   'menu.info': '基本信息',
   'menu.info.companylist': '企业列表',
   'menu.info.companyinfo': '企业基本信息',
+  'menu.info.legalperson': '企业法定代表人',
   'menu.info.manager': '企业负责人和安全管理员',
   'menu.info.organization': '企业负责人和安全管理员信息管理',
   'menu.info.proxylist': '中介机构名单',
