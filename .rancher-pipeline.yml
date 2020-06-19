@@ -1,0 +1,10 @@
+stages:
+- name: BuildAndDeploy
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: frontend
+      registry: 127.0.0.1:34074
+timeout: 60
+notification: {}
