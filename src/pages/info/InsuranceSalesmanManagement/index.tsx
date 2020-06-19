@@ -8,29 +8,44 @@ interface IProps {
   dispatch: any;
 }
 
-const SecurityManager: React.FC<IProps> = () => {
+const InsuranceSalesmanManagement: React.FC<IProps> = () => {
   const [form] = Form.useForm();
 
   const columns = [
     {
       title: '姓名',
-      kdataIndexey: 'name',
+      dataIndex: 'name',
     },
     {
       title: '性别',
       dataIndex: 'sex',
     },
     {
-      title: '电话 ',
-      dataIndex: 'tele',
-    },
-    {
-      title: '身份证号',
+      title: '身份证号 ',
       dataIndex: 'id_number',
     },
     {
-      title: '人员类别',
-      dataIndex: 'type',
+      title: '手机号码',
+      dataIndex: 'tele',
+    },
+    {
+      title: '职位',
+      dataIndex: 'position',
+    },
+    {
+      title: '住所',
+      dataIndex: 'address',
+    },
+  ];
+
+  const data = [
+    {
+      name: '张忠华',
+      sex: '男',
+      id_number: '330280199902223333',
+      tele: '123456798',
+      position: '安全管理员',
+      address: '嘉兴市桐乡市',
     },
   ];
 
@@ -44,25 +59,24 @@ const SecurityManager: React.FC<IProps> = () => {
           className="ant-advanced-search-form"
         >
           <Row gutter={24}>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="姓名" name="name">
                 <Input placeholder="请输入姓名" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Form.Item label="电话" name="tele">
                 <Input placeholder="请输入电话" />
               </Form.Item>
             </Col>
-            <Col span={6} />
-            <Col span={6} style={{ textAlign: 'right' }}>
+            <Col span={8} style={{ textAlign: 'right' }}>
               <Button type="primary">查询</Button>
               <Button
                 type="primary"
                 style={{ margin: '0 16px' }}
                 onClick={() => {
                   router.push({
-                    pathname: '/info/securitymanagerdetail',
+                    pathname: '/info/addinsurancesalesman',
                   });
                 }}
               >
@@ -81,11 +95,11 @@ const SecurityManager: React.FC<IProps> = () => {
       </Card>
       <br />
       <Card>
-        <Table columns={columns} dataSource={undefined} />
+        <Table columns={columns} dataSource={data} />
       </Card>
     </PageHeaderWrapper>
   );
 };
 const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps)(SecurityManager);
+export default connect(mapStateToProps)(InsuranceSalesmanManagement);

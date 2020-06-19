@@ -47,15 +47,23 @@ export default [
                 authority: ['yjj100'],
               },
               {
-                path: '/info/manager',
-                name: 'manager',
-                component: './info/SecurityManager',
+                path: '/info/companyinfo/:id/legalperson',
+                name: 'legalperson',
+                component: './info/CompanyInfo/LegalPerson',
                 hideInMenu: true,
                 authority: ['yjj100'],
-              }, {
-                path: '/info/organization',
+              },
+              {
+                path: '/info/securitymanager',
+                name: 'manager',
+                component: './info/SecurityManager',
+                authority: ['yjj100'],
+              },
+              {
+                path: '/info/securitymanagerdetail',
                 name: 'organization',
-                component: './info/SecurityOrganization',
+                component: './info/SecurityManagerDetail',
+                hideInMenu: true,
                 authority: ['yjj100'],
               },
               {
@@ -72,6 +80,25 @@ export default [
                 authority: ['yjj100'],
               },
               {
+                path: '/info/proxyvontractputonrecords',
+                name: 'proxyvontractputonrecords',
+                component: './info/ProxyContractPutOnRecords',
+                authority: ['yjj100'],
+              },
+              {
+                path: '/info/contractputonrecords',
+                name: 'contractputonrecords',
+                component: './info/ContractPutOnRecords',
+                authority: ['yjj100'],
+              },
+              {
+                path: '/info/addcontract',
+                name: 'addcontract',
+                component: './info/AddContract',
+                hideInMenu: true,
+                authority: ['yjj100'],
+              },
+              {
                 path: '/info/insurancelist',
                 name: 'insurancelist',
                 component: './info/InsuranceOrganization',
@@ -81,6 +108,19 @@ export default [
                 path: '/info/insuranceinfo',
                 name: 'insuranceinfo',
                 component: './info/InsuranceOrganizationInfo',
+                hideInMenu: true,
+                authority: ['yjj100'],
+              },
+              {
+                path: '/info/insurancesalesmanmanagement',
+                name: 'insurancesalesmanmanagement',
+                component: './info/InsuranceSalesmanManagement',
+                authority: ['yjj100'],
+              },
+              {
+                path: '/info/addinsurancesalesman',
+                name: 'addinsurancesalesman',
+                component: './info/AddInsuranceSalesman',
                 hideInMenu: true,
                 authority: ['yjj100'],
               },
@@ -143,18 +183,21 @@ export default [
                 path: '/risk/chemicalsmanage',
                 name: 'chemicalsmanage',
                 component: './risk/ChemicalsManage',
-                hideInMenu: true
-              }, {
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/riskwarning',
                 name: 'riskwarning',
                 component: './risk/RiskWarning',
-                hideInMenu: true
-              }, {
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/hiddendangerlist',
                 name: 'hiddendangerlist',
                 component: './risk/HiddenDangerList',
-                hideInMenu: true
-              }, {
+                hideInMenu: true,
+              },
+              {
                 path: '/risk/riskmanagepromise',
                 name: 'riskmanagepromise',
                 component: './risk/RiskManagePromise',
