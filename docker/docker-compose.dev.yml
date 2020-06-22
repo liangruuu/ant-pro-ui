@@ -8,6 +8,7 @@ services:
       context: ../
       dockerfile: Dockerfile.dev
     container_name: 'tongxiang_ant-design-pro_dev'
+    image: 'tongxiang_ant-design-pro'
     volumes:
       - ../src:/usr/src/app/src
       - ../config:/usr/src/app/config
