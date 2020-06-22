@@ -1,14 +1,14 @@
 version: '3.5'
 
 services:
-  ant-design-pro_build:
+  tongxiang_ant-design-pro_build:
     build: ../
     image: 'tongxiang/frontend'
     container_name: 'tongxiang/frontend'
     volumes:
       - dist:/usr/src/app/dist
 
-  ant-design-pro_web:
+  tongxiang_ant-design-pro_web:
     image: nginx
     ports:
       - 80:80
