@@ -1,12 +1,13 @@
 version: '3.5'
 
 services:
-  tongxiang_ant-design-pro_dev:
+  ant-design-pro_dev:
     ports:
       - 8010:8010
     build:
       context: ../
       dockerfile: Dockerfile.dev
+      image: 'tongxiang_ant-design-pro'
     container_name: 'tongxiang_ant-design-pro_dev'
     volumes:
       - ../src:/usr/src/app/src
