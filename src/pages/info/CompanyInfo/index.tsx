@@ -47,10 +47,6 @@ const BasicInfo: React.FC<IProps> = () => {
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
-    router.replace({
-      pathname: '/info/companylist',
-      query: values,
-    });
   };
 
   return (
@@ -390,16 +386,20 @@ const BasicInfo: React.FC<IProps> = () => {
           </Row>
           <Row style={{ marginTop: 10 }} justify="end">
             <Col style={{ marginRight: 20 }}>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={() => {
+                  router.goBack();
+                }}
+              >
                 保存
               </Button>
             </Col>
             <Col>
               <Button
                 onClick={() => {
-                  router.replace({
-                    pathname: '/info/companylist',
-                  });
+                  router.goBack();
                 }}
               >
                 取消

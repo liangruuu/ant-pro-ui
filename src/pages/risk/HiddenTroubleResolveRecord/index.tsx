@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Card, Form, Select, Input, Upload, Modal, Row, Col, Button, message, Divider } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { router } from 'umi';
 import StandardFormRow from './components/StandardFormRow';
 
-interface IProps { }
+interface IProps {}
 
 const RiskManagePromise: React.FC<IProps> = () => {
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
@@ -32,6 +32,15 @@ const RiskManagePromise: React.FC<IProps> = () => {
     },
   ]);
   const [fileList2, setFileList2] = useState<any>([]);
+
+  const uploadProps = {
+    // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    onChange({ file, fileList }: { file: any; fileList: any }) {
+      if (file.status !== 'uploading') {
+        console.log(file, fileList);
+      }
+    },
+  };
 
   const getBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
@@ -179,29 +188,36 @@ const RiskManagePromise: React.FC<IProps> = () => {
           </Card>
           <br />
           <Divider>请填写整改信息</Divider>
-          <Card title="整改情况">
-            <Form.Item >
-              <Input.TextArea rows={5}/>
+          <Card title="整改信息">
+            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改情况">
+              <Input placeholder="（完成整改、已管控）" />
             </Form.Item>
-          </Card>
-          <br />
-          <Card title="上传整改情况相关照片（最大三张）">
-            <Upload
-              listType="picture-card"
-              fileList={fileList2}
-              onPreview={handlePreview}
-              onChange={handleChange2}
-            >
-              {fileList2.length >= 3 ? null : (
-                <div>
-                  <PlusOutlined />
-                  <div className="ant-upload-text">Upload</div>
-                </div>
-              )}
-            </Upload>
-            <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
-              <img alt="example" style={{ width: '100%' }} src={previewImage} />
-            </Modal>
+            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} name="att" label="上传文档">
+              <Upload {...uploadProps}>
+                <Button>
+                  <UploadOutlined /> 点击上传
+                </Button>
+              </Upload>
+              ,
+            </Form.Item>
+            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 10 }} label="上传照片">
+              <Upload
+                listType="picture-card"
+                fileList={fileList2}
+                onPreview={handlePreview}
+                onChange={handleChange2}
+              >
+                {fileList2.length >= 3 ? null : (
+                  <div>
+                    <PlusOutlined />
+                    <div className="ant-upload-text">Upload</div>
+                  </div>
+                )}
+              </Upload>
+              <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
+                <img alt="example" style={{ width: '100%' }} src={previewImage} />
+              </Modal>
+            </Form.Item>
           </Card>
           <br />
           <Card>

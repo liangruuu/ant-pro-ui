@@ -36,6 +36,10 @@ const RiskManagePromise: React.FC<IProps> = () => {
       dataIndex: 'check_person',
     },
     {
+      title: '整改状态',
+      dataIndex: 'status',
+    },
+    {
       title: '操作',
       key: 'operate',
       render: () => (
@@ -54,6 +58,7 @@ const RiskManagePromise: React.FC<IProps> = () => {
       date: '2020/2/20',
       limit_time: '5',
       check_person: '张三',
+      status: '已完成',
     },
   ];
 

@@ -111,7 +111,7 @@ const RiskManagePromise: React.FC<IProps> = () => {
               </Form.Item>
             </Col>
             <Col span={6} style={{ display: expand ? 'block' : 'none' }}>
-              <Form.Item label="验收意见">
+              <Form.Item label="整改状态">
                 <Input />
               </Form.Item>
             </Col>

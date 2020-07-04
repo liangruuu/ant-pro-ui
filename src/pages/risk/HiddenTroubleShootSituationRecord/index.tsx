@@ -43,7 +43,7 @@ const RiskManagePromise: React.FC<IProps> = () => {
         <Card>
           <StandardFormRow grid style={{ paddingBottom: 11 }}>
             <Row gutter={16}>
-              <Col span={12}>
+              <Col span={8}>
                 <Form.Item label="隐患类别">
                   <Select defaultValue="type1">
                     <Select.Option value="type1">基础安全</Select.Option>
@@ -52,7 +52,16 @@ const RiskManagePromise: React.FC<IProps> = () => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col span={8}>
+                <Form.Item label="风险源名称">
+                  <Select defaultValue="type1">
+                    <Select.Option value="type1">源1</Select.Option>
+                    <Select.Option value="type2">源2</Select.Option>
+                    <Select.Option value="type3">源3</Select.Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col span={8}>
                 <Form.Item label="隐患等级">
                   <Select defaultValue="level1">
                     <Select.Option value="level1">重大隐患</Select.Option>
@@ -68,9 +77,14 @@ const RiskManagePromise: React.FC<IProps> = () => {
               <Input />
             </Form.Item>
           </StandardFormRow>
-          <StandardFormRow grid last style={{ paddingBottom: 11 }}>
+          <StandardFormRow grid style={{ paddingBottom: 11 }}>
             <Form.Item label="整改措施">
               <Input />
+            </Form.Item>
+          </StandardFormRow>
+          <StandardFormRow grid last style={{ paddingBottom: 11 }}>
+            <Form.Item label="整改时限">
+              <Input placeholder="（手填，选择0-30，0代表立即整改）" />
             </Form.Item>
           </StandardFormRow>
         </Card>

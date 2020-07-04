@@ -17,11 +17,11 @@ import {
 } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { router } from 'umi';
 import StandardFormRow from './components/StandardFormRow';
 
-interface IProps { }
+interface IProps {}
 
 const RiskManagePromise: React.FC<IProps> = () => {
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
@@ -46,6 +46,31 @@ const RiskManagePromise: React.FC<IProps> = () => {
       url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
     },
   ]);
+
+  const uploadProps = {
+    // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    // eslint-disable-next-line no-shadow
+    onChange({ file, fileList }: { file: any; fileList: any }) {
+      if (file.status !== 'uploading') {
+        console.log(file, fileList);
+      }
+    },
+    defaultFileList: [
+      {
+        uid: '1',
+        name: 'xxx.pdf',
+        status: 'done',
+        response: 'Server Error 500', // custom error message to show
+        url: 'http://www.baidu.com/xxx.png',
+      },
+      {
+        uid: '2',
+        name: 'yyy.pdf',
+        status: 'done',
+        url: 'http://www.baidu.com/yyy.png',
+      },
+    ],
+  };
 
   const columns = [
     {
@@ -236,20 +261,24 @@ const RiskManagePromise: React.FC<IProps> = () => {
             </Card>
           </Card>
           <br />
-          <Card title="已录入整改情况信息" type="inner">
-            <Card title="整改情况">
-              <Form.Item >
-                <Input.TextArea disabled rows={5} defaultValue="已完成整改" />
-              </Form.Item>
-            </Card>
-            <br />
-            <Card title="整改情况相关照片">
+          <Card title="整改信息" type="inner">
+            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改情况">
+              <Input disabled placeholder="（完成整改、已管控）" value="完成整改" />
+            </Form.Item>
+            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} name="att" label="上传文档">
+              <Upload {...uploadProps}>
+                <Button disabled>
+                  <UploadOutlined /> 点击上传
+                </Button>
+              </Upload>
+              ,
+            </Form.Item>
+            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 10 }} label="上传照片">
               <Upload
                 listType="picture-card"
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
-                disabled
               >
                 {fileList.length >= 3 ? null : (
                   <div>
@@ -261,25 +290,25 @@ const RiskManagePromise: React.FC<IProps> = () => {
               <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
                 <img alt="example" style={{ width: '100%' }} src={previewImage} />
               </Modal>
-            </Card>
-            <br />
-            <Card>
-              <Row gutter={16}>
-                <Col span={12}>
-                  <Form.Item label="整改人">
-                    <Input disabled defaultValue="王五" />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item label="整改日期">
-                    <Input disabled defaultValue="2020/3/27" />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Card>
+            </Form.Item>
           </Card>
           <br />
-          <Card title="验收流程" type="inner">
+          <Card>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item label="整改人">
+                  <Input disabled defaultValue="王五" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item label="整改日期">
+                  <Input disabled defaultValue="2020/3/27" />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Card>
+          <br />
+          <Card title="整改流程" type="inner">
             <Table columns={columns} dataSource={data} />
           </Card>
           <br />

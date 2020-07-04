@@ -111,8 +111,12 @@ const RiskManagePromise: React.FC<IProps> = () => {
               </Form.Item>
             </Col>
             <Col span={6} style={{ display: expand ? 'block' : 'none' }}>
-              <Form.Item label="验收意见">
-                <Input />
+              <Form.Item label="是否超期">
+                <Select>
+                  <Select.Option value="level1">全部</Select.Option>
+                  <Select.Option value="level2">超期</Select.Option>
+                  <Select.Option value="level3">未超期</Select.Option>
+                </Select>
               </Form.Item>
             </Col>
             <Col span={6} style={{ display: expand ? 'block' : 'none' }} />

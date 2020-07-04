@@ -32,6 +32,10 @@ const RiskManagePromise: React.FC<IProps> = () => {
       dataIndex: 'limit_time',
     },
     {
+      title: '排查人员',
+      dataIndex: 'check_person',
+    },
+    {
       title: '操作',
       key: 'operate',
       render: () => (
@@ -49,6 +53,7 @@ const RiskManagePromise: React.FC<IProps> = () => {
       hidden_trouble: '火灾隐患',
       date: '2020/2/20',
       limit_time: '5',
+      check_person: '李四',
     },
   ];
 
