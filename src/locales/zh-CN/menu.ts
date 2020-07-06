@@ -58,7 +58,7 @@ export default {
   'menu.info.organization': '企业负责人和安全管理员信息管理',
   'menu.info.proxylist': '中介机构名单',
   'menu.info.proxyinfo': '中介机构信息',
-  'menu.info.proxyvontractputonrecords': '中介机构合同备案',
+  'menu.info.proxycontractputonrecords': '中介机构合同备案',
   'menu.info.contractputonrecords': '合同备案登记',
   'menu.info.addcontract': '合同新增',
   'menu.info.insurancelist': '保险机构管理',

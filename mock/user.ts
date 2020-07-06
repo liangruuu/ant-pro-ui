@@ -95,51 +95,83 @@ export default {
       });
       return;
     }
-    if (password === 'qy100' && userName === 'qy100') {
+    if (password === 'qyllr' && userName === 'qyllr') {
       res.send({
         status: 'ok',
         type,
-        currentAuthority: 'qy100',
+        currentAuthority: 'qyllr',
       });
       return;
     }
-    if (password === 'qy200' && userName === 'qy200') {
+    if (password === 'qyaqfzr' && userName === 'qyaqfzr') {
       res.send({
         status: 'ok',
         type,
-        currentAuthority: 'qy200',
+        currentAuthority: 'qyaqfzr',
       });
       return;
     }
-    if (password === 'qy300' && userName === 'qy300') {
+    if (password === 'qyagy' && userName === 'qyagy') {
       res.send({
         status: 'ok',
         type,
-        currentAuthority: 'qy300',
+        currentAuthority: 'qyagy',
       });
       return;
     }
-    if (password === 'qy500' && userName === 'qy500') {
+    if (password === 'qyfr' && userName === 'qyfr') {
       res.send({
         status: 'ok',
         type,
-        currentAuthority: 'qy500',
+        currentAuthority: 'qyfr',
       });
       return;
     }
-    if (password === 'zj100' && userName === 'zj100') {
+    if (password === 'zjllr' && userName === 'zjllr') {
       res.send({
         status: 'ok',
         type,
-        currentAuthority: 'zj100',
+        currentAuthority: 'zjllr',
       });
       return;
     }
-    if (password === 'yjj100' && userName === 'yjj100') {
+    if (password === 'zjyw' && userName === 'zjyw') {
       res.send({
         status: 'ok',
         type,
-        currentAuthority: 'yjj100',
+        currentAuthority: 'zjyw',
+      });
+      return;
+    }
+    if (password === 'bxllr' && userName === 'bxllr') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'bxllr',
+      });
+      return;
+    }
+    if (password === 'bxywy' && userName === 'bxywy') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'bxywy',
+      });
+      return;
+    }
+    if (password === 'yjjry' && userName === 'yjjry') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'yjjry',
+      });
+      return;
+    }
+    if (password === 'dsfry' && userName === 'dsfry') {
+      res.send({
+        status: 'ok',
+        type,
+        currentAuthority: 'dsfry',
       });
       return;
     }
