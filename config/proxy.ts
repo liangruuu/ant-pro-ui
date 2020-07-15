@@ -7,22 +7,22 @@
  */
 export default {
   dev: {
-    '/api/': {
+    '/dapi/v1/tongxiang/backend/': {
       target: 'http://192.168.5.215:8080',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
   },
   test: {
-    '/api/': {
-      target: 'https://preview.pro.ant.design',
+    '/dapi/v1/tongxiang/backend/': {
+      target: 'http://49.235.14.53:88/',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
   },
   pre: {
-    '/api/': {
-      target: 'your pre url',
+    '/dapi/v1/tongxiang/backend/': {
+      target: 'http://49.235.14.53:88/',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },

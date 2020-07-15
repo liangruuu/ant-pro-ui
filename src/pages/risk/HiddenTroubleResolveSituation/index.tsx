@@ -238,7 +238,7 @@ const HiddenTroubleResolveSituation: React.FC<IProps> = props => {
       </Card>
       <br />
       <Card>
-        <Row gutter={24}>
+        <Row gutter={24} style={{ marginBottom: 10 }}>
           <Col span={24} style={{ textAlign: 'right' }}>
             <Button type="primary" style={{ marginRight: 30 }}>
               导出

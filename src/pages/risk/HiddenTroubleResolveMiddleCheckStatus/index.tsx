@@ -250,52 +250,60 @@ const HiddenTroubleResolveMiddleCheckStatus: React.FC<IProps> = props => {
               </Row>
             </Card>
           </Card>
-          <br />
-          <Card title="已录入整改情况信息" type="inner">
-            <Card title="整改信息" type="inner">
-              <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改情况">
-                <span>{data?.modifySituation}</span>
-              </Form.Item>
-              <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改文档">
-                <Upload {...uploadProps}>
-                  {/* <Button disabled>
+          {data?.status === 'checked' ? null : (
+            <span>
+              <br />
+              <Card title="已录入整改情况信息" type="inner">
+                <Card title="整改信息" type="inner">
+                  <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改情况">
+                    <span>{data?.modifySituation}</span>
+                  </Form.Item>
+                  <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改文档">
+                    <Upload {...uploadProps}>
+                      {/* <Button disabled>
                     <UploadOutlined /> 点击上传
                   </Button> */}
-                </Upload>
-              </Form.Item>
-              <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 10 }} label="整改照片">
-                <Upload
-                  listType="picture-card"
-                  fileList={fileList}
-                  onPreview={handlePreview}
-                  onChange={handleChange}
-                >
-                  {fileList.length >= 3 ? null : (
-                    <div>
-                      <PlusOutlined />
-                      <div className="ant-upload-text">Upload</div>
-                    </div>
-                  )}
-                </Upload>
-                <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
-                  <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                </Modal>
-              </Form.Item>
-              <Form.Item label="整改人" labelCol={{ span: 2 }} wrapperCol={{ span: 6 }}>
-                <span>{data?.modifier}</span>
-              </Form.Item>
-              <Form.Item label="整改日期" labelCol={{ span: 2 }} wrapperCol={{ span: 6 }}>
-                <span>{data?.modifyDate}</span>
-              </Form.Item>
-            </Card>
-          </Card>
-          <br />
-          <Card title="验收流程" type="inner">
-            <Table columns={columns} dataSource={dataSource} />
-          </Card>
-          <Card style={{ textAlign: 'right' }}>
-            <Button onClick={() => router.goBack()}>返回</Button>
-          </Card>
+                    </Upload>
+                  </Form.Item>
+                  <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 10 }} label="整改照片">
+                    <Upload
+                      listType="picture-card"
+                      fileList={fileList}
+                      onPreview={handlePreview}
+                      onChange={handleChange}
+                    >
+                      {fileList.length >= 3 ? null : (
+                        <div>
+                          <PlusOutlined />
+                          <div className="ant-upload-text">Upload</div>
+                        </div>
+                      )}
+                    </Upload>
+                    <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
+                      <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                    </Modal>
+                  </Form.Item>
+                  <Form.Item label="整改人" labelCol={{ span: 2 }} wrapperCol={{ span: 6 }}>
+                    <span>{data?.modifier}</span>
+                  </Form.Item>
+                  <Form.Item label="整改日期" labelCol={{ span: 2 }} wrapperCol={{ span: 6 }}>
+                    <span>{data?.modifyDate}</span>
+                  </Form.Item>
+                </Card>
+              </Card>
+            </span>
+          )}
+          {data?.status === 'inspected' ? (
+            <span>
+              <br />
+              <Card title="验收流程" type="inner">
+                <Table columns={columns} dataSource={dataSource} />
+              </Card>
+              <Card style={{ textAlign: 'right' }}>
+                <Button onClick={() => router.goBack()}>返回</Button>
+              </Card>
+            </span>
+          ) : null}
         </Form>
       </Card>
     </PageHeaderWrapper>
