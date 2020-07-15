@@ -75,6 +75,7 @@ const CompanyList: React.FC<IProps> = () => {
                 查询
               </Button>
               <Button
+                style={{ marginRight: '30px' }}
                 onClick={() => {
                   form.resetFields();
                 }}

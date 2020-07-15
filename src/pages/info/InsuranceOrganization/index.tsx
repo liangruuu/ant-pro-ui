@@ -6,6 +6,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 interface IProps {
   dispatch: any;
+  location: any;
 }
 
 const InsuranceOrganization: React.FC<IProps> = props => {
@@ -86,17 +87,8 @@ const InsuranceOrganization: React.FC<IProps> = props => {
             </Col>
             <Col span={8} />
             <Col span={8} style={{ textAlign: 'right' }}>
-              <Button type="primary">查询</Button>
-              <Button
-                type="primary"
-                style={{ margin: '0 16px' }}
-                onClick={() => {
-                  router.push({
-                    pathname: '/info/insuranceinfo',
-                  });
-                }}
-              >
-                新增
+              <Button style={{ margin: '0 16px' }} type="primary">
+                查询
               </Button>
               <Button
                 style={{ marginRight: '30px' }}
@@ -113,6 +105,21 @@ const InsuranceOrganization: React.FC<IProps> = props => {
       </Card>
       <br />
       <Card>
+        <Row gutter={24} style={{ marginBottom: 20 }}>
+          <Col span={24} style={{ textAlign: 'right' }}>
+            <Button
+              style={{ marginRight: '30px' }}
+              type="primary"
+              onClick={() => {
+                router.push({
+                  pathname: '/info/insuranceinfo',
+                });
+              }}
+            >
+              新增
+            </Button>
+          </Col>
+        </Row>
         <Table columns={columns} dataSource={data} />
       </Card>
     </PageHeaderWrapper>

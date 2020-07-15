@@ -150,10 +150,10 @@ const ChemicalsQuery: React.FC<IProps> = () => {
               </Form.Item>
             </Col>
             <Col span={14} style={{ textAlign: 'right' }}>
-              <Button type="primary">查询</Button>
-              <Button type="primary" style={{ margin: '0 16px' }}>
-                导出
+              <Button style={{ margin: '0 16px' }} type="primary">
+                查询
               </Button>
+
               <Button
                 style={{ marginRight: '30px' }}
                 onClick={() => {
@@ -169,6 +169,13 @@ const ChemicalsQuery: React.FC<IProps> = () => {
       </Card>
       <br />
       <Card>
+        <Row gutter={24} style={{ marginBottom: 20 }}>
+          <Col span={24} style={{ textAlign: 'right' }}>
+            <Button style={{ marginRight: '30px' }} type="primary">
+              导出
+            </Button>
+          </Col>
+        </Row>
         <Table columns={columns} dataSource={data} />
       </Card>
     </PageHeaderWrapper>

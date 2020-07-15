@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Table, Input, Row, Col, Button } from 'antd';
+import { Card, Form, Table, Row, Col, Button } from 'antd';
 import { Link } from 'umi';
 import router from 'umi/router';
 import { connect } from 'dva';
@@ -55,7 +55,11 @@ const CompanyList: React.FC<IProps> = () => {
   ];
 
   return (
-    <PageHeaderWrapper>
+    <PageHeaderWrapper
+      onBack={() => {
+        router.goBack();
+      }}
+    >
       <Card>
         <Form
           labelCol={{ span: 8 }}
@@ -66,22 +70,22 @@ const CompanyList: React.FC<IProps> = () => {
           <Row gutter={24}>
             <Col span={8}>
               <Form.Item label="企业名称" name="entname">
-                <Input placeholder="请输入企业名称" />
+                <span>企业名称</span>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item label="统一社会信用代码" name="uniscid">
-                <Input placeholder="请输入统一社会信用代码" />
+                <span>统一社会信用代码</span>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item label="法定代表人" name="lerep">
-                <Input placeholder="请输入法定代表人" />
+                <span>法定代表人</span>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item label="法定代表人电话" name="lerep_tel">
-                <Input placeholder="请输入法定代表人电话" />
+                <span>法定代表人电话</span>
               </Form.Item>
             </Col>
             <Col span={16}>
@@ -91,26 +95,29 @@ const CompanyList: React.FC<IProps> = () => {
                 label="经营地址"
                 name="address"
               >
-                <Input placeholder="请输入经营地址" />
+                <span>经营地址</span>
               </Form.Item>
-            </Col>
-            <Col span={24} style={{ textAlign: 'right' }}>
-              <Button
-                type="primary"
-                onClick={() => {
-                  router.push({
-                    pathname: '/info/addcontract',
-                  });
-                }}
-              >
-                新增
-              </Button>
             </Col>
           </Row>
         </Form>
       </Card>
       <br />
       <Card>
+        <Row gutter={24} style={{ marginBottom: 20 }}>
+          <Col span={24} style={{ textAlign: 'right' }}>
+            <Button
+              style={{ marginRight: '30px' }}
+              type="primary"
+              onClick={() => {
+                router.push({
+                  pathname: '/info/addcontract',
+                });
+              }}
+            >
+              新增
+            </Button>
+          </Col>
+        </Row>
         <Table columns={columns} dataSource={data} />
       </Card>
     </PageHeaderWrapper>

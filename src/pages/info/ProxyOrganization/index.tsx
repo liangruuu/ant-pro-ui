@@ -114,9 +114,12 @@ const ProxyOrganization: React.FC<IProps> = props => {
             </Col>
             <Col span={8} />
             <Col span={8} style={{ textAlign: 'right' }}>
-              <Button type="primary">查询</Button>
+              <Button type="primary" style={{ margin: '0 16px' }}>
+                查询
+              </Button>
               <Button
-                style={{ margin: '0 16px' }}
+                style={{ marginRight: '30px' }}
+                s
                 onClick={() => {
                   form.resetFields();
                   console.log('dataSources:', data);
@@ -124,22 +127,26 @@ const ProxyOrganization: React.FC<IProps> = props => {
               >
                 清空
               </Button>
-              <Button
-                type="primary"
-                style={{ margin: '0 16px' }}
-                onClick={() => {
-                  router.push('/info/proxyinfo');
-                }}
-              >
-                新增
-              </Button>
-              <Button style={{ marginRight: '30px' }}>导出</Button>
             </Col>
           </Row>
         </Form>
       </Card>
       <br />
       <Card>
+        <Row gutter={24} style={{ marginBottom: 20 }}>
+          <Col span={24} style={{ textAlign: 'right' }}>
+            <Button
+              type="primary"
+              style={{ margin: '0 16px' }}
+              onClick={() => {
+                router.push('/info/proxyinfo');
+              }}
+            >
+              新增
+            </Button>
+            <Button style={{ marginRight: '30px' }}>导出</Button>
+          </Col>
+        </Row>
         <Table columns={columns} dataSource={data} />
       </Card>
     </PageHeaderWrapper>

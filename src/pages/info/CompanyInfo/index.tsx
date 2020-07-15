@@ -1,24 +1,44 @@
 import React, { useState } from 'react';
 import router from 'umi/router';
-import { Card, Row, Col, Select, Input, Form, Radio, Button, Upload, Modal } from 'antd';
+import {
+  Card,
+  Row,
+  Col,
+  Select,
+  Input,
+  Form,
+  Radio,
+  Button,
+  Upload,
+  Modal,
+  DatePicker,
+} from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
 import { PlusOutlined } from '@ant-design/icons';
+import { Dispatch } from 'redux';
+import { CdAdminOrgModelState } from '@/models/cd_admin_org';
 
 const { Option } = Select;
 
 interface IProps {
-  dispatch: any;
+  dispatch: Dispatch<any>;
+  cdadminorg: CdAdminOrgModelState;
 }
 
-const BasicInfo: React.FC<IProps> = () => {
+const BasicInfo: React.FC<IProps> = props => {
+  const {
+    dispatch,
+    cdadminorg: { adminOrgList },
+  } = props;
+
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>('');
   const [fileList, setFileList] = useState<any>([]);
 
   const layout = {
-    labelCol: { span: 9 },
-    wrapperCol: { span: 15 },
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 },
   };
 
   const getBase64 = (file: any) => {
@@ -47,6 +67,11 @@ const BasicInfo: React.FC<IProps> = () => {
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
+    dispatch({
+      type: 'entModel/saveEnt',
+      payload: { ...values },
+    });
+    router.goBack();
   };
 
   return (
@@ -59,7 +84,7 @@ const BasicInfo: React.FC<IProps> = () => {
             </Col>
           </Row>
           <Row gutter={24}>
-            <Col span={21}>
+            <Col span={20}>
               <Form.Item
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 20 }}
@@ -70,13 +95,12 @@ const BasicInfo: React.FC<IProps> = () => {
                 <Input placeholder="请输入企业名称" />
               </Form.Item>
             </Col>
-            <Col span={21}>
+            <Col span={20}>
               <Form.Item
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 20 }}
                 name="reg_address"
                 label="注册地址"
-                rules={[{ required: true, message: '必须输入注册地址!' }]}
               >
                 <Input placeholder="请输入注册地址" />
               </Form.Item>
@@ -91,119 +115,65 @@ const BasicInfo: React.FC<IProps> = () => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="estdate"
-                label="成立时间"
-                rules={[{ required: true, message: '必须输入成立时间!' }]}
-              >
-                <Input placeholder="请输入成立时间" />
+              <Form.Item name="estdate" label="成立时间">
+                <DatePicker />
               </Form.Item>
             </Col>
             <Col span={4} />
             <Col span={10}>
-              <Form.Item
-                name="regcap"
-                label="注册资金"
-                rules={[{ required: true, message: '必须输入注册资金：!' }]}
-              >
+              <Form.Item name="regcap" label="注册资金">
                 <Input placeholder="请输入注册资金" />
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="annualSales"
-                label="年销售额"
-                rules={[{ required: true, message: '必须输入年销售额：!' }]}
-              >
+              <Form.Item name="annualSales" label="年销售额">
                 <Input placeholder="请输入年销售额" />
               </Form.Item>
             </Col>
             <Col span={4} />
             <Col span={10}>
-              <Form.Item
-                name="regorg"
-                label="登记机关"
-                rules={[{ required: true, message: '必须输入登记机关!' }]}
-              >
-                <Input placeholder="请输入登记机关" />
+              <Form.Item name="regorg" label="登记机关">
+                <Select placeholder="请选择登记机关">
+                  {adminOrgList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="lerep"
-                label="法定代表人"
-                rules={[{ required: true, message: '必须输入法定代表人!' }]}
-              >
-                <Button onClick={() => router.push('/info/companyinfo/:id/legalperson')}>
-                  点击输入法定代表人信息
-                </Button>
-              </Form.Item>
-            </Col>
-            <Col span={4} />
-            <Col span={10}>
-              <Form.Item
-                name="lerep_tel"
-                label="联系电话"
-                rules={[{ required: true, message: '必须输入联系电话!' }]}
-              >
-                <Input placeholder="请输入联系电话" />
-              </Form.Item>
-            </Col>
-            <Col span={10}>
-              <Form.Item
-                name="riskRecognize"
-                label="风险隐患"
-                rules={[{ required: true, message: '必须输入风险隐患!' }]}
-              >
+              <Form.Item name="riskRecognize" label="风险隐患">
                 <Input placeholder="请输入风险隐患" />
               </Form.Item>
             </Col>
             <Col span={4} />
-            <Col span={21}>
+            <Col span={20}>
               <Form.Item
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 20 }}
                 name="opscope"
                 label="经营范围"
-                rules={[{ required: true, message: '必须输入经营范围!' }]}
               >
                 <Input placeholder="请输入经营范围" />
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="staff_num"
-                label="从业人员数量"
-                rules={[{ required: true, message: '必须输入从业人员数量!' }]}
-              >
+              <Form.Item name="staff_num" label="从业人员数量">
                 <Input placeholder="请输入从业人员数量" />
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="scale"
-                label="规模情况"
-                rules={[{ required: true, message: '必须输入规模情况!' }]}
-              >
+              <Form.Item name="scale" label="规模情况">
                 <Input placeholder="请输入规模情况" />
               </Form.Item>
             </Col>
             <Col span={4} />
             <Col span={10}>
-              <Form.Item
-                name="regstate"
-                label="登记状态"
-                rules={[{ required: true, message: '必须输入登记状态!' }]}
-              >
+              <Form.Item name="regstate" label="登记状态">
                 <Input placeholder="请输入登记状态" />
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="higher_up"
-                label="行政隶属关系"
-                rules={[{ required: true, message: '必须输入行政隶属关系!' }]}
-              >
+              <Form.Item name="higher_up" label="行政隶属关系">
                 <Input placeholder="请输入行政隶属关系" />
               </Form.Item>
             </Col>
@@ -233,7 +203,7 @@ const BasicInfo: React.FC<IProps> = () => {
               </Form.Item>
             </Col>
             <Col span={4} />
-            <Col span={21}>
+            <Col span={20}>
               <Form.Item
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 20 }}
@@ -386,13 +356,7 @@ const BasicInfo: React.FC<IProps> = () => {
           </Row>
           <Row style={{ marginTop: 10 }} justify="end">
             <Col style={{ marginRight: 20 }}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                onClick={() => {
-                  router.goBack();
-                }}
-              >
+              <Button type="primary" htmlType="submit">
                 保存
               </Button>
             </Col>
@@ -411,6 +375,15 @@ const BasicInfo: React.FC<IProps> = () => {
     </PageHeaderWrapper>
   );
 };
-const mapStateToProps = () => ({});
 
+const mapStateToProps = () => ({
+  cdadminorg,
+  loading,
+}: {
+  cdadminorg: CdAdminOrgModelState;
+  loading: { models: { [key: string]: boolean } };
+}) => ({
+  cdadminorg,
+  loading: loading.models.CdEntPersonType,
+});
 export default connect(mapStateToProps)(BasicInfo);

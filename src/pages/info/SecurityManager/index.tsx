@@ -1,20 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Form, Table, Input, Row, Col, Button } from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { Dispatch } from 'redux';
+import { UserModelState } from '@/models/user_manage';
+import { User } from '@/models/entity';
 
 interface IProps {
-  dispatch: any;
+  dispatch: Dispatch<any>;
+  userModel: UserModelState;
+  loading: boolean;
 }
 
-const SecurityManager: React.FC<IProps> = () => {
+const SecurityManager: React.FC<IProps> = props => {
+  const {
+    dispatch,
+    userModel: {
+      listData: { pageSizel, currentPage, total, dataSource },
+    },
+    loading,
+  } = props;
+
   const [form] = Form.useForm();
+  const [firstRender, changeFirstRender] = useState<boolean>(true);
 
   const columns = [
     {
       title: '姓名',
-      kdataIndexey: 'name',
+      dataIndex: 'name',
     },
     {
       title: '性别',
@@ -26,13 +40,41 @@ const SecurityManager: React.FC<IProps> = () => {
     },
     {
       title: '身份证号',
-      dataIndex: 'id_number',
+      dataIndex: 'idNumber',
     },
     {
       title: '人员类别',
-      dataIndex: 'type',
+      dataIndex: 'persontype',
     },
   ];
+
+  const onFinish = (values: any) => {
+    dispatch({
+      type: 'userModel/fetchList',
+      payload: {
+        currentPage: 0,
+        pageSize: pageSizel,
+        user: { ...values },
+      },
+    });
+  };
+
+  const handleChange = ({ current, pageSize }: any) => {
+    dispatch({
+      type: 'userModel/fetchList',
+      payload: {
+        currentPage: current - 1,
+        pageSize,
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (firstRender) {
+      handleChange({ current: currentPage + 1, pageSize: pageSizel });
+      changeFirstRender(!firstRender);
+    }
+  });
 
   return (
     <PageHeaderWrapper>
@@ -41,6 +83,7 @@ const SecurityManager: React.FC<IProps> = () => {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           form={form}
+          onFinish={onFinish}
           className="ant-advanced-search-form"
         >
           <Row gutter={24}>
@@ -56,19 +99,11 @@ const SecurityManager: React.FC<IProps> = () => {
             </Col>
             <Col span={6} />
             <Col span={6} style={{ textAlign: 'right' }}>
-              <Button type="primary">查询</Button>
-              <Button
-                type="primary"
-                style={{ margin: '0 16px' }}
-                onClick={() => {
-                  router.push({
-                    pathname: '/info/securitymanagerdetail',
-                  });
-                }}
-              >
-                新增
+              <Button style={{ margin: '0 16px' }} type="primary" htmlType="submit">
+                查询
               </Button>
               <Button
+                style={{ marginRight: '30px' }}
                 onClick={() => {
                   form.resetFields();
                 }}
@@ -81,11 +116,41 @@ const SecurityManager: React.FC<IProps> = () => {
       </Card>
       <br />
       <Card>
-        <Table columns={columns} dataSource={undefined} />
+        <Row gutter={24} style={{ marginBottom: 20 }}>
+          <Col span={24} style={{ textAlign: 'right' }}>
+            <Button
+              style={{ marginRight: '30px' }}
+              type="primary"
+              onClick={() => {
+                router.push({
+                  pathname: '/info/securitymanagerdetail',
+                });
+              }}
+            >
+              新增
+            </Button>
+          </Col>
+        </Row>
+        <Table<User>
+          loading={loading}
+          columns={columns}
+          dataSource={dataSource}
+          pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
+          onChange={handleChange}
+        />
       </Card>
     </PageHeaderWrapper>
   );
 };
-const mapStateToProps = () => ({});
 
+const mapStateToProps = () => ({
+  userModel,
+  loading,
+}: {
+  userModel: UserModelState;
+  loading: { models: { [key: string]: boolean } };
+}) => ({
+  userModel,
+  loading: loading.models.userModel,
+});
 export default connect(mapStateToProps)(SecurityManager);

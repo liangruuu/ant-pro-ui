@@ -1,121 +1,239 @@
-import React, { useState } from 'react';
-import { Card, Table, Form, Row, Col, Input, Select, Button, DatePicker } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Card, Table, Form, Row, Col, Select, Button, DatePicker, Input } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { router } from 'umi';
+import { Dispatch } from 'redux';
+import { CdRiskTypeModelState } from '@/models/cd_risk_type';
+import { CdRiskLevelModelState } from '@/models/cd_risk_level';
+import { RiskCheckModelState } from '@/models/risk_check';
+import { getAuthority } from '@/utils/authority';
+import { RiskCheckEntity } from '@/models/entity';
 
-interface IProps {}
+interface IProps {
+  dispatch: Dispatch<any>;
+  cdrisktype: CdRiskTypeModelState;
+  cdrisklevel: CdRiskLevelModelState;
+  riskCheck: RiskCheckModelState;
+  loading: boolean;
+}
 
-const RiskManagePromise: React.FC<IProps> = () => {
-  const [expand, setExpand] = useState<boolean>(false);
+const TBDHiddenTroubleList: React.FC<IProps> = props => {
+  const {
+    dispatch,
+    cdrisktype: { cdRiskTypeList },
+    cdrisklevel: { cdRiskLevelList },
+    riskCheck: {
+      listData: { pageSizel, currentPage, total, dataSource },
+    },
+    loading,
+  } = props;
+
+  const [firstRender, setFirstRender] = useState<boolean>(true);
 
   const columns = [
     {
       title: '隐患类别',
-      dataIndex: 'type',
+      dataIndex: 'riskType',
+    },
+    {
+      title: '风险源名称',
+      dataIndex: 'riskSource',
     },
     {
       title: '隐患等级',
-      dataIndex: 'level',
+      dataIndex: 'riskLevel',
     },
     {
       title: '存在隐患',
-      dataIndex: 'hidden_trouble',
+      dataIndex: 'riskDescription',
     },
     {
       title: '排查日期',
-      dataIndex: 'date',
+      dataIndex: 'checkDate',
     },
     {
       title: '整改时限',
-      dataIndex: 'limit_time',
+      dataIndex: 'modifyTimeLimit',
     },
     {
       title: '排查人员',
-      dataIndex: 'check_person',
+      dataIndex: 'checker',
     },
     {
       title: '操作',
       key: 'operate',
-      render: () => (
+      render: (text: RiskCheckEntity, record: RiskCheckEntity) => (
         <span>
-          <a onClick={() => router.push('/risk/hiddentroubleresolverecord')}>整改</a>
+          {/* <Link to={`/risk/hiddentroubleresolverecord?record=${record}`}>整改</Link> */}
+          <a
+            onClick={() =>
+              router.push({
+                pathname: '/risk/hiddentroubleresolverecord',
+                state: { record },
+              })
+            }
+          >
+            整改
+          </a>
         </span>
       ),
     },
   ];
 
-  const data = [
-    {
-      type: '基础安全',
-      level: '重大隐患',
-      hidden_trouble: '火灾隐患',
-      date: '2020/2/20',
-      limit_time: '5',
-      check_person: '李四',
-    },
-  ];
+  const onFinish = (values: any) => {
+    dispatch({
+      type: 'riskCheck/getRiskCheckList',
+      payload: {
+        currentPage: 0,
+        pageSize: pageSizel,
+        riskCheckEntity: {
+          entId: getAuthority().toString(),
+          status: 'checked',
+          ...values,
+        },
+      },
+    });
+  };
+
+  const handleChange = ({ current, pageSize }: any) => {
+    dispatch({
+      type: 'riskCheck/getRiskCheckList',
+      payload: {
+        currentPage: current - 1,
+        pageSize,
+        riskCheckEntity: {
+          entId: getAuthority().toString(),
+          status: 'checked',
+        },
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (firstRender) {
+      dispatch({
+        type: 'cdrisktype/fetchCdRiskType',
+      });
+      dispatch({
+        type: 'cdrisklevel/fetchCdRiskLevel',
+      });
+      handleChange({ current: currentPage + 1, pageSize: pageSizel });
+      setFirstRender(!firstRender);
+    }
+  });
 
   return (
     <PageHeaderWrapper>
-      <Card>
-        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+      <Card title="企业名称">
+        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onFinish={onFinish}>
           <Row gutter={24}>
             <Col span={6}>
-              <Form.Item label="隐患类别">
-                <Select>
-                  <Select.Option value="type1">类别1</Select.Option>
-                  <Select.Option value="type2">类别2</Select.Option>
-                  <Select.Option value="type3">类别3</Select.Option>
+              <Form.Item label="隐患类别" name="riskType">
+                <Select placeholder="请选择隐患类别">
+                  {cdRiskTypeList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item label="隐患等级">
-                <Select>
-                  <Select.Option value="level1">level1</Select.Option>
-                  <Select.Option value="level2">level2</Select.Option>
-                  <Select.Option value="level3">level3</Select.Option>
+              <Form.Item label="风险源名称" name="riskSource">
+                <Input placeholder="请输入风险源名称" />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item label="隐患等级" name="riskLevel">
+                <Select placeholder="请选择隐患等级">
+                  {cdRiskLevelList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item label="排查日期">
+              <Form.Item label="排查日期" name="checkDate">
                 <DatePicker.RangePicker allowClear />
               </Form.Item>
             </Col>
-            <Col span={6} style={{ display: expand ? 'block' : 'none' }}>
-              <Form.Item label="整改时限">
-                <DatePicker.RangePicker allowClear />
+            <Col span={6}>
+              <Form.Item label="整改时限" name="modifyTimeLimit">
+                <Select placeholder="请选择整改时限">
+                  {[
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20,
+                    21,
+                    22,
+                    23,
+                    24,
+                    25,
+                    26,
+                    27,
+                    28,
+                    29,
+                    30,
+                  ].map(item => (
+                    <Select.Option value={item}>{item}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
-            <Col span={6} style={{ display: expand ? 'block' : 'none' }}>
-              <Form.Item label="验收意见">
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={6} style={{ display: expand ? 'block' : 'none' }} />
-            <Col span={6} style={{ display: expand ? 'block' : 'none' }} />
+            <Col span={6} />
+            <Col span={6} />
             <Col span={6} style={{ textAlign: 'right' }}>
               <Button type="primary" htmlType="submit">
                 查询
               </Button>
-              <Button style={{ marginLeft: 10 }}>重置</Button>
-              <a style={{ marginLeft: 10, fontSize: 14 }} onClick={() => setExpand(!expand)}>
-                {expand ? '收起' : '展开'} {expand ? <UpOutlined /> : <DownOutlined />}
-              </a>
+              <Button style={{ marginLeft: 16, marginRight: 30 }}>重置</Button>
             </Col>
           </Row>
         </Form>
       </Card>
-      <br />
-      <Card title="企业隐患处理列表">
-        <Table columns={columns} dataSource={data} />
+      <Card>
+        <Table<RiskCheckEntity>
+          loading={loading}
+          columns={columns}
+          dataSource={dataSource}
+          pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
+          onChange={handleChange}
+        />
       </Card>
     </PageHeaderWrapper>
   );
 };
 
-const mapStateToProps = () => ({});
-export default connect(mapStateToProps)(RiskManagePromise);
+const mapStateToProps = () => ({
+  cdrisktype,
+  cdrisklevel,
+  riskCheck,
+  loading,
+}: {
+  cdrisktype: CdRiskTypeModelState;
+  cdrisklevel: CdRiskLevelModelState;
+  riskCheck: RiskCheckModelState;
+  loading: { models: { [key: string]: boolean } };
+}) => ({
+  cdrisktype,
+  cdrisklevel,
+  riskCheck,
+  loading: loading.models.riskCheck,
+});
+export default connect(mapStateToProps)(TBDHiddenTroubleList);

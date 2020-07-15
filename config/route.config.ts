@@ -103,6 +103,7 @@ export default [
                 name: 'contractputonrecords',
                 component: './info/ContractPutOnRecords',
                 authority: ['admin', 'zjyw'],
+                hideInMenu: true,
               },
               {
                 path: '/info/addcontract',
@@ -335,8 +336,8 @@ export default [
                 authority: ['admin', 'qyfr', 'qyagy'],
               },
               {
-                path: '/risk/hiddentroubleresolveecheck',
-                name: 'hiddentroubleresolveecheck',
+                path: '/risk/hiddentroubleresolvecheck',
+                name: 'hiddentroubleresolvecheck',
                 component: './risk/HiddenTroubleResolveCheck',
                 hideInMenu: true,
                 authority: ['admin', 'qyfr', 'qyagy'],

@@ -1,29 +1,25 @@
-import React, { useState } from 'react';
-import {
-  Card,
-  Form,
-  Select,
-  Input,
-  Upload,
-  Modal,
-  Row,
-  Col,
-  DatePicker,
-  Button,
-  message,
-  Divider,
-  Radio,
-  Table,
-} from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Card, Form, Input, Upload, Modal, Row, Col, Button, Divider, Radio, Table } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { router } from 'umi';
-import StandardFormRow from './components/StandardFormRow';
+import { RiskCheckEntity } from '@/models/entity';
+import { getAuthority } from '@/utils/authority';
+import { Dispatch } from 'redux';
 
-interface IProps {}
+interface IProps {
+  dispatch: Dispatch<any>;
+  location: any;
+}
 
-const RiskManagePromise: React.FC<IProps> = () => {
+const RiskManagePromise: React.FC<IProps> = props => {
+  const { dispatch, location } = props;
+
+  const [firstRender, setFirstRender] = useState<boolean>(true);
+  const [inspector] = useState<string>(getAuthority().toString());
+  const [inspectDate] = useState<Date>(new Date());
+  const [data, setData] = useState<RiskCheckEntity>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>('');
   const [fileList, setFileList] = useState<any>([
@@ -123,7 +119,7 @@ const RiskManagePromise: React.FC<IProps> = () => {
     },
   ];
 
-  const data = [
+  const dataSource = [
     {
       no: 1,
       step: '企业验收',
@@ -140,44 +136,65 @@ const RiskManagePromise: React.FC<IProps> = () => {
     },
   ];
 
+  const onFinish = (values: any) => {
+    dispatch({
+      type: 'riskCheck/saveRiskCheckInspect',
+      payload: {
+        id: data?.id,
+        status: 'inspected',
+        inspector,
+        inspectDate: inspectDate.toISOString().slice(0, inspectDate.toISOString().indexOf('T')),
+        ...values,
+      },
+    });
+    router.goBack();
+  };
+
+  useEffect(() => {
+    if (firstRender) {
+      setData(location.state.record);
+      setFirstRender(!firstRender);
+    }
+  });
+
   return (
     <PageHeaderWrapper>
       <Card>
-        <Form>
+        <Form onFinish={onFinish}>
           <Card title="已录入隐患信息" type="inner">
             <Card>
-              <StandardFormRow grid style={{ paddingBottom: 11 }}>
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <Form.Item label="隐患类别">
-                      <Select disabled defaultValue="type1">
-                        <Select.Option value="type1">基础安全</Select.Option>
-                        <Select.Option value="type2">其他1</Select.Option>
-                        <Select.Option value="type3">其他2</Select.Option>
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item label="隐患等级">
-                      <Select disabled defaultValue="level1">
-                        <Select.Option value="level1">重大隐患</Select.Option>
-                        <Select.Option value="level2">普通隐患</Select.Option>
-                        <Select.Option value="level3">其他隐患</Select.Option>
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </StandardFormRow>
-              <StandardFormRow grid style={{ paddingBottom: 11 }}>
-                <Form.Item label="存在隐患">
-                  <Input disabled defaultValue="火灾隐患" />
-                </Form.Item>
-              </StandardFormRow>
-              <StandardFormRow grid last style={{ paddingBottom: 11 }}>
-                <Form.Item label="整改措施">
-                  <Input disabled defaultValue="清除堆放杂物" />
-                </Form.Item>
-              </StandardFormRow>
+              <Row gutter={16}>
+                <Col span={8}>
+                  <Form.Item label="隐患类别">
+                    <span>{data?.riskType}</span>
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="风险源名称">
+                    <span>{data?.riskSource}</span>
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="隐患等级">
+                    <span>{data?.riskLevel}</span>
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Form.Item label="存在隐患">
+                    <span>{data?.riskDescription}</span>
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Form.Item label="整改措施">
+                    <span>{data?.modifyMeasure}</span>
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="整改时限">
+                    <span>{data?.modifyTimeLimit}</span>
+                  </Form.Item>
+                </Col>
+              </Row>
             </Card>
             <br />
             <Card title="隐患相关照片">
@@ -201,60 +218,20 @@ const RiskManagePromise: React.FC<IProps> = () => {
             </Card>
             <br />
             <Card>
-              <Row gutter={16}>
-                <Col span={6}>
-                  <Form.Item label="整改时限">
-                    <Select disabled defaultValue={5}>
-                      {[
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7,
-                        8,
-                        9,
-                        10,
-                        11,
-                        12,
-                        13,
-                        14,
-                        15,
-                        16,
-                        17,
-                        18,
-                        19,
-                        20,
-                        21,
-                        22,
-                        23,
-                        24,
-                        25,
-                        26,
-                        27,
-                        28,
-                        29,
-                        30,
-                      ].map(item => (
-                        <Select.Option value={item}>{item}</Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
+              <Row gutter={24}>
+                <Col span={8}>
                   <Form.Item label="排查人员">
-                    <Input disabled defaultValue="张三" />
+                    <span>{data?.checker}</span>
                   </Form.Item>
                 </Col>
-                <Col span={6}>
+                <Col span={8}>
                   <Form.Item label="排查时间">
-                    <Input disabled defaultValue="2020/2/20" />
+                    <span>{data?.checkDate}</span>
                   </Form.Item>
                 </Col>
-                <Col span={6}>
+                <Col span={8}>
                   <Form.Item label="整改责任人">
-                    <Input disabled defaultValue="李四" />
+                    <span>{data?.modifyCharger}</span>
                   </Form.Item>
                 </Col>
               </Row>
@@ -263,17 +240,16 @@ const RiskManagePromise: React.FC<IProps> = () => {
           <br />
           <Card title="整改信息" type="inner">
             <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改情况">
-              <Input disabled placeholder="（完成整改、已管控）" value="完成整改" />
+              <span>{data?.modifySituation}</span>
             </Form.Item>
-            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} name="att" label="上传文档">
+            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改文档">
               <Upload {...uploadProps}>
-                <Button disabled>
+                {/* <Button disabled>
                   <UploadOutlined /> 点击上传
-                </Button>
+                </Button> */}
               </Upload>
-              ,
             </Form.Item>
-            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 10 }} label="上传照片">
+            <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 10 }} label="整改照片">
               <Upload
                 listType="picture-card"
                 fileList={fileList}
@@ -291,32 +267,23 @@ const RiskManagePromise: React.FC<IProps> = () => {
                 <img alt="example" style={{ width: '100%' }} src={previewImage} />
               </Modal>
             </Form.Item>
-          </Card>
-          <br />
-          <Card>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="整改人">
-                  <Input disabled defaultValue="王五" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="整改日期">
-                  <Input disabled defaultValue="2020/3/27" />
-                </Form.Item>
-              </Col>
-            </Row>
+            <Form.Item label="整改人" labelCol={{ span: 2 }} wrapperCol={{ span: 6 }}>
+              <span>{data?.modifier}</span>
+            </Form.Item>
+            <Form.Item label="整改日期" labelCol={{ span: 2 }} wrapperCol={{ span: 6 }}>
+              <span>{data?.modifyDate}</span>
+            </Form.Item>
           </Card>
           <br />
           <Card title="整改流程" type="inner">
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={dataSource} />
           </Card>
           <br />
           <Divider>请填写验收信息</Divider>
           <Card>
             <Row gutter={16}>
               <Col span={6}>
-                <Form.Item label="验收结果">
+                <Form.Item label="验收结果" name="inspectResult">
                   <Radio.Group>
                     <Radio value="pass">合格</Radio>
                     <Radio value="dispass">不合格</Radio>
@@ -324,36 +291,29 @@ const RiskManagePromise: React.FC<IProps> = () => {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="验收意见">
-                  <Input />
+                <Form.Item label="验收意见" name="inspectOpinion">
+                  <Input placeholder="请输入验收意见" />
                 </Form.Item>
               </Col>
               <Col span={6}>
                 <Form.Item label="验收人">
-                  <Input />
+                  <span>{inspector}</span>
                 </Form.Item>
               </Col>
               <Col span={6}>
                 <Form.Item label="验收日期">
-                  <DatePicker />
+                  <span>
+                    {inspectDate.toISOString().slice(0, inspectDate.toISOString().indexOf('T'))}
+                  </span>
                 </Form.Item>
               </Col>
             </Row>
           </Card>
           <Card style={{ textAlign: 'right' }}>
-            <Button
-              type="primary"
-              onClick={() => {
-                message.success('保存成功');
-                router.replace('/risk/hiddentrouberesolvechecklist');
-              }}
-            >
+            <Button type="primary" htmlType="submit">
               保存
             </Button>
-            <Button
-              style={{ marginLeft: '10px' }}
-              onClick={() => router.replace('/risk/hiddentrouberesolvechecklist')}
-            >
+            <Button style={{ marginLeft: '10px' }} onClick={() => router.goBack()}>
               取消
             </Button>
           </Card>

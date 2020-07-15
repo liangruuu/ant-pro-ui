@@ -59,19 +59,16 @@ const ChemicalsManage: React.FC<IProps> = () => {
             </Col>
             <Col span={8} />
             <Col span={8} style={{ textAlign: 'right' }}>
-              <Button type="primary" style={{ marginRight: 20 }}>
+              <Button type="primary" style={{ marginRight: 16 }}>
                 查询
               </Button>
               <Button
-                style={{ marginRight: 20 }}
+                style={{ marginRight: 30 }}
                 onClick={() => {
                   form.resetFields();
                 }}
               >
                 重置
-              </Button>
-              <Button type="primary" onClick={() => router.push('/risk/chemicalsmanageinforecord')}>
-                新增
               </Button>
             </Col>
           </Row>
@@ -79,6 +76,17 @@ const ChemicalsManage: React.FC<IProps> = () => {
       </Card>
       <br />
       <Card>
+        <Row gutter={24} style={{ marginBottom: 20 }}>
+          <Col span={24} style={{ textAlign: 'right' }}>
+            <Button
+              style={{ marginRight: '30px' }}
+              type="primary"
+              onClick={() => router.push('/risk/chemicalsmanageinforecord')}
+            >
+              新增
+            </Button>
+          </Col>
+        </Row>
         <Table columns={columns} />
       </Card>
     </PageHeaderWrapper>

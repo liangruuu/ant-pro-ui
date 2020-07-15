@@ -6,10 +6,10 @@ import { Link } from 'umi';
 
 interface IProps {
   dispatch: any;
-  histolocationry: any;
+  location: any;
 }
 
-const WorkAdvise: React.FC<IProps> = props => {
+const HiddenTroubleShootSituation: React.FC<IProps> = props => {
   const [form] = Form.useForm();
 
   const [data, setDataSources] = useState([
@@ -60,7 +60,7 @@ const WorkAdvise: React.FC<IProps> = props => {
       title: '操作',
       render: () => (
         <span>
-          <Link to="/risk/tbdmission">隐患排查</Link>
+          <Link to="/risk/hiddentroubleshootsituation">隐患排查</Link>
         </span>
       ),
     },
@@ -118,4 +118,4 @@ const WorkAdvise: React.FC<IProps> = props => {
 };
 const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps)(WorkAdvise);
+export default connect(mapStateToProps)(HiddenTroubleShootSituation);
