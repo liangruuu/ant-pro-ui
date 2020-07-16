@@ -29,8 +29,6 @@ import { CdStandLevelModelState } from '@/models/cd_stand_level';
 import { CdAreaModelState } from '@/models/cd_area';
 import { CdIndustryModelState } from '@/models/cd_industry';
 
-const { Option } = Select;
-
 interface IProps {
   dispatch: Dispatch<any>;
   cdAdminOrg: CdAdminOrgModelState;
@@ -57,7 +55,7 @@ const BasicInfo: React.FC<IProps> = props => {
     cdSafeCheck: { cdSafeCheckList },
     cdStandLevel: { cdStandLevelList },
     cdArea: { cdAreaTree },
-    cdIndustry: { cdIndustryTree },
+    cdIndustry: { cdIndustryTree, cdSuperviseTypeTree },
   } = props;
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
@@ -137,6 +135,9 @@ const BasicInfo: React.FC<IProps> = props => {
       });
       dispatch({
         type: 'cdIndustry/fetchCdIndustry',
+      });
+      dispatch({
+        type: 'cdIndustry/fetchSuperviseTypeTree',
       });
       setFirstRender(!firstRender);
     }
@@ -323,11 +324,13 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="superviseType" label="监管分类">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
-                </Select>
+                <TreeSelect
+                  allowClear
+                  showSearch
+                  placeholder="选择监管分类"
+                  treeData={cdSuperviseTypeTree}
+                  treeNodeFilterProp="title"
+                />
               </Form.Item>
             </Col>
             <Col span={4} />
@@ -342,7 +345,7 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="honestygrade" label="诚信等级">
-                <Select placeholder="请选择诚信等级" disabled>
+                <Select placeholder="请选择诚信等级">
                   {cdHonestyList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
