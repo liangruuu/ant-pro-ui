@@ -8,7 +8,7 @@ import { ConnectProps, ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
-import { getAuthority } from '@/utils/authority';
+// import { getAuthority } from '@/utils/authority';
 
 export interface GlobalHeaderRightProps extends ConnectProps {
   currentUser?: CurrentUser;
@@ -68,7 +68,10 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
           <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-          <span className={styles.name}>{getAuthority().toString()}</span>
+          <span className={styles.name}>
+            admin
+            {/* {getAuthority().toString()} */}
+          </span>
         </span>
       </HeaderDropdown>
     ) : (

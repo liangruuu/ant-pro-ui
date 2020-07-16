@@ -15,7 +15,7 @@ export default {
   },
   test: {
     '/dapi/v1/tongxiang/backend/': {
-      target: 'http://49.235.14.53:88/',
+      target: 'https://preview.pro.ant.design',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
