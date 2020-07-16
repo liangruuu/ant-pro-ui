@@ -8,7 +8,7 @@
 export default {
   dev: {
     '/dapi/v1/tongxiang/backend/': {
-      target: 'http://192.168.5.215:88/',
+      target: 'http://192.168.5.215:8080/',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
