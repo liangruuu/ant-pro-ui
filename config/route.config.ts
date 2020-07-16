@@ -346,6 +346,7 @@ export default [
                 path: '/risk/hiddentroubleresolvetbdmiddlechecklist',
                 name: 'hiddentroubleresolvetbdmiddlechecklist',
                 component: './risk/HiddenTroubleResolveTBDMiddleCheckList',
+                hideInMenu: true,
                 authority: ['admin', 'zjyw'],
               },
               {
