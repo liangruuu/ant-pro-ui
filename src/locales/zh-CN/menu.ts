@@ -67,57 +67,57 @@ export default {
   'menu.info.addinsurancesalesman': '保险业务员管理',
 
   'menu.risk': '安全风险管控',
-  'menu.risk.diagramsearchent': '07四色图-企业查询',
-  'menu.risk.diagramupload': '071四色分布图上传',
-  'menu.risk.diagramdetail': '09四色分布图审核详情',
+  'menu.risk.diagramsearchent': '四色图-企业查询', // 07
+  'menu.risk.diagramupload': '071四色分布图上传', // 071
+  'menu.risk.diagramdetail': '09四色分布图审核详情', // 09
   'menu.risk.diagramlist': '四色分布图审核列表',
-  'menu.risk.risklistmanagement': '10风险清单管理',
-  'menu.risk.securityrisklist': '101安全风险清单',
-  'menu.risk.risklistdetail': '102风险清单详情',
+  'menu.risk.risklistmanagement': '风险清单管理', // 10
+  'menu.risk.securityrisklist': '安全风险清单', // 101
+  'menu.risk.risklistdetail': '风险清单详情', // 102
   'menu.risk.riskchecklist': '安全风险审核',
-  'menu.risk.riskcheckdetail': '103风险审核详情',
+  'menu.risk.riskcheckdetail': '风险审核详情', // 103
   'menu.risk.legalpersoncheck': '风险清单法人审批',
-  'menu.risk.chemicalsmanage': '15危化品管理',
-  'menu.risk.chemicalsmanageinforecord': '15危化品信息录入',
-  'menu.risk.chemicalsquery': '15危化品查询',
+  'menu.risk.chemicalsmanage': '危化品管理', // 15
+  'menu.risk.chemicalsmanageinforecord': '危化品信息录入', // 15
+  'menu.risk.chemicalsquery': '危化品查询',
   'menu.risk.riskwarning': '危化品管理',
   'menu.risk.hiddendangerlist': '隐患清单',
   'menu.risk.riskmanagepromise': '风险管控承诺',
   'menu.risk.riskreadytochecklist': '承诺待审核列表',
   'menu.risk.riskpromisecheck': '风险管控承诺审核',
-  'menu.risk.dailyriskmanagepromise': '13企业安全风险管控承诺',
-  'menu.risk.dailyriskmanagepromiserecord': '14安全风险管控承诺详细录入',
+  'menu.risk.dailyriskmanagepromise': '企业安全风险管控承诺', // 13
+  'menu.risk.dailyriskmanagepromiserecord': '安全风险管控承诺详细录入', // 14
   'menu.risk.tbdmission': '待完成检查任务',
   'menu.risk.checksituationrecord': '检查情况录入',
-  'menu.risk.hiddentroubleshoot': '20隐患排查',
-  'menu.risk.hiddentroubleshootsituation': '20企业隐患排查情况',
-  'menu.risk.hiddentroubleshootsituationrecord': '21隐患排查情况登记',
-  'menu.risk.tbdhiddentroublelist': '22隐患待整改列表',
-  'menu.risk.hiddentroubleresolverecord': '23企业隐患整改信息录入',
-  'menu.risk.hiddentrouberesolvechecklist': '24隐患整改企业验收列表',
-  'menu.risk.hiddentroubleresolvecheck': '25隐患整改企业验收',
-  'menu.risk.hiddentroubleresolvetbdmiddlechecklist': '26隐患整改中介验收列表',
-  'menu.risk.hiddentroubleresolvetbdmiddlecheck': '27隐患整改中介验收',
-  'menu.risk.hiddentroubleresolvesituation': '28企业隐患及整改情况',
-  'menu.risk.hiddentroubleresolvetmiddlecheckstatus': '29隐患整改详细情况',
+  'menu.risk.hiddentroubleshoot': '隐患排查', // 20
+  'menu.risk.hiddentroubleshootsituation': '企业隐患排查情况', // 20
+  'menu.risk.hiddentroubleshootsituationrecord': '隐患排查情况登记', // 21
+  'menu.risk.tbdhiddentroublelist': '隐患待整改列表', // 22
+  'menu.risk.hiddentroubleresolverecord': '企业隐患整改信息录入', // 23
+  'menu.risk.hiddentrouberesolvechecklist': '隐患整改企业验收列表', // 24
+  'menu.risk.hiddentroubleresolvecheck': '隐患整改企业验收', // 25
+  'menu.risk.hiddentroubleresolvetbdmiddlechecklist': '隐患整改中介验收列表', // 26
+  'menu.risk.hiddentroubleresolvetbdmiddlecheck': '隐患整改中介验收', // 27
+  'menu.risk.hiddentroubleresolvesituation': '企业隐患及整改情况', // 28
+  'menu.risk.hiddentroubleresolvetmiddlecheckstatus': '隐患整改详细情况', // 29
 
   'menu.rule': '制度管理',
-  'menu.rule.rulevindicate': '11制度维护',
-  'menu.rule.rulevindicatedetail': '110制度维护详细',
-  'menu.rule.ruleexecute': '111制度执行',
-  'menu.rule.ruleexecutedetail': '111制度执行详细',
-  'menu.rule.ruleexecutedetailadd': '111新增制度执行详细',
+  'menu.rule.rulevindicate': '制度维护', // 11
+  'menu.rule.rulevindicatedetail': '制度维护详细', // 110
+  'menu.rule.ruleexecute': '制度执行', // 111
+  'menu.rule.ruleexecutedetail': '制度执行详细', // 111
+  'menu.rule.ruleexecutedetailadd': '新增制度执行详细', // 111
 
   'menu.yjjsupervise': '应急局监管',
-  'menu.yjjsupervise.entsearch': '30企业查询',
-  'menu.yjjsupervise.workadviserecord': '301工作建议书录入',
-  'menu.yjjsupervise.workadvisequery': '302工作建议书查询',
-  'menu.yjjsupervise.admonitiontalkrecord': '311约谈书录入',
-  'menu.yjjsupervise.admonitiontalkquery': '312约谈书查询',
-  'menu.yjjsupervise.admonitiontalkdetail': '313约谈书详细',
-  'menu.yjjsupervise.entcreditratingmanagement': '320企业信用分值管理',
-  'menu.yjjsupervise.entcreditratingmanagementrecord': '321企业信用分值录入',
-  'menu.yjjsupervise.entcreditmanagement': '330信用管理',
+  'menu.yjjsupervise.entsearch': '企业查询', // 30
+  'menu.yjjsupervise.workadviserecord': '工作建议书录入', // 301
+  'menu.yjjsupervise.workadvisequery': '工作建议书查询', // 302
+  'menu.yjjsupervise.admonitiontalkrecord': '约谈书录入', // 311
+  'menu.yjjsupervise.admonitiontalkquery': '约谈书查询', // 312
+  'menu.yjjsupervise.admonitiontalkdetail': '约谈书详细', // 313
+  'menu.yjjsupervise.entcreditratingmanagement': '企业信用分值管理', // 320
+  'menu.yjjsupervise.entcreditratingmanagementrecord': '企业信用分值录入', // 321
+  'menu.yjjsupervise.entcreditmanagement': '信用管理', // 330
 
   'menu.report': '报表管理',
   'menu.report.reportmanage': '报表展示',

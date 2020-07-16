@@ -124,6 +124,31 @@ export interface Cdsuperviselevel {
   status: string;
 }
 
+export interface Cdarea {
+  sid: string;
+  content: string;
+  pid: string;
+  codelevel: number;
+}
+
+export interface Cdhonesty {
+  sid: string;
+  content: string;
+  status: string;
+}
+
+export interface Cdsafecheck {
+  sid: string;
+  content: string;
+  status: string;
+}
+
+export interface Cdstandlevel {
+  sid: string;
+  content: string;
+  status: string;
+}
+
 export interface RiskCheckEntity {
   id: string;
   entId: string;

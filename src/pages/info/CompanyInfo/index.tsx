@@ -22,6 +22,9 @@ import { CdRegStateModelState } from '@/models/cd_reg_state';
 import { CdScaleModelState } from '@/models/cd_scale';
 import { CdSuperviseGradeModelState } from '@/models/cd_supervise_grade';
 import { CdSuperviseLevelModelState } from '@/models/cd_supervise_level';
+import { CdHonestyModelState } from '@/models/cd_honesty';
+import { CdSafeCheckModelState } from '@/models/cd_safe_check';
+import { CdStandLevelModelState } from '@/models/cd_stand_level';
 
 const { Option } = Select;
 
@@ -32,6 +35,9 @@ interface IProps {
   cdScale: CdScaleModelState;
   cdSuperviseGrade: CdSuperviseGradeModelState;
   cdSuperviseLevel: CdSuperviseLevelModelState;
+  cdHonesty: CdHonestyModelState;
+  cdSafeCheck: CdSafeCheckModelState;
+  cdStandLevel: CdStandLevelModelState;
 }
 
 const BasicInfo: React.FC<IProps> = props => {
@@ -42,6 +48,9 @@ const BasicInfo: React.FC<IProps> = props => {
     cdScale: { cdScaleList },
     cdSuperviseGrade: { cdSuperviseGradeList },
     cdSuperviseLevel: { cdSuperviseLevelList },
+    cdHonesty: { cdHonestyList },
+    cdSafeCheck: { cdSafeCheckList },
+    cdStandLevel: { cdStandLevelList },
   } = props;
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
@@ -103,6 +112,15 @@ const BasicInfo: React.FC<IProps> = props => {
       });
       dispatch({
         type: 'cdSuperviseLevel/fetchCdSuperviseLevel',
+      });
+      dispatch({
+        type: 'cdHonesty/fetchCdHonesty',
+      });
+      dispatch({
+        type: 'cdSafeCheck/fetchCdSafeCheck',
+      });
+      dispatch({
+        type: 'cdStandLevel/fetchCdStandLevel',
       });
       setFirstRender(!firstRender);
     }
@@ -276,10 +294,10 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={4} />
             <Col span={10}>
               <Form.Item name="safecheckType" label="安全检查种类">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                <Select placeholder="请选择安全检查种类">
+                  {cdSafeCheckList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -295,19 +313,19 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={4} />
             <Col span={10}>
               <Form.Item name="standLevelCode" label="标准化等级">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                <Select placeholder="请选择标准化等级">
+                  {cdStandLevelList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="honestygrade" label="诚信等级">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                <Select placeholder="请选择诚信等级">
+                  {cdHonestyList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -424,6 +442,9 @@ const mapStateToProps = () => ({
   cdScale,
   cdSuperviseGrade,
   cdSuperviseLevel,
+  cdHonesty,
+  cdSafeCheck,
+  cdStandLevel,
   loading,
 }: {
   cdAdminOrg: CdAdminOrgModelState;
@@ -431,6 +452,9 @@ const mapStateToProps = () => ({
   cdScale: CdScaleModelState;
   cdSuperviseGrade: CdSuperviseGradeModelState;
   cdSuperviseLevel: CdSuperviseLevelModelState;
+  cdHonesty: CdHonestyModelState;
+  cdSafeCheck: CdSafeCheckModelState;
+  cdStandLevel: CdStandLevelModelState;
   loading: { models: { [key: string]: boolean } };
 }) => ({
   cdAdminOrg,
@@ -438,6 +462,9 @@ const mapStateToProps = () => ({
   cdScale,
   cdSuperviseGrade,
   cdSuperviseLevel,
+  cdHonesty,
+  cdSafeCheck,
+  cdStandLevel,
   loading: loading.models.CdEntPersonType,
 });
 export default connect(mapStateToProps)(BasicInfo);
