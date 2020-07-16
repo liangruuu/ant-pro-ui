@@ -68,8 +68,8 @@ export default {
 
   'menu.risk': '安全风险管控',
   'menu.risk.diagramsearchent': '四色图-企业查询', // 07
-  'menu.risk.diagramupload': '071四色分布图上传', // 071
-  'menu.risk.diagramdetail': '09四色分布图审核详情', // 09
+  'menu.risk.diagramupload': '四色分布图上传', // 071
+  'menu.risk.diagramdetail': '四色分布图审核详情', // 09
   'menu.risk.diagramlist': '四色分布图审核列表',
   'menu.risk.risklistmanagement': '风险清单管理', // 10
   'menu.risk.securityrisklist': '安全风险清单', // 101
