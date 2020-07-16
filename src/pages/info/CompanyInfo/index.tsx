@@ -12,6 +12,7 @@ import {
   Upload,
   Modal,
   DatePicker,
+  TreeSelect,
 } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
@@ -25,6 +26,8 @@ import { CdSuperviseLevelModelState } from '@/models/cd_supervise_level';
 import { CdHonestyModelState } from '@/models/cd_honesty';
 import { CdSafeCheckModelState } from '@/models/cd_safe_check';
 import { CdStandLevelModelState } from '@/models/cd_stand_level';
+import { CdAreaModelState } from '@/models/cd_area';
+import { CdIndustryModelState } from '@/models/cd_industry';
 
 const { Option } = Select;
 
@@ -38,6 +41,8 @@ interface IProps {
   cdHonesty: CdHonestyModelState;
   cdSafeCheck: CdSafeCheckModelState;
   cdStandLevel: CdStandLevelModelState;
+  cdArea: CdAreaModelState;
+  cdIndustry: CdIndustryModelState;
 }
 
 const BasicInfo: React.FC<IProps> = props => {
@@ -51,6 +56,8 @@ const BasicInfo: React.FC<IProps> = props => {
     cdHonesty: { cdHonestyList },
     cdSafeCheck: { cdSafeCheckList },
     cdStandLevel: { cdStandLevelList },
+    cdArea: { cdAreaTree },
+    cdIndustry: { cdIndustryTree },
   } = props;
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
@@ -121,6 +128,15 @@ const BasicInfo: React.FC<IProps> = props => {
       });
       dispatch({
         type: 'cdStandLevel/fetchCdStandLevel',
+      });
+      dispatch({
+        type: 'cdArea/fetchCdArea',
+        payload: {
+          rootId: '330483000000',
+        },
+      });
+      dispatch({
+        type: 'cdIndustry/fetchCdIndustry',
       });
       setFirstRender(!firstRender);
     }
@@ -246,20 +262,24 @@ const BasicInfo: React.FC<IProps> = props => {
           <Row gutter={24}>
             <Col span={10}>
               <Form.Item name="areaid" label="所属地区">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
-                </Select>
+                <TreeSelect
+                  allowClear
+                  showSearch
+                  placeholder="选择所属地区"
+                  treeData={cdAreaTree}
+                  treeNodeFilterProp="title"
+                />
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="industry_category" label="行业类别">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
-                </Select>
+                <TreeSelect
+                  allowClear
+                  showSearch
+                  placeholder="选择行业类别"
+                  treeData={cdIndustryTree}
+                  treeNodeFilterProp="title"
+                />
               </Form.Item>
             </Col>
             <Col span={4} />
@@ -445,6 +465,8 @@ const mapStateToProps = () => ({
   cdHonesty,
   cdSafeCheck,
   cdStandLevel,
+  cdArea,
+  cdIndustry,
   loading,
 }: {
   cdAdminOrg: CdAdminOrgModelState;
@@ -455,6 +477,8 @@ const mapStateToProps = () => ({
   cdHonesty: CdHonestyModelState;
   cdSafeCheck: CdSafeCheckModelState;
   cdStandLevel: CdStandLevelModelState;
+  cdArea: CdAreaModelState;
+  cdIndustry: CdIndustryModelState;
   loading: { models: { [key: string]: boolean } };
 }) => ({
   cdAdminOrg,
@@ -465,6 +489,8 @@ const mapStateToProps = () => ({
   cdHonesty,
   cdSafeCheck,
   cdStandLevel,
+  cdArea,
+  cdIndustry,
   loading: loading.models.CdEntPersonType,
 });
 export default connect(mapStateToProps)(BasicInfo);

@@ -131,6 +131,14 @@ export interface Cdarea {
   codelevel: number;
 }
 
+export interface TreeNode {
+  value: string;
+  title: string;
+  key: string;
+  selectable: boolean;
+  children: TreeNode[];
+}
+
 export interface Cdhonesty {
   sid: string;
   content: string;
