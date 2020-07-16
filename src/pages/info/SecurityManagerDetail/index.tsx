@@ -9,13 +9,13 @@ import { CdEntPersonTypeModelState } from '@/models/cd_ent_person_type';
 
 interface IProps {
   dispatch: Dispatch<any>;
-  cdentpersontype: CdEntPersonTypeModelState;
+  cdEntPersonType: CdEntPersonTypeModelState;
 }
 
 const SecurityManagerDetail: React.FC<IProps> = props => {
   const {
     dispatch,
-    cdentpersontype: { cdEntPersonTypeList },
+    cdEntPersonType: { cdEntPersonTypeList },
   } = props;
 
   const [form] = Form.useForm();
@@ -33,7 +33,7 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
   useEffect(() => {
     if (firstRender) {
       dispatch({
-        type: 'cdentpersontype/fetchEntPersonType',
+        type: 'cdEntPersonType/fetchEntPersonType',
       });
       setFirstRender(!firstRender);
     }
@@ -168,13 +168,13 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = () => ({
-  cdentpersontype,
+  cdEntPersonType,
   loading,
 }: {
-  cdentpersontype: CdEntPersonTypeModelState;
+  cdEntPersonType: CdEntPersonTypeModelState;
   loading: { models: { [key: string]: boolean } };
 }) => ({
-  cdentpersontype,
+  cdEntPersonType,
   loading: loading.models.CdEntPersonType,
 });
 export default connect(mapStateToProps)(SecurityManagerDetail);

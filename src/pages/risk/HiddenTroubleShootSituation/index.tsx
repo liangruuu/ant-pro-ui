@@ -11,8 +11,8 @@ import { RiskCheckEntity } from '@/models/entity';
 
 interface IProps {
   dispatch: Dispatch<any>;
-  cdrisktype: CdRiskTypeModelState;
-  cdrisklevel: CdRiskLevelModelState;
+  cdRiskType: CdRiskTypeModelState;
+  cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
   loading: boolean;
 }
@@ -20,8 +20,8 @@ interface IProps {
 const HiddenTroubleShootSituation: React.FC<IProps> = props => {
   const {
     dispatch,
-    cdrisktype: { cdRiskTypeList },
-    cdrisklevel: { cdRiskLevelList },
+    cdRiskType: { cdRiskTypeList },
+    cdRiskLevel: { cdRiskLevelList },
     riskCheck: {
       listData: { pageSizel, currentPage, total, dataSource },
     },
@@ -103,10 +103,10 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
   useEffect(() => {
     if (firstRender) {
       dispatch({
-        type: 'cdrisktype/fetchCdRiskType',
+        type: 'cdRiskType/fetchCdRiskType',
       });
       dispatch({
-        type: 'cdrisklevel/fetchCdRiskLevel',
+        type: 'cdRiskLevel/fetchCdRiskLevel',
       });
       handleChange({ current: currentPage + 1, pageSize: pageSizel });
       setFirstRender(!firstRender);
@@ -239,18 +239,18 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = () => ({
-  cdrisktype,
-  cdrisklevel,
+  cdRiskType,
+  cdRiskLevel,
   riskCheck,
   loading,
 }: {
-  cdrisktype: CdRiskTypeModelState;
-  cdrisklevel: CdRiskLevelModelState;
+  cdRiskType: CdRiskTypeModelState;
+  cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
   loading: { models: { [key: string]: boolean } };
 }) => ({
-  cdrisktype,
-  cdrisklevel,
+  cdRiskType,
+  cdRiskLevel,
   riskCheck,
   loading: loading.models.riskCheck,
 });

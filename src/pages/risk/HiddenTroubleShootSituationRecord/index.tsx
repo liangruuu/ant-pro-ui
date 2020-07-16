@@ -11,15 +11,15 @@ import { CdRiskLevelModelState } from '@/models/cd_risk_level';
 
 interface IProps {
   dispatch: Dispatch<any>;
-  cdrisktype: CdRiskTypeModelState;
-  cdrisklevel: CdRiskLevelModelState;
+  cdRiskType: CdRiskTypeModelState;
+  cdRiskLevel: CdRiskLevelModelState;
 }
 
 const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
   const {
     dispatch,
-    cdrisktype: { cdRiskTypeList },
-    cdrisklevel: { cdRiskLevelList },
+    cdRiskType: { cdRiskTypeList },
+    cdRiskLevel: { cdRiskLevelList },
   } = props;
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
@@ -70,10 +70,10 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
   useEffect(() => {
     if (firstRender) {
       dispatch({
-        type: 'cdrisktype/fetchCdRiskType',
+        type: 'cdRiskType/fetchCdRiskType',
       });
       dispatch({
-        type: 'cdrisklevel/fetchCdRiskLevel',
+        type: 'cdRiskLevel/fetchCdRiskLevel',
       });
       setFirstRender(!firstRender);
     }
@@ -214,16 +214,16 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = () => ({
-  cdrisktype,
-  cdrisklevel,
+  cdRiskType,
+  cdRiskLevel,
   loading,
 }: {
-  cdrisktype: CdRiskTypeModelState;
-  cdrisklevel: CdRiskLevelModelState;
+  cdRiskType: CdRiskTypeModelState;
+  cdRiskLevel: CdRiskLevelModelState;
   loading: { models: { [key: string]: boolean } };
 }) => ({
-  cdrisktype,
-  cdrisklevel,
+  cdRiskType,
+  cdRiskLevel,
   loading: loading.models.CdEntPersonType,
 });
 export default connect(mapStateToProps)(HiddenTroubleShootSituationRecord);

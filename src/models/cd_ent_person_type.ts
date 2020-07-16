@@ -2,17 +2,17 @@ import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
 import { Cdentpersontype } from './entity';
-import { fetchEntPersonType } from '@/services/cd_ent_person_type';
+import { fetchCdEntPersonType } from '@/services/cd_ent_person_type';
 
 export interface CdEntPersonTypeModelState {
   cdEntPersonTypeList: Cdentpersontype[];
 }
 
 export interface CdEntPersonTypeModelType {
-  namespace: 'cdentpersontype';
+  namespace: 'cdEntPersonType';
   state: CdEntPersonTypeModelState;
   effects: {
-    fetchEntPersonType: Effect;
+    fetchCdEntPersonType: Effect;
   };
   reducers: {
     save: Reducer<any, any>;
@@ -20,19 +20,19 @@ export interface CdEntPersonTypeModelType {
 }
 
 const CdEntPersonType: CdEntPersonTypeModelType = {
-  namespace: 'cdentpersontype',
+  namespace: 'cdEntPersonType',
   state: {
     cdEntPersonTypeList: [],
   },
 
   effects: {
-    *fetchEntPersonType({ payload }, { call, put }) {
+    *fetchCdEntPersonType({ payload }, { call, put }) {
       try {
-        const res = yield call(fetchEntPersonType, payload);
-        if (res.code === 'ok') {
+        const res = yield call(fetchCdEntPersonType, payload);
+        if (res.code === 200) {
           yield put({
             type: 'save',
-            payload: res.content.data,
+            payload: res.data,
             index: 'cdEntPersonTypeList',
           });
         }

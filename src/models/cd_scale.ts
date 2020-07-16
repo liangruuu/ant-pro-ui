@@ -1,39 +1,39 @@
 import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
-import { Cdadminorg } from './entity';
-import { fetchCdAdminOrg } from '@/services/cd_admin_org';
+import { Cdscale } from './entity';
+import { fetchCdScale } from '@/services/cd_scale';
 
-export interface CdAdminOrgModelState {
-  cdAdminOrgList: Cdadminorg[];
+export interface CdScaleModelState {
+  cdScaleList: Cdscale[];
 }
 
-export interface CdAdminOrgModelType {
-  namespace: 'cdAdminOrg';
-  state: CdAdminOrgModelState;
+export interface CdScaleModelType {
+  namespace: 'cdScale';
+  state: CdScaleModelState;
   effects: {
-    fetchCdAdminOrg: Effect;
+    fetchCdScale: Effect;
   };
   reducers: {
     save: Reducer<any, any>;
   };
 }
 
-const CdAdminOrg: CdAdminOrgModelType = {
-  namespace: 'cdAdminOrg',
+const CdScale: CdScaleModelType = {
+  namespace: 'cdScale',
   state: {
-    cdAdminOrgList: [],
+    cdScaleList: [],
   },
 
   effects: {
-    *fetchCdAdminOrg({ payload }, { call, put }) {
+    *fetchCdScale({ payload }, { call, put }) {
       try {
-        const res = yield call(fetchCdAdminOrg, payload);
+        const res = yield call(fetchCdScale, payload);
         if (res.code === 200) {
           yield put({
             type: 'save',
             payload: res.data,
-            index: 'cdAdminOrgList',
+            index: 'cdScaleList',
           });
         }
       } catch (e) {
@@ -52,4 +52,4 @@ const CdAdminOrg: CdAdminOrgModelType = {
   },
 };
 
-export default CdAdminOrg;
+export default CdScale;

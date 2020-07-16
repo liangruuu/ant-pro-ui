@@ -9,7 +9,7 @@ export interface CdRiskLevelModelState {
 }
 
 export interface CdRiskLevelModelType {
-  namespace: 'cdrisklevel';
+  namespace: 'cdRiskLevel';
   state: CdRiskLevelModelState;
   effects: {
     fetchCdRiskLevel: Effect;
@@ -20,7 +20,7 @@ export interface CdRiskLevelModelType {
 }
 
 const CdRiskLevel: CdRiskLevelModelType = {
-  namespace: 'cdrisklevel',
+  namespace: 'cdRiskLevel',
   state: {
     cdRiskLevelList: [],
   },
@@ -29,10 +29,10 @@ const CdRiskLevel: CdRiskLevelModelType = {
     *fetchCdRiskLevel({ payload }, { call, put }) {
       try {
         const res = yield call(fetchCdRiskLevel, payload);
-        if (res.code === 'ok') {
+        if (res.code === 200) {
           yield put({
             type: 'save',
-            payload: res.content.data,
+            payload: res.data,
             index: 'cdRiskLevelList',
           });
         }

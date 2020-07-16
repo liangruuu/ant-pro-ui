@@ -1,39 +1,39 @@
 import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
-import { Cdadminorg } from './entity';
-import { fetchCdAdminOrg } from '@/services/cd_admin_org';
+import { Cdregstate } from './entity';
+import { fetchCdRegState } from '@/services/cd_reg_state';
 
-export interface CdAdminOrgModelState {
-  cdAdminOrgList: Cdadminorg[];
+export interface CdRegStateModelState {
+  cdRegStateList: Cdregstate[];
 }
 
-export interface CdAdminOrgModelType {
-  namespace: 'cdAdminOrg';
-  state: CdAdminOrgModelState;
+export interface CdRegStateModelType {
+  namespace: 'cdRegState';
+  state: CdRegStateModelState;
   effects: {
-    fetchCdAdminOrg: Effect;
+    fetchCdRegState: Effect;
   };
   reducers: {
     save: Reducer<any, any>;
   };
 }
 
-const CdAdminOrg: CdAdminOrgModelType = {
-  namespace: 'cdAdminOrg',
+const CdRegState: CdRegStateModelType = {
+  namespace: 'cdRegState',
   state: {
-    cdAdminOrgList: [],
+    cdRegStateList: [],
   },
 
   effects: {
-    *fetchCdAdminOrg({ payload }, { call, put }) {
+    *fetchCdRegState({ payload }, { call, put }) {
       try {
-        const res = yield call(fetchCdAdminOrg, payload);
+        const res = yield call(fetchCdRegState, payload);
         if (res.code === 200) {
           yield put({
             type: 'save',
             payload: res.data,
-            index: 'cdAdminOrgList',
+            index: 'cdRegStateList',
           });
         }
       } catch (e) {
@@ -52,4 +52,4 @@ const CdAdminOrg: CdAdminOrgModelType = {
   },
 };
 
-export default CdAdminOrg;
+export default CdRegState;

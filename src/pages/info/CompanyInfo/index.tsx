@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import router from 'umi/router';
 import {
   Card,
@@ -18,20 +18,33 @@ import { connect } from 'dva';
 import { PlusOutlined } from '@ant-design/icons';
 import { Dispatch } from 'redux';
 import { CdAdminOrgModelState } from '@/models/cd_admin_org';
+import { CdRegStateModelState } from '@/models/cd_reg_state';
+import { CdScaleModelState } from '@/models/cd_scale';
+import { CdSuperviseGradeModelState } from '@/models/cd_supervise_grade';
+import { CdSuperviseLevelModelState } from '@/models/cd_supervise_level';
 
 const { Option } = Select;
 
 interface IProps {
   dispatch: Dispatch<any>;
-  cdadminorg: CdAdminOrgModelState;
+  cdAdminOrg: CdAdminOrgModelState;
+  cdRegState: CdRegStateModelState;
+  cdScale: CdScaleModelState;
+  cdSuperviseGrade: CdSuperviseGradeModelState;
+  cdSuperviseLevel: CdSuperviseLevelModelState;
 }
 
 const BasicInfo: React.FC<IProps> = props => {
   const {
     dispatch,
-    cdadminorg: { adminOrgList },
+    cdAdminOrg: { cdAdminOrgList },
+    cdRegState: { cdRegStateList },
+    cdScale: { cdScaleList },
+    cdSuperviseGrade: { cdSuperviseGradeList },
+    cdSuperviseLevel: { cdSuperviseLevelList },
   } = props;
 
+  const [firstRender, setFirstRender] = useState<boolean>(true);
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>('');
   const [fileList, setFileList] = useState<any>([]);
@@ -73,6 +86,27 @@ const BasicInfo: React.FC<IProps> = props => {
     });
     router.goBack();
   };
+
+  useEffect(() => {
+    if (firstRender) {
+      dispatch({
+        type: 'cdAdminOrg/fetchCdAdminOrg',
+      });
+      dispatch({
+        type: 'cdRegState/fetchCdRegState',
+      });
+      dispatch({
+        type: 'cdScale/fetchCdScale',
+      });
+      dispatch({
+        type: 'cdSuperviseGrade/fetchCdSuperviseGrade',
+      });
+      dispatch({
+        type: 'cdSuperviseLevel/fetchCdSuperviseLevel',
+      });
+      setFirstRender(!firstRender);
+    }
+  });
 
   return (
     <PageHeaderWrapper>
@@ -134,7 +168,7 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={10}>
               <Form.Item name="regorg" label="登记机关">
                 <Select placeholder="请选择登记机关">
-                  {adminOrgList?.map(item => (
+                  {cdAdminOrgList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
                 </Select>
@@ -163,13 +197,21 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="scale" label="规模情况">
-                <Input placeholder="请输入规模情况" />
+                <Select placeholder="请选择规模情况">
+                  {cdScaleList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={4} />
             <Col span={10}>
               <Form.Item name="regstate" label="登记状态">
-                <Input placeholder="请输入登记状态" />
+                <Select placeholder="请选择登记状态">
+                  {cdRegStateList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={10}>
@@ -215,19 +257,19 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="superviseLevel" label="监管层级">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                <Select placeholder="请选择监管层级">
+                  {cdSuperviseLevelList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="superviseGrade" label="监管等级">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                <Select placeholder="请选择监管等级">
+                  {cdSuperviseGradeList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -377,13 +419,25 @@ const BasicInfo: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = () => ({
-  cdadminorg,
+  cdAdminOrg,
+  cdRegState,
+  cdScale,
+  cdSuperviseGrade,
+  cdSuperviseLevel,
   loading,
 }: {
-  cdadminorg: CdAdminOrgModelState;
+  cdAdminOrg: CdAdminOrgModelState;
+  cdRegState: CdRegStateModelState;
+  cdScale: CdScaleModelState;
+  cdSuperviseGrade: CdSuperviseGradeModelState;
+  cdSuperviseLevel: CdSuperviseLevelModelState;
   loading: { models: { [key: string]: boolean } };
 }) => ({
-  cdadminorg,
+  cdAdminOrg,
+  cdRegState,
+  cdScale,
+  cdSuperviseGrade,
+  cdSuperviseLevel,
   loading: loading.models.CdEntPersonType,
 });
 export default connect(mapStateToProps)(BasicInfo);

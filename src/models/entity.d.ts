@@ -100,6 +100,30 @@ export interface Cdrisklevel {
   status: string;
 }
 
+export interface Cdregstate {
+  sid: string;
+  content: string;
+  status: string;
+}
+
+export interface Cdscale {
+  sid: string;
+  content: string;
+  status: string;
+}
+
+export interface Cdsupervisegrade {
+  sid: string;
+  content: string;
+  status: string;
+}
+
+export interface Cdsuperviselevel {
+  sid: string;
+  content: string;
+  status: string;
+}
+
 export interface RiskCheckEntity {
   id: string;
   entId: string;
