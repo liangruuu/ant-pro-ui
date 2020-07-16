@@ -33,7 +33,7 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
   useEffect(() => {
     if (firstRender) {
       dispatch({
-        type: 'cdEntPersonType/fetchEntPersonType',
+        type: 'cdEntPersonType/fetchCdEntPersonType',
       });
       setFirstRender(!firstRender);
     }

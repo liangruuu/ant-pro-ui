@@ -20,7 +20,7 @@ export async function saveUser(params: any) {
 }
 
 export async function fetchList(params: any) {
-  return request('/api/v1/user/get_user_list', {
+  return request('/dapi/v1/tongxiang/backend/user/get_user_list', {
     method: 'POST',
     data: params,
   });

@@ -342,7 +342,7 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="honestygrade" label="诚信等级">
-                <Select placeholder="请选择诚信等级">
+                <Select placeholder="请选择诚信等级" disabled>
                   {cdHonestyList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
