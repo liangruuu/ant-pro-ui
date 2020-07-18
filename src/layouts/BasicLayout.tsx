@@ -59,7 +59,7 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright="桐乡市应急管理局安全生产风险防控数字化监管平台"
+    copyright="桐乡市应急局"
     links={[
       // {
       //   key: 'Ant Design Pro',
