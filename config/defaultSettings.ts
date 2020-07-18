@@ -55,7 +55,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: '桐乡市应急管理局安全生产风险预防数字化监管平台',
+  title: '桐乡市应急管理局安全生产风险防控数字化监管平台',
   pwa: false,
   iconfontUrl: '',
 } as DefaultSettings;

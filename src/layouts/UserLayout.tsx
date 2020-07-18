@@ -38,16 +38,17 @@ const UserLayout: React.FC<UserLayoutProps> = props => {
   });
   return (
     <div className={styles.bgdiv}>
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={title} />
-      </Helmet>
-      <div className={styles.container}>
-        <div className={styles.lang}>
-          {/* <SelectLang /> */}
-        </div>
-        <div className={styles.content}>
-          {/* <div className={styles.top}>
+      <div className={styles.inside}>
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={title} />
+        </Helmet>
+        <div className={styles.container}>
+          <div className={styles.lang}>
+            {/* <SelectLang /> */}
+          </div>
+          <div className={styles.content}>
+            {/* <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
@@ -56,15 +57,16 @@ const UserLayout: React.FC<UserLayoutProps> = props => {
             </div>
             <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
           </div> */}
-          {children}
-        </div>
-        <DefaultFooter
-          style={{ backgroundColor: 'rgba(255,255,255,0)', color: 'rgba(0,0,0,1)', fontWeight: 'bold' }}
-          copyright="桐乡市应急局"
-          links={[
+            {children}
+          </div>
+          <DefaultFooter
+            style={{ backgroundColor: 'rgba(255,255,255,0)', color: 'rgba(0,0,0,1)', fontWeight: 'bold' }}
+            copyright="桐乡市应急局"
+            links={[
 
-          ]}
-        />
+            ]}
+          />
+        </div>
       </div>
     </div>
   );
