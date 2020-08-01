@@ -119,7 +119,6 @@ const SecurityManager: React.FC<IProps> = props => {
           </Row>
         </Form>
       </Card>
-      <br />
       <Card>
         <Row gutter={24} style={{ marginBottom: 20 }}>
           <Col span={24} style={{ textAlign: 'right' }}>
