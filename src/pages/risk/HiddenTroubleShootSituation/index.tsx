@@ -132,7 +132,7 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
       <Card title="企业名称">
         <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onFinish={onFinish}>
           <Row gutter={24}>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="隐患类别" name="riskType">
                 <Select placeholder="请选择隐患类别">
                   {cdRiskTypeList?.map(item => (
@@ -141,12 +141,12 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="风险源名称" name="riskSource">
                 <Input placeholder="请输入风险源名称" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="隐患等级" name="riskLevel">
                 <Select placeholder="请选择隐患等级">
                   {cdRiskLevelList?.map(item => (
@@ -155,12 +155,12 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="排查日期" name="checkDate">
                 <DatePicker.RangePicker allowClear />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="整改时限" name="modifyTimeLimit">
                 <Select placeholder="请选择整改时限">
                   {[
@@ -200,13 +200,12 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="验收意见" name="c">
                 <Input placeholder="请输入验收意见" />
               </Form.Item>
             </Col>
-            <Col span={6} />
-            <Col span={6} style={{ textAlign: 'right' }}>
+            <Col span={24} style={{ textAlign: 'right' }}>
               <Button type="primary" htmlType="submit">
                 查询
               </Button>

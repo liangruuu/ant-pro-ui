@@ -87,22 +87,22 @@ const SecurityManager: React.FC<IProps> = props => {
           className="ant-advanced-search-form"
         >
           <Row gutter={24}>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="姓名" name="name">
                 <Input placeholder="请输入姓名" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="电话" name="tele">
                 <Input placeholder="请输入电话" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="身份证号" name="idNumber">
                 <Input placeholder="请输入身份证号" />
               </Form.Item>
             </Col>
-            <Col span={6} style={{ textAlign: 'right' }}>
+            <Col span={24} style={{ textAlign: 'right' }}>
               <Button style={{ margin: '0 16px' }} type="primary" htmlType="submit">
                 查询
               </Button>

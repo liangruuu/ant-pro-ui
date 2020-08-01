@@ -102,23 +102,18 @@ const CompanyList: React.FC<IProps> = props => {
           className="ant-advanced-search-form"
         >
           <Row gutter={24}>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item name="entname" label="企业名称">
                 <Input placeholder="请输入企业名称" />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item name="lerep" label="法定代表人">
                 <Input placeholder="请输入法定代表人" />
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item
-                name="uniscid"
-                label="统一社会信用代码"
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 20 }}
-              >
+            <Col xs={22} sm={18} md={14} lg={10} xl={8}>
+              <Form.Item name="uniscid" label="统一社会信用代码">
                 <Input placeholder="请输入统一社会信用代码" />
               </Form.Item>
             </Col>
