@@ -155,6 +155,7 @@ const CompanyList: React.FC<IProps> = props => {
                 onClick={() => {
                   form.resetFields();
                 }}
+                htmlType="submit"
               >
                 重置
               </Button>

@@ -28,6 +28,8 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
     loading,
   } = props;
 
+  const [form] = Form.useForm();
+
   const [firstRender, setFirstRender] = useState<boolean>(true);
 
   const columns = [
@@ -65,11 +67,11 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
     },
     {
       title: '整改情况描述',
-      dataIndex: 'situation',
+      dataIndex: 'modifySituation',
     },
     {
       title: '验收意见',
-      dataIndex: 'opinion',
+      dataIndex: 'modifyTimeLimit',
     },
   ];
 
@@ -128,7 +130,7 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
       </Card>
       <br /> */}
       <Card title="企业名称">
-        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onFinish={onFinish}>
+        <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onFinish={onFinish}>
           <Row gutter={24}>
             <Col span={6}>
               <Form.Item label="隐患类别" name="riskType">
@@ -199,8 +201,8 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item label="验收意见">
-                <Input />
+              <Form.Item label="验收意见" name="c">
+                <Input placeholder="请输入验收意见" />
               </Form.Item>
             </Col>
             <Col span={6} />
@@ -208,7 +210,13 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
               <Button type="primary" htmlType="submit">
                 查询
               </Button>
-              <Button style={{ marginLeft: 16, marginRight: 30 }}>重置</Button>
+              <Button
+                style={{ marginLeft: 16, marginRight: 30 }}
+                onClick={() => form.resetFields()}
+                htmlType="submit"
+              >
+                重置
+              </Button>
             </Col>
           </Row>
         </Form>
