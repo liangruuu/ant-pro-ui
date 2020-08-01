@@ -43,7 +43,7 @@ const CompanyList: React.FC<IProps> = props => {
     },
     {
       title: '生产经营地址',
-      dataIndex: 'reg_address',
+      dataIndex: 'regAddress',
     },
     {
       title: '法定代表人',
@@ -51,18 +51,15 @@ const CompanyList: React.FC<IProps> = props => {
     },
     {
       title: '手机号码 ',
-      dataIndex: 'lerep_tel',
-      key: 'lerep_tel',
+      dataIndex: 'lerepTel',
     },
     {
       title: '所属行业/专业',
-      dataIndex: 'industry_category',
-      key: 'industry_category',
+      dataIndex: 'industryCategory',
     },
     {
       title: '企业规模',
       dataIndex: 'scale',
-      key: 'scale',
     },
   ];
 
@@ -111,13 +108,18 @@ const CompanyList: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item name="uniscid" label="统一社会信用代码">
-                <Input placeholder="请输入统一社会信用代码" />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
               <Form.Item name="lerep" label="法定代表人">
                 <Input placeholder="请输入法定代表人" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="uniscid"
+                label="统一社会信用代码"
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 20 }}
+              >
+                <Input placeholder="请输入统一社会信用代码" />
               </Form.Item>
             </Col>
             {/* <Col span={6}>
@@ -144,7 +146,7 @@ const CompanyList: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={6} /> */}
-            <Col span={6} style={{ textAlign: 'right' }}>
+            <Col span={24} style={{ textAlign: 'right' }}>
               <Button htmlType="submit" type="primary" style={{ margin: '0 16px' }}>
                 查询
               </Button>

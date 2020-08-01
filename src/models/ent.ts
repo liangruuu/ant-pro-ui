@@ -35,14 +35,14 @@ const EntModel: EntModelType = {
     *fetchList({ payload }, { call, put }) {
       try {
         const res = yield call(fetchList, payload);
-        if (res.code === 'ok') {
+        if (res.code === 200) {
           yield put({
             type: 'save',
             payload: {
-              pageSize1: res.content.data.size,
-              currentPage: res.content.data.number,
-              total: res.content.data.totalElements,
-              dataSource: res.content.data.content,
+              pageSize1: res.data.size,
+              currentPage: res.data.number,
+              total: res.data.totalElements,
+              dataSource: res.data.content,
             },
             index: 'listData',
           });
@@ -54,7 +54,7 @@ const EntModel: EntModelType = {
     *saveEnt({ payload }, { call }) {
       try {
         const res = yield call(saveEnt, payload);
-        if (res.code === 'ok') {
+        if (res.code === 200) {
           message.success('保存成功');
         }
       } catch (e) {

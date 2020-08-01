@@ -157,30 +157,28 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
                 </Select>
               </Form.Item>
             </Col>
-          </Row>
-        </Card>
-        <br />
-        <Card title="上传隐患相关照片(最大三张）">
-          <Upload
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-          >
-            {fileList.length >= 3 ? null : (
-              <div>
-                <PlusOutlined />
-                <div className="ant-upload-text">Upload</div>
-              </div>
-            )}
-          </Upload>
-          <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
-            <img alt="example" style={{ width: '100%' }} src={previewImage} />
-          </Modal>
-        </Card>
-        <br />
-        <Card>
-          <Row gutter={24}>
+            <Col span={8}>
+              <Form.Item label="隐患相关照片" name="modifyTimeLimit">
+                <Upload
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={handlePreview}
+                  onChange={handleChange}
+                >
+                  {fileList.length >= 3 ? null : (
+                    <div>
+                      <PlusOutlined />
+                      <div className="ant-upload-text">Upload</div>
+                    </div>
+                  )}
+                </Upload>
+                <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
+                  <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                </Modal>
+              </Form.Item>
+            </Col>
+            <Col span={8} />
+            <Col span={8} />
             <Col span={8}>
               <Form.Item label="排查人员">
                 <span>{checker}</span>

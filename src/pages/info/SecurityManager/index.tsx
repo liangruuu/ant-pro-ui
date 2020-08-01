@@ -97,7 +97,11 @@ const SecurityManager: React.FC<IProps> = props => {
                 <Input placeholder="请输入电话" />
               </Form.Item>
             </Col>
-            <Col span={6} />
+            <Col span={6}>
+              <Form.Item label="身份证号" name="idNumber">
+                <Input placeholder="请输入身份证号" />
+              </Form.Item>
+            </Col>
             <Col span={6} style={{ textAlign: 'right' }}>
               <Button style={{ margin: '0 16px' }} type="primary" htmlType="submit">
                 查询

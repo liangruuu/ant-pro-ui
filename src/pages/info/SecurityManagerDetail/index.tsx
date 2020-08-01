@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Form, Input, Row, Col, Button, message, Select } from 'antd';
+import { Card, Form, Input, Row, Col, Button, message, Select, DatePicker } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { router } from 'umi';
@@ -47,7 +47,7 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
     >
       <Card>
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} form={form} onFinish={onFinish}>
-          <Row gutter={24}>
+          <Row>
             <Col span={10}>
               <Form.Item
                 name="name"
@@ -134,12 +134,12 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="issueDate" label="发证日期">
-                <Input placeholder="请输入发证日期" />
+                <DatePicker placeholder="请选择发证日期" style={{ width: '100%' }} />
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="expireDate" label="失效日期">
-                <Input placeholder="请输入失效日期" />
+                <DatePicker placeholder="请选择失效日期" style={{ width: '100%' }} />
               </Form.Item>
             </Col>
             <Col span={20}>

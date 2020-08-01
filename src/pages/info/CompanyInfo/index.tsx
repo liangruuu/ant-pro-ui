@@ -28,6 +28,7 @@ import { CdSafeCheckModelState } from '@/models/cd_safe_check';
 import { CdStandLevelModelState } from '@/models/cd_stand_level';
 import { CdAreaModelState } from '@/models/cd_area';
 import { CdIndustryModelState } from '@/models/cd_industry';
+import TextArea from 'antd/lib/input/TextArea';
 
 interface IProps {
   dispatch: Dispatch<any>;
@@ -152,7 +153,7 @@ const BasicInfo: React.FC<IProps> = props => {
               <div style={{ fontSize: '20px', fontWeight: 'bold' }}>企业基本信息</div>
             </Col>
           </Row>
-          <Row gutter={24}>
+          <Row>
             <Col span={20}>
               <Form.Item
                 labelCol={{ span: 4 }}
@@ -162,16 +163,6 @@ const BasicInfo: React.FC<IProps> = props => {
                 rules={[{ required: true, message: '必须输入企业名称!' }]}
               >
                 <Input placeholder="请输入企业名称" />
-              </Form.Item>
-            </Col>
-            <Col span={20}>
-              <Form.Item
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 20 }}
-                name="reg_address"
-                label="注册地址"
-              >
-                <Input placeholder="请输入注册地址" />
               </Form.Item>
             </Col>
             <Col span={10}>
@@ -184,19 +175,34 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="estdate" label="成立时间">
-                <DatePicker />
+              <Form.Item
+                name="estdate"
+                label="成立时间"
+                rules={[{ required: true, message: '必须选择成立时间!' }]}
+              >
+                <DatePicker placeholder="请选择成立时间" style={{ width: '100%' }} />
+              </Form.Item>
+            </Col>
+            <Col span={20}>
+              <Form.Item
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 20 }}
+                name="regAddress"
+                label="注册地址"
+                rules={[{ required: true, message: '必须输入注册地址!' }]}
+              >
+                <Input placeholder="请输入注册地址" />
               </Form.Item>
             </Col>
             <Col span={4} />
             <Col span={10}>
               <Form.Item name="regcap" label="注册资金">
-                <Input placeholder="请输入注册资金" />
+                <Input placeholder="请输入注册资金" type="number" />
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="annualSales" label="年销售额">
-                <Input placeholder="请输入年销售额" />
+                <Input placeholder="请输入年销售额" type="number" />
               </Form.Item>
             </Col>
             <Col span={4} />
@@ -210,24 +216,18 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="riskRecognize" label="风险隐患">
-                <Input placeholder="请输入风险隐患" />
+              <Form.Item name="regstate" label="登记状态">
+                <Select placeholder="请选择登记状态">
+                  {cdRegStateList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={4} />
-            <Col span={20}>
-              <Form.Item
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 20 }}
-                name="opscope"
-                label="经营范围"
-              >
-                <Input placeholder="请输入经营范围" />
-              </Form.Item>
-            </Col>
             <Col span={10}>
-              <Form.Item name="staff_num" label="从业人员数量">
-                <Input placeholder="请输入从业人员数量" />
+              <Form.Item name="higheUp" label="行政隶属关系">
+                <Input placeholder="请输入行政隶属关系" />
               </Form.Item>
             </Col>
             <Col span={10}>
@@ -241,17 +241,23 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={4} />
             <Col span={10}>
-              <Form.Item name="regstate" label="登记状态">
-                <Select placeholder="请选择登记状态">
-                  {cdRegStateList?.map(item => (
-                    <Select.Option value={item.sid}>{item.content}</Select.Option>
-                  ))}
-                </Select>
+              <Form.Item name="staffNum" label="从业人员数量">
+                <Input placeholder="请输入从业人员数量" type="number" />
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="higher_up" label="行政隶属关系">
-                <Input placeholder="请输入行政隶属关系" />
+              <Form.Item name="riskRecognize" label="风险隐患">
+                <Input placeholder="请输入风险隐患" />
+              </Form.Item>
+            </Col>
+            <Col span={20}>
+              <Form.Item
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 20 }}
+                name="opscope"
+                label="经营范围"
+              >
+                <TextArea rows={4} placeholder="请输入经营范围" />
               </Form.Item>
             </Col>
           </Row>
@@ -260,7 +266,7 @@ const BasicInfo: React.FC<IProps> = props => {
               <div style={{ fontSize: '20px', fontWeight: 'bold' }}>安全生产基本信息</div>
             </Col>
           </Row>
-          <Row gutter={24}>
+          <Row>
             <Col span={10}>
               <Form.Item name="areaid" label="所属地区">
                 <TreeSelect
@@ -273,7 +279,7 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="industry_category" label="行业类别">
+              <Form.Item name="industryCategory" label="行业类别">
                 <TreeSelect
                   allowClear
                   showSearch
@@ -353,7 +359,7 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="key_ent" label="安全生产监管重点企业">
+              <Form.Item name="keyEnt" label="安全生产监管重点企业">
                 <Radio.Group>
                   <Radio value={1}>是</Radio>
                   <Radio value={0}>否</Radio>
@@ -361,7 +367,7 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="large_scale" label="规模以上生产经营单位">
+              <Form.Item name="largeScale" label="规模以上生产经营单位">
                 <Radio.Group>
                   <Radio value={1}>是</Radio>
                   <Radio value={0}>否</Radio>
@@ -369,7 +375,7 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="hazardous_chemicals" label="危险化学品">
+              <Form.Item name="hazardousChemicals" label="危险化学品">
                 <Radio.Group>
                   <Radio value={1}>有</Radio>
                   <Radio value={0}>无</Radio>
@@ -377,7 +383,7 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="limited_space" label="有限空间">
+              <Form.Item name="limitedSpace" label="有限空间">
                 <Radio.Group>
                   <Radio value={1}>有</Radio>
                   <Radio value={0}>无</Radio>
@@ -385,7 +391,7 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="combustible_dust" label="可燃性粉尘">
+              <Form.Item name="combustibleDust" label="可燃性粉尘">
                 <Radio.Group>
                   <Radio value={1}>有</Radio>
                   <Radio value={0}>无</Radio>
@@ -393,7 +399,7 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="metal_smelting" label="金属冶炼">
+              <Form.Item name="metalSmelting" label="金属冶炼">
                 <Radio.Group>
                   <Radio value={1}>有</Radio>
                   <Radio value={0}>无</Radio>
@@ -401,7 +407,7 @@ const BasicInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="special_equipment" label="特种设备">
+              <Form.Item name="specialEquipment" label="特种设备">
                 <Radio.Group>
                   <Radio value={1}>有</Radio>
                   <Radio value={0}>无</Radio>
