@@ -102,7 +102,22 @@ const SecurityManager: React.FC<IProps> = props => {
                 <Input placeholder="请输入身份证号" />
               </Form.Item>
             </Col>
-            <Col span={24} style={{ textAlign: 'right' }}>
+          </Row>
+          <Row gutter={24} style={{ marginBottom: 20 }}>
+            <Col span={12} style={{ textAlign: 'left' }}>
+              <Button
+                style={{ marginLeft: '30px' }}
+                type="primary"
+                onClick={() => {
+                  router.push({
+                    pathname: '/info/securitymanagerdetail',
+                  });
+                }}
+              >
+                新增
+              </Button>
+            </Col>
+            <Col span={12} style={{ textAlign: 'right' }}>
               <Button style={{ margin: '0 16px' }} type="primary" htmlType="submit">
                 查询
               </Button>
@@ -118,23 +133,6 @@ const SecurityManager: React.FC<IProps> = props => {
             </Col>
           </Row>
         </Form>
-      </Card>
-      <Card>
-        <Row gutter={24} style={{ marginBottom: 20 }}>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button
-              style={{ marginRight: '30px' }}
-              type="primary"
-              onClick={() => {
-                router.push({
-                  pathname: '/info/securitymanagerdetail',
-                });
-              }}
-            >
-              新增
-            </Button>
-          </Col>
-        </Row>
         <Table<User>
           loading={loading}
           columns={columns}

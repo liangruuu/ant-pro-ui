@@ -141,7 +141,23 @@ const CompanyList: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={6} /> */}
-            <Col span={24} style={{ textAlign: 'right' }}>
+          </Row>
+          <Row style={{ marginBottom: 20 }}>
+            <Col span={12} style={{ textAlign: 'left' }}>
+              <Button
+                type="primary"
+                style={{ marginLeft: '30px' }}
+                onClick={() => {
+                  router.push({
+                    pathname: '/info/companyinfo/1',
+                  });
+                }}
+              >
+                新增
+              </Button>
+              <Button style={{ margin: '0 16px' }}>导出</Button>
+            </Col>
+            <Col span={12} style={{ textAlign: 'right' }}>
               <Button htmlType="submit" type="primary" style={{ margin: '0 16px' }}>
                 查询
               </Button>
@@ -157,24 +173,6 @@ const CompanyList: React.FC<IProps> = props => {
             </Col>
           </Row>
         </Form>
-      </Card>
-      <Card>
-        <Row gutter={24} style={{ marginBottom: 20 }}>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button
-              type="primary"
-              style={{ margin: '0 16px' }}
-              onClick={() => {
-                router.push({
-                  pathname: '/info/companyinfo/1',
-                });
-              }}
-            >
-              新增
-            </Button>
-            <Button style={{ marginRight: '30px' }}>导出</Button>
-          </Col>
-        </Row>
         <Table<Ent>
           loading={loading}
           columns={columns}

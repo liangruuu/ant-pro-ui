@@ -205,7 +205,19 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
                 <Input placeholder="请输入验收意见" />
               </Form.Item>
             </Col>
-            <Col span={24} style={{ textAlign: 'right' }}>
+          </Row>
+          <Row style={{ marginBottom: 20 }}>
+            <Col span={12} style={{ textAlign: 'left' }}>
+              <Button
+                style={{ marginLeft: 30 }}
+                type="primary"
+                htmlType="submit"
+                onClick={() => router.push('/risk/hiddentroubleshootsituationrecord')}
+              >
+                新增
+              </Button>
+            </Col>
+            <Col span={12} style={{ textAlign: 'right' }}>
               <Button type="primary" htmlType="submit">
                 查询
               </Button>
@@ -219,20 +231,6 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
             </Col>
           </Row>
         </Form>
-      </Card>
-      <Card>
-        <Row gutter={24} style={{ marginBottom: 20 }}>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button
-              style={{ marginRight: 30 }}
-              type="primary"
-              htmlType="submit"
-              onClick={() => router.push('/risk/hiddentroubleshootsituationrecord')}
-            >
-              新增
-            </Button>
-          </Col>
-        </Row>
         <Table<RiskCheckEntity>
           loading={loading}
           columns={columns}
