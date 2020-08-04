@@ -12,7 +12,7 @@ services:
     image: nginx
     ports:
       - 80:80
-    container_name: 'ant-design-pro_web'
+    container_name: 'tongxiang_ant-design-pro_web'
     restart: unless-stopped
     volumes:
       - dist:/usr/share/nginx/html:ro
