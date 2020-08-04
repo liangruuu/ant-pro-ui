@@ -2,7 +2,8 @@ import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
 import { Ent } from './entity';
-import { saveEnt, fetchList } from '../services/ent';
+import { saveEnt, fetchList, getEntById } from '../services/ent';
+import moment from 'moment';
 
 export interface EntModelState {
   listData: {
@@ -11,6 +12,7 @@ export interface EntModelState {
     total: number;
     dataSource: Ent[];
   };
+  entDetail?: Ent;
 }
 
 export interface EntModelType {
@@ -19,6 +21,7 @@ export interface EntModelType {
   effects: {
     fetchList: Effect;
     saveEnt: Effect;
+    getEntById: Effect;
   };
   reducers: {
     save: Reducer<any, any>;
@@ -56,6 +59,23 @@ const EntModel: EntModelType = {
         const res = yield call(saveEnt, payload);
         if (res.code === 200) {
           message.success('保存成功');
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *getEntById({ payload }, { call, put }) {
+      try {
+        const res = yield call(getEntById, payload);
+        if (res.code === 200) {
+          yield put({
+            type: 'save',
+            payload: {
+              ...res.data,
+              estdate: moment(res.data.estdate, 'YYYY-MM-DD '),
+            },
+            index: 'entDetail',
+          });
         }
       } catch (e) {
         message.error(e || '未知错误');

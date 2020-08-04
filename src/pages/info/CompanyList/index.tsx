@@ -33,7 +33,14 @@ const CompanyList: React.FC<IProps> = props => {
       render: (text: Ent, record: Ent) => (
         <span>
           {console.log(record)}
-          <Link to={`/info/companyinfo/${record.sid}`}>{record.entname}</Link>
+          <Link
+            to={{
+              pathname: '/info/companyinfo',
+              state: { sid: record.sid },
+            }}
+          >
+            {record.entname}
+          </Link>
         </span>
       ),
     },
@@ -149,7 +156,7 @@ const CompanyList: React.FC<IProps> = props => {
                 style={{ marginLeft: '30px' }}
                 onClick={() => {
                   router.push({
-                    pathname: '/info/companyinfo/1',
+                    pathname: '/info/companyinfo',
                   });
                 }}
               >

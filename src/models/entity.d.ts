@@ -1,5 +1,7 @@
+import { Moment } from 'moment';
+
 export interface Ent {
-  sid: number;
+  sid: string;
   regno?: string;
   entname?: string;
   uniscid?: string;
@@ -27,7 +29,7 @@ export interface Ent {
   opscotype?: string;
   regorg?: string;
   regstate?: string;
-  estdate?: Date;
+  estdate?: Moment;
   apprdate?: Date;
   revdate?: Date;
   sugrevreason?: string;

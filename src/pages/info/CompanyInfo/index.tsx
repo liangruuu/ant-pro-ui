@@ -29,9 +29,12 @@ import { CdStandLevelModelState } from '@/models/cd_stand_level';
 import { CdAreaModelState } from '@/models/cd_area';
 import { CdIndustryModelState } from '@/models/cd_industry';
 import TextArea from 'antd/lib/input/TextArea';
+import { EntModelState } from '@/models/ent';
 
 interface IProps {
   dispatch: Dispatch<any>;
+  location: any;
+  entModel: EntModelState;
   cdAdminOrg: CdAdminOrgModelState;
   cdRegState: CdRegStateModelState;
   cdScale: CdScaleModelState;
@@ -47,6 +50,8 @@ interface IProps {
 const BasicInfo: React.FC<IProps> = props => {
   const {
     dispatch,
+    location,
+    entModel: { entDetail },
     cdAdminOrg: { cdAdminOrgList },
     cdRegState: { cdRegStateList },
     cdScale: { cdScaleList },
@@ -58,6 +63,8 @@ const BasicInfo: React.FC<IProps> = props => {
     cdArea: { cdAreaTree },
     cdIndustry: { cdIndustryTree, cdSuperviseTypeTree },
   } = props;
+
+  const [form] = Form.useForm();
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
@@ -95,51 +102,74 @@ const BasicInfo: React.FC<IProps> = props => {
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
-    dispatch({
-      type: 'entModel/saveEnt',
-      payload: { ...values },
-    });
+    if (entDetail != null) {
+      dispatch({
+        type: 'entModel/saveEnt',
+        payload: {
+          ...entDetail,
+          ...values,
+        },
+      });
+    } else {
+      dispatch({
+        type: 'entModel/saveEnt',
+        payload: { ...values },
+      });
+    }
     router.goBack();
   };
 
   useEffect(() => {
+    if (entDetail != null) {
+      form.setFieldsValue(entDetail);
+    }
+    // return form.resetFields();
+  }, [entDetail]);
+
+  useEffect(() => {
     if (firstRender) {
-      dispatch({
-        type: 'cdAdminOrg/fetchCdAdminOrg',
-      });
-      dispatch({
-        type: 'cdRegState/fetchCdRegState',
-      });
-      dispatch({
-        type: 'cdScale/fetchCdScale',
-      });
-      dispatch({
-        type: 'cdSuperviseGrade/fetchCdSuperviseGrade',
-      });
-      dispatch({
-        type: 'cdSuperviseLevel/fetchCdSuperviseLevel',
-      });
-      dispatch({
-        type: 'cdHonesty/fetchCdHonesty',
-      });
-      dispatch({
-        type: 'cdSafeCheck/fetchCdSafeCheck',
-      });
-      dispatch({
-        type: 'cdStandLevel/fetchCdStandLevel',
-      });
-      dispatch({
-        type: 'cdArea/fetchCdArea',
-        payload: {
-          rootId: '330483000000',
-        },
-      });
-      dispatch({
-        type: 'cdIndustry/fetchCdIndustry',
-      });
-      dispatch({
-        type: 'cdIndustry/fetchSuperviseTypeTree',
-      });
+      if (location.state != null && location.state.sid !== null) {
+        dispatch({
+          type: 'entModel/getEntById',
+          payload: { sid: location.state.sid },
+        });
+      }
+      // dispatch({
+      //   type: 'cdAdminOrg/fetchCdAdminOrg',
+      // });
+      // dispatch({
+      //   type: 'cdRegState/fetchCdRegState',
+      // });
+      // dispatch({
+      //   type: 'cdScale/fetchCdScale',
+      // });
+      // dispatch({
+      //   type: 'cdSuperviseGrade/fetchCdSuperviseGrade',
+      // });
+      // dispatch({
+      //   type: 'cdSuperviseLevel/fetchCdSuperviseLevel',
+      // });
+      // dispatch({
+      //   type: 'cdHonesty/fetchCdHonesty',
+      // });
+      // dispatch({
+      //   type: 'cdSafeCheck/fetchCdSafeCheck',
+      // });
+      // dispatch({
+      //   type: 'cdStandLevel/fetchCdStandLevel',
+      // });
+      // dispatch({
+      //   type: 'cdArea/fetchCdArea',
+      //   payload: {
+      //     rootId: '330483000000',
+      //   },
+      // });
+      // dispatch({
+      //   type: 'cdIndustry/fetchCdIndustry',
+      // });
+      // dispatch({
+      //   type: 'cdIndustry/fetchSuperviseTypeTree',
+      // });
       setFirstRender(!firstRender);
     }
   });
@@ -147,7 +177,7 @@ const BasicInfo: React.FC<IProps> = props => {
   return (
     <PageHeaderWrapper>
       <Card>
-        <Form {...layout} name="basicForm" onFinish={onFinish}>
+        <Form {...layout} name="basicForm" onFinish={onFinish} form={form}>
           <Row gutter={[16, 24]}>
             <Col className="gutter-row" span={6}>
               <div style={{ fontSize: '20px', fontWeight: 'bold' }}>企业基本信息</div>
@@ -466,6 +496,7 @@ const BasicInfo: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = () => ({
+  entModel,
   cdAdminOrg,
   cdRegState,
   cdScale,
@@ -478,6 +509,7 @@ const mapStateToProps = () => ({
   cdIndustry,
   loading,
 }: {
+  entModel: EntModelState;
   cdAdminOrg: CdAdminOrgModelState;
   cdRegState: CdRegStateModelState;
   cdScale: CdScaleModelState;
@@ -490,6 +522,7 @@ const mapStateToProps = () => ({
   cdIndustry: CdIndustryModelState;
   loading: { models: { [key: string]: boolean } };
 }) => ({
+  entModel,
   cdAdminOrg,
   cdRegState,
   cdScale,

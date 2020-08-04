@@ -53,7 +53,7 @@ export default [
                 authority: ['admin', 'yjjry'],
               },
               {
-                path: '/info/companyinfo/:id',
+                path: '/info/companyinfo',
                 name: 'companyinfo',
                 component: './info/CompanyInfo',
                 hideInMenu: true,
