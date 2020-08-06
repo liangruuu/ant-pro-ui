@@ -1,128 +1,171 @@
 import React, { useEffect, useState } from 'react';
 import router from 'umi/router';
-import { Card, Form, Table, Input, Row, Col, Button } from 'antd';
+import { Card, Form, Table, Input, Row, Col, Button, Select } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Link } from 'umi';
+import { AgencyModelState } from '@/models/agency';
+import { Dispatch } from 'redux';
+import { Agency } from '@/models/entity';
+import { CdAdminOrgModelState } from '@/models/cd_admin_org';
 
 interface IProps {
-  dispatch: any;
-  histolocationry: any;
+  dispatch: Dispatch<any>;
+  agencyModel: AgencyModelState;
+  cdAdminOrg: CdAdminOrgModelState;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }
 
 const ProxyOrganization: React.FC<IProps> = props => {
-  const [form] = Form.useForm();
-
-  const [data, setDataSources] = useState([
-    {
-      name: 'XX中介公司',
+  const {
+    dispatch,
+    agencyModel: {
+      listData: { pageSizel, currentPage, total, dataSource },
     },
-  ]);
+    cdAdminOrg: { cdAdminOrgList },
+    loading,
+  } = props;
 
-  useEffect(() => {
-    const param = props.location.query;
-    const addItemKey = Object.keys(param);
-    if (addItemKey.length !== 0) {
-      setDataSources([...data, param]);
-    }
-    console.log(props.location);
-  }, []);
+  const [form] = Form.useForm();
+  const [firstRender, changeFirstRender] = useState<boolean>(true);
 
   const columns = [
     {
       title: '企业名称',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text, record) => (
+      dataIndex: 'entname',
+      render: (text: Agency, record: Agency) => (
         <span>
-          {console.log(record)}
-          <Link to="/info/proxyinfo/">{record.name}</Link>
+          <Link
+            to={{
+              pathname: '/info/proxyinfo',
+              state: { sid: record.sid },
+            }}
+          >
+            {record.entname}
+          </Link>
         </span>
       ),
     },
     {
       title: '统一社会信用代码',
-      dataIndex: 'code',
-      key: 'code',
+      dataIndex: 'uniscid',
     },
     {
       title: '成立时间',
-      dataIndex: 'time',
-      key: 'time',
+      dataIndex: 'estdate',
     },
     {
       title: '注册资金 ',
-      dataIndex: 'money',
-      key: 'money',
+      dataIndex: 'regcap',
     },
     {
       title: '资质',
-      dataIndex: 'zizhi',
-      key: 'zizhi',
+      dataIndex: 'qualify',
     },
     {
       title: '详细地址',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'oploc',
     },
     {
       title: '行政区域',
-      dataIndex: 'area',
-      key: 'area',
+      dataIndex: 'regorg',
     },
     {
       title: '法定代表人',
-      dataIndex: 'legal',
-      key: 'legal',
+      dataIndex: 'lerep',
     },
     {
       title: '联系电话',
-      dataIndex: 'phone',
-      key: 'phone',
+      dataIndex: 'lerep_tel',
     },
   ];
+
+  const onFinish = (values: any) => {
+    dispatch({
+      type: 'agencyModel/fetchList',
+      payload: {
+        currentPage: 0,
+        pageSize: pageSizel,
+        agency: { ...values },
+        agencytype: 'proxy',
+      },
+    });
+  };
+
+  const handleChange = ({ current, pageSize }: any) => {
+    dispatch({
+      type: 'agencyModel/fetchList',
+      payload: {
+        currentPage: current - 1,
+        pageSize,
+        agencytype: 'proxy',
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (firstRender) {
+      dispatch({
+        type: 'cdAdminOrg/fetchCdAdminOrg',
+      });
+      handleChange({ current: currentPage + 1, pageSize: pageSizel });
+      changeFirstRender(!firstRender);
+    }
+  });
 
   return (
     <PageHeaderWrapper>
       <Card>
-        <Form
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          form={form}
-          className="ant-advanced-search-form"
-        >
+        <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} form={form} onFinish={onFinish}>
           <Row gutter={24}>
-            <Col span={8}>
-              <Form.Item label="企业名称">
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
+              <Form.Item name="entname" label="企业名称">
                 <Input placeholder="请输入企业名称" />
               </Form.Item>
             </Col>
-            <Col span={8}>
-              <Form.Item label="行政区划">
-                <Input placeholder="请输入行政区划" />
+            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
+              <Form.Item name="regorg" label="行政区域">
+                <Select
+                  placeholder="请选择行政区域"
+                  loading={loading.effects['cdAdminOrg/fetchCdAdminOrg']}
+                >
+                  {cdAdminOrgList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
-            <Col span={8}>
-              <Form.Item label="统一社会信用代码">
+            <Col xs={22} sm={18} md={14} lg={10} xl={8}>
+              <Form.Item name="uniscid" label="统一社会信用代码">
                 <Input placeholder="请输入统一社会信用代码" />
               </Form.Item>
             </Col>
-            <Col span={8}>
-              <Form.Item label="详细地址">
-                <Input placeholder="请输入详细地址" />
-              </Form.Item>
+          </Row>
+          <Row style={{ marginBottom: 20 }}>
+            <Col span={12} style={{ textAlign: 'left' }}>
+              <Button
+                type="primary"
+                style={{ marginLeft: '30px' }}
+                onClick={() => {
+                  router.push('/info/proxyinfo');
+                }}
+              >
+                新增
+              </Button>
+              <Button style={{ margin: '0 16px' }}>导出</Button>
             </Col>
-            <Col span={8} />
-            <Col span={8} style={{ textAlign: 'right' }}>
-              <Button type="primary" style={{ margin: '0 16px' }}>
+            <Col span={12} style={{ textAlign: 'right' }}>
+              <Button type="primary" htmlType="submit" style={{ margin: '0 16px' }}>
                 查询
               </Button>
               <Button
                 style={{ marginRight: '30px' }}
-                s
+                htmlType="submit"
                 onClick={() => {
                   form.resetFields();
-                  console.log('dataSources:', data);
                 }}
               >
                 清空
@@ -130,28 +173,29 @@ const ProxyOrganization: React.FC<IProps> = props => {
             </Col>
           </Row>
         </Form>
-      </Card>
-      <br />
-      <Card>
-        <Row gutter={24} style={{ marginBottom: 20 }}>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button
-              type="primary"
-              style={{ margin: '0 16px' }}
-              onClick={() => {
-                router.push('/info/proxyinfo');
-              }}
-            >
-              新增
-            </Button>
-            <Button style={{ marginRight: '30px' }}>导出</Button>
-          </Col>
-        </Row>
-        <Table columns={columns} dataSource={data} />
+        <Table<Agency>
+          loading={loading.effects['agencyModel/fetchList']}
+          columns={columns}
+          dataSource={dataSource}
+          pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
+          onChange={handleChange}
+        />
       </Card>
     </PageHeaderWrapper>
   );
 };
-const mapStateToProps = () => ({});
 
+const mapStateToProps = ({
+  agencyModel,
+  cdAdminOrg,
+  loading,
+}: {
+  agencyModel: AgencyModelState;
+  cdAdminOrg: CdAdminOrgModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
+}) => ({
+  agencyModel,
+  cdAdminOrg,
+  loading,
+});
 export default connect(mapStateToProps)(ProxyOrganization);

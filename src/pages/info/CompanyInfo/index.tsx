@@ -45,6 +45,10 @@ interface IProps {
   cdStandLevel: CdStandLevelModelState;
   cdArea: CdAreaModelState;
   cdIndustry: CdIndustryModelState;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }
 
 const BasicInfo: React.FC<IProps> = props => {
@@ -62,6 +66,7 @@ const BasicInfo: React.FC<IProps> = props => {
     cdStandLevel: { cdStandLevelList },
     cdArea: { cdAreaTree },
     cdIndustry: { cdIndustryTree, cdSuperviseTypeTree },
+    loading,
   } = props;
 
   const [form] = Form.useForm();
@@ -101,7 +106,6 @@ const BasicInfo: React.FC<IProps> = props => {
   const handleChange = ({ fileList }: any) => setFileList(fileList);
 
   const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
     if (entDetail != null) {
       dispatch({
         type: 'entModel/saveEnt',
@@ -134,42 +138,42 @@ const BasicInfo: React.FC<IProps> = props => {
           payload: { sid: location.state.sid },
         });
       }
-      // dispatch({
-      //   type: 'cdAdminOrg/fetchCdAdminOrg',
-      // });
-      // dispatch({
-      //   type: 'cdRegState/fetchCdRegState',
-      // });
-      // dispatch({
-      //   type: 'cdScale/fetchCdScale',
-      // });
-      // dispatch({
-      //   type: 'cdSuperviseGrade/fetchCdSuperviseGrade',
-      // });
-      // dispatch({
-      //   type: 'cdSuperviseLevel/fetchCdSuperviseLevel',
-      // });
-      // dispatch({
-      //   type: 'cdHonesty/fetchCdHonesty',
-      // });
-      // dispatch({
-      //   type: 'cdSafeCheck/fetchCdSafeCheck',
-      // });
-      // dispatch({
-      //   type: 'cdStandLevel/fetchCdStandLevel',
-      // });
-      // dispatch({
-      //   type: 'cdArea/fetchCdArea',
-      //   payload: {
-      //     rootId: '330483000000',
-      //   },
-      // });
-      // dispatch({
-      //   type: 'cdIndustry/fetchCdIndustry',
-      // });
-      // dispatch({
-      //   type: 'cdIndustry/fetchSuperviseTypeTree',
-      // });
+      dispatch({
+        type: 'cdAdminOrg/fetchCdAdminOrg',
+      });
+      dispatch({
+        type: 'cdRegState/fetchCdRegState',
+      });
+      dispatch({
+        type: 'cdScale/fetchCdScale',
+      });
+      dispatch({
+        type: 'cdSuperviseGrade/fetchCdSuperviseGrade',
+      });
+      dispatch({
+        type: 'cdSuperviseLevel/fetchCdSuperviseLevel',
+      });
+      dispatch({
+        type: 'cdHonesty/fetchCdHonesty',
+      });
+      dispatch({
+        type: 'cdSafeCheck/fetchCdSafeCheck',
+      });
+      dispatch({
+        type: 'cdStandLevel/fetchCdStandLevel',
+      });
+      dispatch({
+        type: 'cdArea/fetchCdArea',
+        payload: {
+          rootId: '330483000000',
+        },
+      });
+      dispatch({
+        type: 'cdIndustry/fetchCdIndustry',
+      });
+      dispatch({
+        type: 'cdIndustry/fetchSuperviseTypeTree',
+      });
       setFirstRender(!firstRender);
     }
   });
@@ -227,18 +231,21 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={4} />
             <Col span={10}>
               <Form.Item name="regcap" label="注册资金">
-                <Input placeholder="请输入注册资金" type="number" />
+                <Input placeholder="请输入注册资金" type="number" suffix="万元" />
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="annualSales" label="年销售额">
-                <Input placeholder="请输入年销售额" type="number" />
+                <Input placeholder="请输入年销售额" type="number" suffix="万元" />
               </Form.Item>
             </Col>
             <Col span={4} />
             <Col span={10}>
               <Form.Item name="regorg" label="登记机关">
-                <Select placeholder="请选择登记机关">
+                <Select
+                  placeholder="请选择登记机关"
+                  loading={loading.effects['cdAdminOrg/fetchCdAdminOrg']}
+                >
                   {cdAdminOrgList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
@@ -247,7 +254,10 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="regstate" label="登记状态">
-                <Select placeholder="请选择登记状态">
+                <Select
+                  placeholder="请选择登记状态"
+                  loading={loading.effects['cdRegState/fetchCdRegState']}
+                >
                   {cdRegStateList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
@@ -262,7 +272,10 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="scale" label="规模情况">
-                <Select placeholder="请选择规模情况">
+                <Select
+                  placeholder="请选择规模情况"
+                  loading={loading.effects['cdScale/fetchCdScale']}
+                >
                   {cdScaleList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
@@ -272,7 +285,7 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={4} />
             <Col span={10}>
               <Form.Item name="staffNum" label="从业人员数量">
-                <Input placeholder="请输入从业人员数量" type="number" />
+                <Input placeholder="请输入从业人员数量" type="number" suffix="人" />
               </Form.Item>
             </Col>
             <Col span={10}>
@@ -300,6 +313,7 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={10}>
               <Form.Item name="areaid" label="所属地区">
                 <TreeSelect
+                  loading={loading.effects['cdArea/fetchCdArea']}
                   allowClear
                   showSearch
                   placeholder="选择所属地区"
@@ -311,6 +325,7 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={10}>
               <Form.Item name="industryCategory" label="行业类别">
                 <TreeSelect
+                  loading={loading.effects['cdIndustry/fetchCdIndustry']}
                   allowClear
                   showSearch
                   placeholder="选择行业类别"
@@ -332,7 +347,10 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="superviseLevel" label="监管层级">
-                <Select placeholder="请选择监管层级">
+                <Select
+                  placeholder="请选择监管层级"
+                  loading={loading.effects['cdSuperviseLevel/fetchCdSuperviseLevel']}
+                >
                   {cdSuperviseLevelList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
@@ -341,7 +359,10 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="superviseGrade" label="监管等级">
-                <Select placeholder="请选择监管等级">
+                <Select
+                  placeholder="请选择监管等级"
+                  loading={loading.effects['cdSuperviseGrade/fetchCdSuperviseGrade']}
+                >
                   {cdSuperviseGradeList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
@@ -351,7 +372,10 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={4} />
             <Col span={10}>
               <Form.Item name="safecheckType" label="安全检查种类">
-                <Select placeholder="请选择安全检查种类">
+                <Select
+                  placeholder="请选择安全检查种类"
+                  loading={loading.effects['cdSafeCheck/fetchCdSafeCheck']}
+                >
                   {cdSafeCheckList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
@@ -361,6 +385,7 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={10}>
               <Form.Item name="superviseType" label="监管分类">
                 <TreeSelect
+                  loading={loading.effects['cdIndustry/fetchSuperviseTypeTree']}
                   allowClear
                   showSearch
                   placeholder="选择监管分类"
@@ -372,7 +397,10 @@ const BasicInfo: React.FC<IProps> = props => {
             <Col span={4} />
             <Col span={10}>
               <Form.Item name="standLevelCode" label="标准化等级">
-                <Select placeholder="请选择标准化等级">
+                <Select
+                  placeholder="请选择标准化等级"
+                  loading={loading.effects['cdStandLevel/fetchCdStandLevel']}
+                >
                   {cdStandLevelList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
@@ -381,7 +409,10 @@ const BasicInfo: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item name="honestygrade" label="诚信等级">
-                <Select placeholder="请选择诚信等级">
+                <Select
+                  placeholder="请选择诚信等级"
+                  loading={loading.effects['cdHonesty/fetchCdHonesty']}
+                >
                   {cdHonestyList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
@@ -520,7 +551,7 @@ const mapStateToProps = () => ({
   cdStandLevel: CdStandLevelModelState;
   cdArea: CdAreaModelState;
   cdIndustry: CdIndustryModelState;
-  loading: { models: { [key: string]: boolean } };
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
   entModel,
   cdAdminOrg,
@@ -533,6 +564,6 @@ const mapStateToProps = () => ({
   cdStandLevel,
   cdArea,
   cdIndustry,
-  loading: loading.models.CdEntPersonType,
+  loading,
 });
 export default connect(mapStateToProps)(BasicInfo);

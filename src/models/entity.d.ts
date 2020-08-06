@@ -18,7 +18,7 @@ export interface Ent {
   staffNum?: number;
   scale?: string;
   lerep?: string;
-  lerepTel?: number;
+  lerepTel?: string;
   regcap?: number;
   currency?: string;
   dom?: string;
@@ -30,8 +30,8 @@ export interface Ent {
   regorg?: string;
   regstate?: string;
   estdate?: Moment;
-  apprdate?: Date;
-  revdate?: Date;
+  apprdate?: Moment;
+  revdate?: Moment;
   sugrevreason?: string;
   linkmanname?: string;
   linkmancerno?: string;
@@ -66,8 +66,8 @@ export interface User {
   position: string;
   certificateNumber: string;
   issueUnit: string;
-  issueDate: Date;
-  expireDate: Date;
+  issueDate: Moment;
+  expireDate: Moment;
   safetyTraining: string;
   entid: number;
   deptid: string;
@@ -75,6 +75,31 @@ export interface User {
   areaid: string;
   persontype: string;
   userclass: string;
+}
+
+export interface Agency {
+  sid: string;
+  entname: string;
+  uniscid: string;
+  estdate: Moment;
+  lerep: string;
+  regAddress: string;
+  areaid: string;
+  staffNum: number;
+  qualify: string;
+  lerepTel: string;
+  dom: string;
+  oploc: string;
+  opfrom: string;
+  opto: string;
+  opscope: string;
+  regorg: string;
+  regstate: string;
+  apprdate: Moment;
+  linkmanid: string;
+  linkmanphone: string;
+  agencytype: string;
+  regcap: number;
 }
 
 export interface Cdentpersontype {

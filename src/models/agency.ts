@@ -2,34 +2,34 @@ import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
 import moment from 'moment';
-import { Ent } from './entity';
-import { saveEnt, fetchList, getEntById } from '../services/ent';
+import { Agency } from './entity';
+import { saveAgency, fetchList, getAgencyById } from '../services/agency';
 
-export interface EntModelState {
+export interface AgencyModelState {
   listData: {
     pageSizel: number;
     currentPage: number;
     total: number;
-    dataSource: Ent[];
+    dataSource: Agency[];
   };
-  entDetail?: Ent;
+  agencyDetail?: Agency;
 }
 
-export interface EntModelType {
-  namespace: 'entModel';
-  state: EntModelState;
+export interface AgencyModelType {
+  namespace: 'agencyModel';
+  state: AgencyModelState;
   effects: {
     fetchList: Effect;
-    saveEnt: Effect;
-    getEntById: Effect;
+    saveAgency: Effect;
+    getAgencyById: Effect;
   };
   reducers: {
     save: Reducer<any, any>;
   };
 }
 
-const EntModel: EntModelType = {
-  namespace: 'entModel',
+const AgencyModel: AgencyModelType = {
+  namespace: 'agencyModel',
   state: {
     listData: { pageSizel: 10, currentPage: 0, total: 10, dataSource: [] },
   },
@@ -54,9 +54,9 @@ const EntModel: EntModelType = {
         message.error(e || '未知错误');
       }
     },
-    *saveEnt({ payload }, { call }) {
+    *saveAgency({ payload }, { call }) {
       try {
-        const res = yield call(saveEnt, payload);
+        const res = yield call(saveAgency, payload);
         if (res.code === 200) {
           message.success('保存成功');
         }
@@ -64,9 +64,9 @@ const EntModel: EntModelType = {
         message.error(e || '未知错误');
       }
     },
-    *getEntById({ payload }, { call, put }) {
+    *getAgencyById({ payload }, { call, put }) {
       try {
-        const res = yield call(getEntById, payload);
+        const res = yield call(getAgencyById, payload);
         if (res.code === 200) {
           yield put({
             type: 'save',
@@ -74,7 +74,7 @@ const EntModel: EntModelType = {
               ...res.data,
               estdate: moment(res.data.estdate, 'YYYY-MM-DD '),
             },
-            index: 'entDetail',
+            index: 'agencyDetail',
           });
         }
       } catch (e) {
@@ -96,4 +96,4 @@ const EntModel: EntModelType = {
   },
 };
 
-export default EntModel;
+export default AgencyModel;

@@ -1,32 +1,95 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import router from 'umi/router';
-import { Card, Form, Input, Row, Col, Button } from 'antd';
+import { Card, Form, Input, Row, Col, Button, DatePicker, Select } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { AgencyModelState } from '@/models/agency';
+import { CdAdminOrgModelState } from '@/models/cd_admin_org';
+import { CdRegStateModelState } from '@/models/cd_reg_state';
+import { Dispatch } from 'redux';
 
 interface IProps {
-  dispatch: any;
+  dispatch: Dispatch<any>;
+  location: any;
+  agencyModel: AgencyModelState;
+  cdAdminOrg: CdAdminOrgModelState;
+  cdRegState: CdRegStateModelState;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }
 
-const ProxyInfo: React.FC<IProps> = () => {
+const ProxyInfo: React.FC<IProps> = props => {
+  const {
+    dispatch,
+    location,
+    agencyModel: { agencyDetail },
+    cdAdminOrg: { cdAdminOrgList },
+    cdRegState: { cdRegStateList },
+    loading,
+  } = props;
+
+  const [form] = Form.useForm();
+
+  const [firstRender, setFirstRender] = useState<boolean>(true);
+
   const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    router.replace({
-      pathname: '/info/proxylist',
-      query: values,
-    });
+    if (agencyDetail != null) {
+      dispatch({
+        type: 'agencyModel/saveAgency',
+        payload: {
+          ...agencyDetail,
+          ...values,
+        },
+      });
+    } else {
+      dispatch({
+        type: 'agencyModel/saveAgency',
+        payload: {
+          ...values,
+          agencytype: 'proxy',
+        },
+      });
+    }
+    router.goBack();
   };
+
+  useEffect(() => {
+    if (agencyDetail != null) {
+      form.setFieldsValue(agencyDetail);
+    }
+    // return form.resetFields();
+  }, [agencyDetail]);
+
+  useEffect(() => {
+    if (firstRender) {
+      if (location.state != null && location.state.sid !== null) {
+        dispatch({
+          type: 'agencyModel/getAgencyById',
+          payload: { sid: location.state.sid },
+        });
+      }
+      dispatch({
+        type: 'cdAdminOrg/fetchCdAdminOrg',
+      });
+      dispatch({
+        type: 'cdRegState/fetchCdRegState',
+      });
+      setFirstRender(!firstRender);
+    }
+  });
 
   return (
     <PageHeaderWrapper>
       <Card>
         <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} name="basicForm" onFinish={onFinish}>
-          <Row gutter={24}>
+          <Row>
             <Col span={20}>
               <Form.Item
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 20 }}
-                name="name"
+                name="entname"
                 label="企业名称"
                 rules={[{ required: true, message: '必须输入企业名称!' }]}
               >
@@ -35,7 +98,7 @@ const ProxyInfo: React.FC<IProps> = () => {
             </Col>
             <Col span={10}>
               <Form.Item
-                name="code"
+                name="uniscid"
                 label="统一社会信用代码"
                 rules={[{ required: true, message: '必须输入统一社会信用代码!' }]}
               >
@@ -44,111 +107,66 @@ const ProxyInfo: React.FC<IProps> = () => {
             </Col>
             <Col span={10}>
               <Form.Item
-                name="time"
+                name="estdate"
                 label="成立时间"
                 rules={[{ required: true, message: '必须输入成立时间!' }]}
               >
-                <Input placeholder="请输入成立时间" />
+                <DatePicker placeholder="请选择成立时间" style={{ width: '100%' }} />
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="money"
-                label="注册资金"
-                rules={[{ required: true, message: '必须输入注册资金!' }]}
-              >
-                <Input placeholder="请输入注册资金" />
+              <Form.Item name="regcap" label="注册资金">
+                <Input placeholder="请输入注册资金" type="number" suffix="万元" />
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="zizhi"
-                label="资质"
-                rules={[{ required: true, message: '必须输入资质!' }]}
-              >
+              <Form.Item name="qualify" label="资质">
                 <Input placeholder="请输入资质" />
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="area"
-                label="行政区域"
-                rules={[{ required: true, message: '必须输入行政区域!' }]}
-              >
-                <Input placeholder="请输入行政区域" />
+              <Form.Item name="regorg" label="行政区域">
+                <Select
+                  placeholder="请选择行政区域"
+                  loading={loading.effects['cdAdminOrg/fetchCdAdminOrg']}
+                >
+                  {cdAdminOrgList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="number"
-                label="从业人员数量"
-                rules={[{ required: true, message: '必须输入从业人员数量!' }]}
-              >
-                <Input placeholder="请输入从业人员数量" />
+              <Form.Item name="regstate" label="经营状态">
+                <Select
+                  placeholder="请选择经营状态"
+                  loading={loading.effects['cdRegState/fetchCdRegState']}
+                >
+                  {cdRegStateList?.map(item => (
+                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item
-                name="legal"
-                label="法定代表人"
-                rules={[{ required: true, message: '必须输入法定代表人!' }]}
-              >
-                <Input placeholder="请输入法定代表人" />
-              </Form.Item>
-            </Col>
-            <Col span={10}>
-              <Form.Item
-                name="phone"
-                label="联系电话"
-                rules={[{ required: true, message: '必须输入联系电话!' }]}
-              >
-                <Input placeholder="请输入联系电话" />
-              </Form.Item>
-            </Col>
-            <Col span={10}>
-              <Form.Item
-                name="legal"
-                label="联络人员"
-                rules={[{ required: true, message: '必须输入联络人员!' }]}
-              >
-                <Input placeholder="请输入联络人员" />
-              </Form.Item>
-            </Col>
-            <Col span={10}>
-              <Form.Item
-                name="phone"
-                label="联系电话"
-                rules={[{ required: true, message: '必须输入联系电话!' }]}
-              >
-                <Input placeholder="请输入联系电话" />
+              <Form.Item name="staffNum" label="从业人员数量">
+                <Input placeholder="请输入从业人员数量" type="number" suffix="人" />
               </Form.Item>
             </Col>
             <Col span={20}>
               <Form.Item
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 20 }}
-                name="range"
+                name="opscope"
                 label="经营范围"
-                rules={[{ required: true, message: '必须输入经营范围!' }]}
               >
                 <Input placeholder="请输入经营范围" />
-              </Form.Item>
-            </Col>
-            <Col span={20}>
-              <Form.Item
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 20 }}
-                name="status"
-                label="经营状态"
-                rules={[{ required: true, message: '必须输入经营状态!' }]}
-              >
-                <Input placeholder="请输入经营状态" />
               </Form.Item>
             </Col>
           </Row>
           <Row style={{ marginTop: 10 }} justify="end">
             <Col style={{ marginRight: 20 }}>
-              <Button type="primary" htmlType="submit" onClick={() => router.goBack()}>
+              <Button type="primary" htmlType="submit">
                 保存
               </Button>
             </Col>
@@ -161,6 +179,21 @@ const ProxyInfo: React.FC<IProps> = () => {
     </PageHeaderWrapper>
   );
 };
-const mapStateToProps = () => ({});
 
+const mapStateToProps = () => ({
+  agencyModel,
+  cdAdminOrg,
+  cdRegState,
+  loading,
+}: {
+  agencyModel: AgencyModelState;
+  cdAdminOrg: CdAdminOrgModelState;
+  cdRegState: CdRegStateModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
+}) => ({
+  agencyModel,
+  cdAdminOrg,
+  cdRegState,
+  loading,
+});
 export default connect(mapStateToProps)(ProxyInfo);

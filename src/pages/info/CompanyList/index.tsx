@@ -11,7 +11,10 @@ import { Ent } from '@/models/entity';
 interface IProps {
   dispatch: Dispatch<any>;
   entModel: EntModelState;
-  loading: boolean;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }
 
 const CompanyList: React.FC<IProps> = props => {
@@ -32,7 +35,6 @@ const CompanyList: React.FC<IProps> = props => {
       dataIndex: 'entname',
       render: (text: Ent, record: Ent) => (
         <span>
-          {console.log(record)}
           <Link
             to={{
               pathname: '/info/companyinfo',
@@ -50,7 +52,7 @@ const CompanyList: React.FC<IProps> = props => {
     },
     {
       title: '生产经营地址',
-      dataIndex: 'regAddress',
+      dataIndex: 'oploc',
     },
     {
       title: '法定代表人',
@@ -181,7 +183,7 @@ const CompanyList: React.FC<IProps> = props => {
           </Row>
         </Form>
         <Table<Ent>
-          loading={loading}
+          loading={loading.effects['entModel/fetchList']}
           columns={columns}
           dataSource={dataSource}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
@@ -191,15 +193,15 @@ const CompanyList: React.FC<IProps> = props => {
     </PageHeaderWrapper>
   );
 };
+
 const mapStateToProps = ({
   entModel,
   loading,
 }: {
   entModel: EntModelState;
-  loading: { models: { [key: string]: boolean } };
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
   entModel,
-  loading: loading.models.entModel,
+  loading,
 });
-
 export default connect(mapStateToProps)(CompanyList);
