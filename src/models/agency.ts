@@ -25,6 +25,7 @@ export interface AgencyModelType {
   };
   reducers: {
     save: Reducer<any, any>;
+    clean: Reducer<any, any>;
   };
 }
 
@@ -91,6 +92,12 @@ const AgencyModel: AgencyModelType = {
           ...state[index],
           ...payload,
         },
+      };
+    },
+    clean(state, { index }) {
+      return {
+        ...state,
+        [index]: undefined,
       };
     },
   },

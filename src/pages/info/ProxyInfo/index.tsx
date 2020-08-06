@@ -31,15 +31,15 @@ const ProxyInfo: React.FC<IProps> = props => {
   } = props;
 
   const [form] = Form.useForm();
-
   const [firstRender, setFirstRender] = useState<boolean>(true);
+  const [agencyOld, setAgencyOld] = useState<Agency>();
 
   const onFinish = (values: any) => {
-    if (agencyDetail != null) {
+    if (agencyOld != null) {
       dispatch({
         type: 'agencyModel/saveAgency',
         payload: {
-          ...agencyDetail,
+          ...agencyOld,
           ...values,
         },
       });
@@ -58,8 +58,14 @@ const ProxyInfo: React.FC<IProps> = props => {
   useEffect(() => {
     if (agencyDetail != null) {
       form.setFieldsValue(agencyDetail);
+      setAgencyOld(agencyDetail);
     }
-    // return form.resetFields();
+    return () => {
+      dispatch({
+        type: 'agencyModel/clean',
+        index: 'agencyDetail',
+      });
+    };
   }, [agencyDetail]);
 
   useEffect(() => {
@@ -83,7 +89,7 @@ const ProxyInfo: React.FC<IProps> = props => {
   return (
     <PageHeaderWrapper>
       <Card>
-        <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} name="basicForm" onFinish={onFinish}>
+        <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} form={form} onFinish={onFinish}>
           <Row>
             <Col span={20}>
               <Form.Item

@@ -73,14 +73,14 @@ const ProxyOrganization: React.FC<IProps> = props => {
       title: '行政区域',
       dataIndex: 'regorg',
     },
-    {
-      title: '法定代表人',
-      dataIndex: 'lerep',
-    },
-    {
-      title: '联系电话',
-      dataIndex: 'lerep_tel',
-    },
+    // {
+    //   title: '法定代表人',
+    //   dataIndex: 'lerep',
+    // },
+    // {
+    //   title: '联系电话',
+    //   dataIndex: 'lerep_tel',
+    // },
   ];
 
   const onFinish = (values: any) => {
@@ -89,8 +89,10 @@ const ProxyOrganization: React.FC<IProps> = props => {
       payload: {
         currentPage: 0,
         pageSize: pageSizel,
-        agency: { ...values },
-        agencytype: 'proxy',
+        agency: {
+          ...values,
+          agencytype: 'proxy',
+        },
       },
     });
   };
@@ -101,7 +103,7 @@ const ProxyOrganization: React.FC<IProps> = props => {
       payload: {
         currentPage: current - 1,
         pageSize,
-        agencytype: 'proxy',
+        agency: { agencytype: 'proxy' },
       },
     });
   };
@@ -120,7 +122,7 @@ const ProxyOrganization: React.FC<IProps> = props => {
     <PageHeaderWrapper>
       <Card>
         <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} form={form} onFinish={onFinish}>
-          <Row gutter={24}>
+          <Row>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item name="entname" label="企业名称">
                 <Input placeholder="请输入企业名称" />

@@ -86,7 +86,7 @@ const SecurityManager: React.FC<IProps> = props => {
           onFinish={onFinish}
           className="ant-advanced-search-form"
         >
-          <Row gutter={24}>
+          <Row>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="姓名" name="name">
                 <Input placeholder="请输入姓名" />
@@ -103,7 +103,7 @@ const SecurityManager: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={24} style={{ marginBottom: 20 }}>
+          <Row style={{ marginBottom: 20 }}>
             <Col span={12} style={{ textAlign: 'left' }}>
               <Button
                 style={{ marginLeft: '30px' }}

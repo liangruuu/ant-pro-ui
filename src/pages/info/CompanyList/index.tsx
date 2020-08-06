@@ -110,7 +110,7 @@ const CompanyList: React.FC<IProps> = props => {
           onFinish={onFinish}
           className="ant-advanced-search-form"
         >
-          <Row gutter={24}>
+          <Row>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item name="entname" label="企业名称">
                 <Input placeholder="请输入企业名称" />
