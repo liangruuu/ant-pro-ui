@@ -53,10 +53,12 @@ export interface Ent {
   safecheckType?: string;
   superviseType?: string;
   honestygrade?: string;
+  entType: string;
+  qualify?: string;
 }
 
 export interface User {
-  sid: number;
+  sid: string;
   loginname: string;
   pwd: string;
   name: string;
@@ -69,7 +71,7 @@ export interface User {
   issueDate: Moment;
   expireDate: Moment;
   safetyTraining: string;
-  entid: number;
+  entid: string;
   deptid: string;
   job: string;
   areaid: string;

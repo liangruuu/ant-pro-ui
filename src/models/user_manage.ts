@@ -2,7 +2,7 @@ import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
 import { User } from './entity';
-import { fetchList, saveUser } from '@/services/user';
+import { fetchList, saveUser, getUserById, deleteUserById } from '@/services/user';
 
 export interface UserModelState {
   listData: {
@@ -11,6 +11,8 @@ export interface UserModelState {
     total: number;
     dataSource: User[];
   };
+  userDetail?: User;
+  entid?: string;
 }
 
 export interface UserModelType {
@@ -19,10 +21,12 @@ export interface UserModelType {
   effects: {
     fetchList: Effect;
     saveUser: Effect;
-    fetchPersonType: Effect;
+    getUserById: Effect;
+    deleteUserById: Effect;
   };
   reducers: {
     save: Reducer<any, any>;
+    clean: Reducer<any, any>;
   };
 }
 
@@ -36,36 +40,7 @@ const UserModel: UserModelType = {
     *fetchList({ payload }, { call, put }) {
       try {
         const res = yield call(fetchList, payload);
-        if (res.code === 'ok') {
-          yield put({
-            type: 'save',
-            payload: {
-              pageSize1: res.content.data.size,
-              currentPage: res.content.data.number,
-              total: res.content.data.totalElements,
-              dataSource: res.content.data.content,
-            },
-            index: 'listData',
-          });
-        }
-      } catch (e) {
-        message.error(e || '未知错误');
-      }
-    },
-    *saveUser({ payload }, { call }) {
-      try {
-        const res = yield call(saveUser, payload);
-        if (res.code === 'ok') {
-          message.success('保存成功');
-        }
-      } catch (e) {
-        message.error(e || '未知错误');
-      }
-    },
-    *fetchPersonType({ payload }, { call, put }) {
-      try {
-        const res = yield call(fetchList, payload);
-        if (res.code === 'ok') {
+        if (res.code === 200) {
           yield put({
             type: 'save',
             payload: {
@@ -75,6 +50,62 @@ const UserModel: UserModelType = {
               dataSource: res.data.content,
             },
             index: 'listData',
+          });
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *saveUser({ payload }, { select, call, put }) {
+      try {
+        const res = yield call(saveUser, payload);
+        if (res.code === 200) {
+          message.success('保存成功');
+          const useState: UserModelState = yield select(
+            (state: { useState: UserModelState }) => state.useState,
+          );
+          yield put({
+            type: 'fetchList',
+            payload: {
+              currentPage: useState.listData.currentPage,
+              pageSize: useState.listData.pageSizel,
+              user: { entid: useState.entid },
+            },
+          });
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *getUserById({ payload }, { call, put }) {
+      try {
+        const res = yield call(getUserById, payload);
+        if (res.code === 200) {
+          yield put({
+            type: 'save',
+            payload: res.data,
+            index: 'userDetail',
+          });
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *deleteUserById({ payload }, { select, call, put }) {
+      try {
+        const res = yield call(deleteUserById, payload);
+        if (res.code === 200) {
+          message.success('保存成功');
+          const useState: UserModelState = yield select(
+            (state: { useState: UserModelState }) => state.useState,
+          );
+          yield put({
+            type: 'fetchList',
+            payload: {
+              currentPage: useState.listData.currentPage,
+              pageSize: useState.listData.pageSizel,
+              user: { entid: useState.entid },
+            },
           });
         }
       } catch (e) {
@@ -91,6 +122,12 @@ const UserModel: UserModelType = {
           ...state[index],
           ...payload,
         },
+      };
+    },
+    clean(state, { index }) {
+      return {
+        ...state,
+        [index]: undefined,
       };
     },
   },

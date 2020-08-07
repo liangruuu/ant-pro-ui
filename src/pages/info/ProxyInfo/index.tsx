@@ -71,7 +71,7 @@ const ProxyInfo: React.FC<IProps> = props => {
 
   useEffect(() => {
     if (firstRender) {
-      if (location.state != null && location.state.sid !== null) {
+      if (location.state != null && location.state.sid != null) {
         dispatch({
           type: 'entModel/getEntById',
           payload: { sid: location.state.sid },

@@ -70,6 +70,7 @@ export default [
                 path: '/info/securitymanager',
                 name: 'manager',
                 component: './info/SecurityManager',
+                hideInMenu: true,
                 authority: ['admin', 'qyllr'],
               },
               {
@@ -129,6 +130,7 @@ export default [
                 path: '/info/insurancesalesmanmanagement',
                 name: 'insurancesalesmanmanagement',
                 component: './info/InsuranceSalesmanManagement',
+                hideInMenu: true,
                 authority: ['admin', 'bxllr'],
               },
               {

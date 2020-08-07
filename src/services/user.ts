@@ -13,7 +13,7 @@ export async function queryNotices(): Promise<any> {
 }
 
 export async function saveUser(params: any) {
-  return request('/api/v1/user/save_user', {
+  return request('/dapi/v1/tongxiang/backend/user/save_user', {
     method: 'POST',
     data: params,
   });
@@ -21,6 +21,20 @@ export async function saveUser(params: any) {
 
 export async function fetchList(params: any) {
   return request('/dapi/v1/tongxiang/backend/user/get_user_list', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function getUserById(params: any) {
+  return request('/dapi/v1/tongxiang/backend/user/get_user_by_id', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function deleteUserById(params: any) {
+  return request('/dapi/v1/tongxiang/backend/user/delete_user_by_id', {
     method: 'POST',
     data: params,
   });

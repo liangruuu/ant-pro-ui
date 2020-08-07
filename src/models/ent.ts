@@ -13,6 +13,7 @@ export interface EntModelState {
     dataSource: Ent[];
   };
   entDetail?: Ent;
+  entType?: string;
 }
 
 export interface EntModelType {
@@ -55,11 +56,22 @@ const EntModel: EntModelType = {
         message.error(e || '未知错误');
       }
     },
-    *saveEnt({ payload }, { call }) {
+    *saveEnt({ payload }, { select, call, put }) {
       try {
         const res = yield call(saveEnt, payload);
         if (res.code === 200) {
           message.success('保存成功');
+          const entState: EntModelState = yield select(
+            (state: { entState: EntModelState }) => state.entState,
+          );
+          yield put({
+            type: 'fetchList',
+            payload: {
+              currentPage: entState.listData.currentPage,
+              pageSize: entState.listData.pageSizel,
+              ent: { entType: entState.entType },
+            },
+          });
         }
       } catch (e) {
         message.error(e || '未知错误');

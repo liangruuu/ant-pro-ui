@@ -1,37 +1,77 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Form, Input, Row, Col, Button, message, Select, DatePicker } from 'antd';
+import { Card, Form, Input, Row, Col, Button, Select, DatePicker } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { router } from 'umi';
 import TextArea from 'antd/lib/input/TextArea';
 import { Dispatch } from 'redux';
 import { CdEntPersonTypeModelState } from '@/models/cd_ent_person_type';
+import { Ent, User } from '@/models/entity';
+import { UserModelState } from '@/models/user_manage';
 
 interface IProps {
   dispatch: Dispatch<any>;
+  location: any;
+  userModel: UserModelState;
   cdEntPersonType: CdEntPersonTypeModelState;
 }
 
 const SecurityManagerDetail: React.FC<IProps> = props => {
   const {
     dispatch,
+    location,
+    userModel: { userDetail },
     cdEntPersonType: { cdEntPersonTypeList },
   } = props;
 
   const [form] = Form.useForm();
   const [firstRender, setFirstRender] = useState<boolean>(true);
+  const [entInfo, setEntInfo] = useState<Ent>();
+  const [userOld, setUserOld] = useState<User>();
 
   const onFinish = (values: any) => {
-    dispatch({
-      type: 'userModel/saveUser',
-      payload: { ...values },
-    });
-    message.success('保存成功');
+    if (userOld != null) {
+      dispatch({
+        type: 'userModel/saveUser',
+        payload: {
+          ...userOld,
+          ...values,
+        },
+      });
+    } else {
+      dispatch({
+        type: 'userModel/saveUser',
+        payload: {
+          ...values,
+          entid: entInfo?.sid,
+        },
+      });
+    }
     router.goBack();
   };
 
   useEffect(() => {
+    if (userDetail != null) {
+      form.setFieldsValue(userDetail);
+      setUserOld(userDetail);
+    }
+    return () => {
+      dispatch({
+        type: 'userModel/clean',
+        index: 'userDetail',
+      });
+    };
+  }, [userDetail]);
+
+  useEffect(() => {
     if (firstRender) {
+      setEntInfo(location.state.ent);
+      if (location.state != null && location.state.sid != null) {
+        dispatch({
+          type: 'userModel/getUserById',
+          payload: { sid: location.state.sid },
+        });
+      }
       dispatch({
         type: 'cdEntPersonType/fetchCdEntPersonType',
       });
@@ -152,7 +192,7 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
                 <TextArea rows={4} placeholder="请输入安全培训记录" />
               </Form.Item>
             </Col>
-            <Col span={20} style={{ textAlign: 'right' }}>
+            <Col span={24} style={{ textAlign: 'right' }}>
               <Button htmlType="submit" type="primary">
                 保存
               </Button>
@@ -168,12 +208,15 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = () => ({
+  userModel,
   cdEntPersonType,
   loading,
 }: {
+  userModel: UserModelState;
   cdEntPersonType: CdEntPersonTypeModelState;
   loading: { models: { [key: string]: boolean } };
 }) => ({
+  userModel,
   cdEntPersonType,
   loading: loading.models.CdEntPersonType,
 });

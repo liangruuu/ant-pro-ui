@@ -24,6 +24,7 @@ const ProxyOrganization: React.FC<IProps> = props => {
     dispatch,
     entModel: {
       listData: { pageSizel, currentPage, total, dataSource },
+      entType,
     },
     cdAdminOrg: { cdAdminOrgList },
     loading,
@@ -81,6 +82,21 @@ const ProxyOrganization: React.FC<IProps> = props => {
     //   title: '联系电话',
     //   dataIndex: 'lerep_tel',
     // },
+    {
+      title: '操作',
+      render: (text: Ent, record: Ent) => (
+        <span>
+          <Link
+            to={{
+              pathname: '/info/securitymanager',
+              state: { ent: record },
+            }}
+          >
+            人员管理
+          </Link>
+        </span>
+      ),
+    },
   ];
 
   const onFinish = (values: any) => {
@@ -107,6 +123,20 @@ const ProxyOrganization: React.FC<IProps> = props => {
       },
     });
   };
+
+  useEffect(() => {
+    dispatch({
+      type: 'entModel/save',
+      payload: 'proxy',
+      index: 'entType',
+    });
+    return () => {
+      dispatch({
+        type: 'entModel/clean',
+        index: 'entType',
+      });
+    };
+  }, [entType]);
 
   useEffect(() => {
     if (firstRender) {

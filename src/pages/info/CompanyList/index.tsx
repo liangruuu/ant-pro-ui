@@ -22,6 +22,7 @@ const CompanyList: React.FC<IProps> = props => {
     dispatch,
     entModel: {
       listData: { pageSizel, currentPage, total, dataSource },
+      entType,
     },
     loading,
   } = props;
@@ -70,6 +71,21 @@ const CompanyList: React.FC<IProps> = props => {
       title: '企业规模',
       dataIndex: 'scale',
     },
+    {
+      title: '操作',
+      render: (text: Ent, record: Ent) => (
+        <span>
+          <Link
+            to={{
+              pathname: '/info/securitymanager',
+              state: { ent: record },
+            }}
+          >
+            人员管理
+          </Link>
+        </span>
+      ),
+    },
   ];
 
   const onFinish = (values: any) => {
@@ -96,6 +112,20 @@ const CompanyList: React.FC<IProps> = props => {
       },
     });
   };
+
+  useEffect(() => {
+    dispatch({
+      type: 'entModel/save',
+      payload: 'ent',
+      index: 'entType',
+    });
+    return () => {
+      dispatch({
+        type: 'entModel/clean',
+        index: 'entType',
+      });
+    };
+  }, [entType]);
 
   useEffect(() => {
     if (firstRender) {
