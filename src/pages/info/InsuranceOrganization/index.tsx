@@ -3,13 +3,13 @@ import router from 'umi/router';
 import { Card, Form, Table, Input, Row, Col, Button } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { AgencyModelState } from '@/models/agency';
 import { Link } from 'umi';
-import { Agency } from '@/models/entity';
+import { Ent } from '@/models/entity';
+import { EntModelState } from '@/models/ent';
 
 interface IProps {
   dispatch: Dispatch<any>;
-  agencyModel: AgencyModelState;
+  entModel: EntModelState;
   loading: {
     models: { [key: string]: boolean };
     effects: { [key: string]: boolean };
@@ -19,7 +19,7 @@ interface IProps {
 const InsuranceOrganization: React.FC<IProps> = props => {
   const {
     dispatch,
-    agencyModel: {
+    entModel: {
       listData: { pageSizel, currentPage, total, dataSource },
     },
     loading,
@@ -32,7 +32,7 @@ const InsuranceOrganization: React.FC<IProps> = props => {
     {
       title: '企业名称',
       dataIndex: 'entname',
-      render: (text: Agency, record: Agency) => (
+      render: (text: Ent, record: Ent) => (
         <span>
           <Link
             to={{
@@ -65,13 +65,13 @@ const InsuranceOrganization: React.FC<IProps> = props => {
 
   const onFinish = (values: any) => {
     dispatch({
-      type: 'agencyModel/fetchList',
+      type: 'entModel/fetchList',
       payload: {
         currentPage: 0,
         pageSize: pageSizel,
-        agency: {
+        ent: {
           ...values,
-          agencytype: 'insurance',
+          entType: 'insurance',
         },
       },
     });
@@ -79,11 +79,11 @@ const InsuranceOrganization: React.FC<IProps> = props => {
 
   const handleChange = ({ current, pageSize }: any) => {
     dispatch({
-      type: 'agencyModel/fetchList',
+      type: 'entModel/fetchList',
       payload: {
         currentPage: current - 1,
         pageSize,
-        agency: { agencytype: 'insurance' },
+        ent: { entType: 'insurance' },
       },
     });
   };
@@ -141,8 +141,8 @@ const InsuranceOrganization: React.FC<IProps> = props => {
             </Col>
           </Row>
         </Form>
-        <Table<Agency>
-          loading={loading.effects['agencyModel/fetchList']}
+        <Table<Ent>
+          loading={loading.effects['entModel/fetchList']}
           columns={columns}
           dataSource={dataSource}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
@@ -154,13 +154,13 @@ const InsuranceOrganization: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = ({
-  agencyModel,
+  entModel,
   loading,
 }: {
-  agencyModel: AgencyModelState;
+  entModel: EntModelState;
   loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
-  agencyModel,
+  entModel,
   loading,
 });
 export default connect(mapStateToProps)(InsuranceOrganization);

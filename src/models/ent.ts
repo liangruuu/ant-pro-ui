@@ -25,6 +25,7 @@ export interface EntModelType {
   };
   reducers: {
     save: Reducer<any, any>;
+    clean: Reducer<any, any>;
   };
 }
 
@@ -91,6 +92,12 @@ const EntModel: EntModelType = {
           ...state[index],
           ...payload,
         },
+      };
+    },
+    clean(state, { index }) {
+      return {
+        ...state,
+        [index]: undefined,
       };
     },
   },

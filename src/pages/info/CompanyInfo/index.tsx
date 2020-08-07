@@ -30,6 +30,7 @@ import { CdAreaModelState } from '@/models/cd_area';
 import { CdIndustryModelState } from '@/models/cd_industry';
 import TextArea from 'antd/lib/input/TextArea';
 import { EntModelState } from '@/models/ent';
+import { Ent } from '@/models/entity';
 
 interface IProps {
   dispatch: Dispatch<any>;
@@ -51,7 +52,7 @@ interface IProps {
   };
 }
 
-const BasicInfo: React.FC<IProps> = props => {
+const CompanyInfo: React.FC<IProps> = props => {
   const {
     dispatch,
     location,
@@ -75,6 +76,7 @@ const BasicInfo: React.FC<IProps> = props => {
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>('');
   const [fileList, setFileList] = useState<any>([]);
+  const [entOld, setEntOld] = useState<Ent>();
 
   const layout = {
     labelCol: { span: 8 },
@@ -106,18 +108,21 @@ const BasicInfo: React.FC<IProps> = props => {
   const handleChange = ({ fileList }: any) => setFileList(fileList);
 
   const onFinish = (values: any) => {
-    if (entDetail != null) {
+    if (entOld != null) {
       dispatch({
         type: 'entModel/saveEnt',
         payload: {
-          ...entDetail,
+          ...entOld,
           ...values,
         },
       });
     } else {
       dispatch({
         type: 'entModel/saveEnt',
-        payload: { ...values },
+        payload: {
+          ...values,
+          entType: 'ent',
+        },
       });
     }
     router.goBack();
@@ -126,8 +131,14 @@ const BasicInfo: React.FC<IProps> = props => {
   useEffect(() => {
     if (entDetail != null) {
       form.setFieldsValue(entDetail);
+      setEntOld(entDetail);
     }
-    // return form.resetFields();
+    return () => {
+      dispatch({
+        type: 'entModel/clean',
+        index: 'entDetail',
+      });
+    };
   }, [entDetail]);
 
   useEffect(() => {
@@ -566,4 +577,4 @@ const mapStateToProps = () => ({
   cdIndustry,
   loading,
 });
-export default connect(mapStateToProps)(BasicInfo);
+export default connect(mapStateToProps)(CompanyInfo);

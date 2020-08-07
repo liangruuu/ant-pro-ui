@@ -54,14 +54,14 @@ const CompanyList: React.FC<IProps> = props => {
       title: '生产经营地址',
       dataIndex: 'oploc',
     },
-    {
-      title: '法定代表人',
-      dataIndex: 'lerep',
-    },
-    {
-      title: '手机号码 ',
-      dataIndex: 'lerepTel',
-    },
+    // {
+    //   title: '法定代表人',
+    //   dataIndex: 'lerep',
+    // },
+    // {
+    //   title: '手机号码 ',
+    //   dataIndex: 'lerepTel',
+    // },
     {
       title: '所属行业/专业',
       dataIndex: 'industryCategory',
@@ -78,7 +78,10 @@ const CompanyList: React.FC<IProps> = props => {
       payload: {
         currentPage: 0,
         pageSize: pageSizel,
-        ent: { ...values },
+        ent: {
+          ...values,
+          entType: 'ent',
+        },
       },
     });
   };
@@ -89,6 +92,7 @@ const CompanyList: React.FC<IProps> = props => {
       payload: {
         currentPage: current - 1,
         pageSize,
+        ent: { entType: 'ent' },
       },
     });
   };

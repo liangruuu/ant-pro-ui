@@ -4,14 +4,14 @@ import { Card, Form, Table, Input, Row, Col, Button, Select } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Link } from 'umi';
-import { AgencyModelState } from '@/models/agency';
 import { Dispatch } from 'redux';
-import { Agency } from '@/models/entity';
+import { Ent } from '@/models/entity';
 import { CdAdminOrgModelState } from '@/models/cd_admin_org';
+import { EntModelState } from '@/models/ent';
 
 interface IProps {
   dispatch: Dispatch<any>;
-  agencyModel: AgencyModelState;
+  entModel: EntModelState;
   cdAdminOrg: CdAdminOrgModelState;
   loading: {
     models: { [key: string]: boolean };
@@ -22,7 +22,7 @@ interface IProps {
 const ProxyOrganization: React.FC<IProps> = props => {
   const {
     dispatch,
-    agencyModel: {
+    entModel: {
       listData: { pageSizel, currentPage, total, dataSource },
     },
     cdAdminOrg: { cdAdminOrgList },
@@ -36,7 +36,7 @@ const ProxyOrganization: React.FC<IProps> = props => {
     {
       title: '企业名称',
       dataIndex: 'entname',
-      render: (text: Agency, record: Agency) => (
+      render: (text: Ent, record: Ent) => (
         <span>
           <Link
             to={{
@@ -85,13 +85,13 @@ const ProxyOrganization: React.FC<IProps> = props => {
 
   const onFinish = (values: any) => {
     dispatch({
-      type: 'agencyModel/fetchList',
+      type: 'entModel/fetchList',
       payload: {
         currentPage: 0,
         pageSize: pageSizel,
-        agency: {
+        ent: {
           ...values,
-          agencytype: 'proxy',
+          entType: 'proxy',
         },
       },
     });
@@ -99,11 +99,11 @@ const ProxyOrganization: React.FC<IProps> = props => {
 
   const handleChange = ({ current, pageSize }: any) => {
     dispatch({
-      type: 'agencyModel/fetchList',
+      type: 'entModel/fetchList',
       payload: {
         currentPage: current - 1,
         pageSize,
-        agency: { agencytype: 'proxy' },
+        ent: { entType: 'proxy' },
       },
     });
   };
@@ -175,8 +175,8 @@ const ProxyOrganization: React.FC<IProps> = props => {
             </Col>
           </Row>
         </Form>
-        <Table<Agency>
-          loading={loading.effects['agencyModel/fetchList']}
+        <Table<Ent>
+          loading={loading.effects['entModel/fetchList']}
           columns={columns}
           dataSource={dataSource}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
@@ -188,15 +188,15 @@ const ProxyOrganization: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = ({
-  agencyModel,
+  entModel,
   cdAdminOrg,
   loading,
 }: {
-  agencyModel: AgencyModelState;
+  entModel: EntModelState;
   cdAdminOrg: CdAdminOrgModelState;
   loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
-  agencyModel,
+  entModel,
   cdAdminOrg,
   loading,
 });

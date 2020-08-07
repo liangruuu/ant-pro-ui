@@ -3,13 +3,13 @@ import router from 'umi/router';
 import { Card, Form, Input, Row, Col, Button } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { AgencyModelState } from '@/models/agency';
-import { Agency } from '@/models/entity';
+import { Ent } from '@/models/entity';
+import { EntModelState } from '@/models/ent';
 
 interface IProps {
   dispatch: Dispatch<any>;
   location: any;
-  agencyModel: AgencyModelState;
+  entModel: EntModelState;
   loading: {
     models: { [key: string]: boolean };
     effects: { [key: string]: boolean };
@@ -20,28 +20,28 @@ const InsuranceOrganizationInfo: React.FC<IProps> = props => {
   const {
     dispatch,
     location,
-    agencyModel: { agencyDetail },
+    entModel: { entDetail },
   } = props;
 
   const [form] = Form.useForm();
   const [firstRender, setFirstRender] = useState<boolean>(true);
-  const [agencyOld, setAgencyOld] = useState<Agency>();
+  const [entOld, setEntOld] = useState<Ent>();
 
   const onFinish = (values: any) => {
-    if (agencyOld != null) {
+    if (entOld != null) {
       dispatch({
-        type: 'agencyModel/saveAgency',
+        type: 'entModel/saveEnt',
         payload: {
-          ...agencyOld,
+          ...entOld,
           ...values,
         },
       });
     } else {
       dispatch({
-        type: 'agencyModel/saveAgency',
+        type: 'entModel/saveEnt',
         payload: {
           ...values,
-          agencytype: 'insurance',
+          entType: 'insurance',
         },
       });
     }
@@ -49,23 +49,23 @@ const InsuranceOrganizationInfo: React.FC<IProps> = props => {
   };
 
   useEffect(() => {
-    if (agencyDetail != null) {
-      form.setFieldsValue(agencyDetail);
-      setAgencyOld(agencyDetail);
+    if (entDetail != null) {
+      form.setFieldsValue(entDetail);
+      setEntOld(entDetail);
     }
     return () => {
       dispatch({
-        type: 'agencyModel/clean',
-        index: 'agencyDetail',
+        type: 'entModel/clean',
+        index: 'entDetail',
       });
     };
-  }, [agencyDetail]);
+  }, [entDetail]);
 
   useEffect(() => {
     if (firstRender) {
       if (location.state != null && location.state.sid !== null) {
         dispatch({
-          type: 'agencyModel/getAgencyById',
+          type: 'entModel/getEntById',
           payload: { sid: location.state.sid },
         });
       }
@@ -121,13 +121,13 @@ const InsuranceOrganizationInfo: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = () => ({
-  agencyModel,
+  entModel,
   loading,
 }: {
-  agencyModel: AgencyModelState;
+  entModel: EntModelState;
   loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
-  agencyModel,
+  entModel,
   loading,
 });
 export default connect(mapStateToProps)(InsuranceOrganizationInfo);

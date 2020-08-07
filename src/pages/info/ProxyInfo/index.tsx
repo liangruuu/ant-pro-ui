@@ -3,15 +3,16 @@ import router from 'umi/router';
 import { Card, Form, Input, Row, Col, Button, DatePicker, Select } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { AgencyModelState } from '@/models/agency';
 import { CdAdminOrgModelState } from '@/models/cd_admin_org';
 import { CdRegStateModelState } from '@/models/cd_reg_state';
 import { Dispatch } from 'redux';
+import { Ent } from '@/models/entity';
+import { EntModelState } from '@/models/ent';
 
 interface IProps {
   dispatch: Dispatch<any>;
   location: any;
-  agencyModel: AgencyModelState;
+  entModel: EntModelState;
   cdAdminOrg: CdAdminOrgModelState;
   cdRegState: CdRegStateModelState;
   loading: {
@@ -24,7 +25,7 @@ const ProxyInfo: React.FC<IProps> = props => {
   const {
     dispatch,
     location,
-    agencyModel: { agencyDetail },
+    entModel: { entDetail },
     cdAdminOrg: { cdAdminOrgList },
     cdRegState: { cdRegStateList },
     loading,
@@ -32,23 +33,23 @@ const ProxyInfo: React.FC<IProps> = props => {
 
   const [form] = Form.useForm();
   const [firstRender, setFirstRender] = useState<boolean>(true);
-  const [agencyOld, setAgencyOld] = useState<Agency>();
+  const [entOld, setEntOld] = useState<Ent>();
 
   const onFinish = (values: any) => {
-    if (agencyOld != null) {
+    if (entOld != null) {
       dispatch({
-        type: 'agencyModel/saveAgency',
+        type: 'entModel/saveEnt',
         payload: {
-          ...agencyOld,
+          ...entOld,
           ...values,
         },
       });
     } else {
       dispatch({
-        type: 'agencyModel/saveAgency',
+        type: 'entModel/saveEnt',
         payload: {
           ...values,
-          agencytype: 'proxy',
+          entType: 'proxy',
         },
       });
     }
@@ -56,23 +57,23 @@ const ProxyInfo: React.FC<IProps> = props => {
   };
 
   useEffect(() => {
-    if (agencyDetail != null) {
-      form.setFieldsValue(agencyDetail);
-      setAgencyOld(agencyDetail);
+    if (entDetail != null) {
+      form.setFieldsValue(entDetail);
+      setEntOld(entDetail);
     }
     return () => {
       dispatch({
-        type: 'agencyModel/clean',
-        index: 'agencyDetail',
+        type: 'entModel/clean',
+        index: 'entDetail',
       });
     };
-  }, [agencyDetail]);
+  }, [entDetail]);
 
   useEffect(() => {
     if (firstRender) {
       if (location.state != null && location.state.sid !== null) {
         dispatch({
-          type: 'agencyModel/getAgencyById',
+          type: 'entModel/getEntById',
           payload: { sid: location.state.sid },
         });
       }
@@ -187,17 +188,17 @@ const ProxyInfo: React.FC<IProps> = props => {
 };
 
 const mapStateToProps = () => ({
-  agencyModel,
+  entModel,
   cdAdminOrg,
   cdRegState,
   loading,
 }: {
-  agencyModel: AgencyModelState;
+  entModel: EntModelState;
   cdAdminOrg: CdAdminOrgModelState;
   cdRegState: CdRegStateModelState;
   loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
-  agencyModel,
+  entModel,
   cdAdminOrg,
   cdRegState,
   loading,
