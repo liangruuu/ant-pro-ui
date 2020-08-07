@@ -26,7 +26,7 @@ export interface EntModelType {
   };
   reducers: {
     save: Reducer<any, any>;
-    clean: Reducer<any, any>;
+    set: Reducer<any, any>;
   };
 }
 
@@ -61,15 +61,15 @@ const EntModel: EntModelType = {
         const res = yield call(saveEnt, payload);
         if (res.code === 200) {
           message.success('保存成功');
-          const entState: EntModelState = yield select(
-            (state: { entState: EntModelState }) => state.entState,
+          const entModel: EntModelState = yield select(
+            (state: { entModel: EntModelState }) => state.entModel,
           );
           yield put({
             type: 'fetchList',
             payload: {
-              currentPage: entState.listData.currentPage,
-              pageSize: entState.listData.pageSizel,
-              ent: { entType: entState.entType },
+              currentPage: entModel.listData.currentPage,
+              pageSize: entModel.listData.pageSizel,
+              ent: { entType: entModel.entType },
             },
           });
         }
@@ -106,10 +106,10 @@ const EntModel: EntModelType = {
         },
       };
     },
-    clean(state, { index }) {
+    set(state, { payload, index }) {
       return {
         ...state,
-        [index]: undefined,
+        [index]: payload,
       };
     },
   },

@@ -26,7 +26,7 @@ export interface UserModelType {
   };
   reducers: {
     save: Reducer<any, any>;
-    clean: Reducer<any, any>;
+    set: Reducer<any, any>;
   };
 }
 
@@ -61,15 +61,15 @@ const UserModel: UserModelType = {
         const res = yield call(saveUser, payload);
         if (res.code === 200) {
           message.success('保存成功');
-          const useState: UserModelState = yield select(
-            (state: { useState: UserModelState }) => state.useState,
+          const userModel: UserModelState = yield select(
+            (state: { userModel: UserModelState }) => state.userModel,
           );
           yield put({
             type: 'fetchList',
             payload: {
-              currentPage: useState.listData.currentPage,
-              pageSize: useState.listData.pageSizel,
-              user: { entid: useState.entid },
+              currentPage: userModel.listData.currentPage,
+              pageSize: userModel.listData.pageSizel,
+              user: { entid: userModel.entid },
             },
           });
         }
@@ -124,10 +124,10 @@ const UserModel: UserModelType = {
         },
       };
     },
-    clean(state, { index }) {
+    set(state, { payload, index }) {
       return {
         ...state,
-        [index]: undefined,
+        [index]: payload,
       };
     },
   },

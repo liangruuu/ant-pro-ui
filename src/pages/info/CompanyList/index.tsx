@@ -115,13 +115,14 @@ const CompanyList: React.FC<IProps> = props => {
 
   useEffect(() => {
     dispatch({
-      type: 'entModel/save',
+      type: 'entModel/set',
       payload: 'ent',
       index: 'entType',
     });
     return () => {
       dispatch({
-        type: 'entModel/clean',
+        type: 'entModel/set',
+        payload: undefined,
         index: 'entType',
       });
     };

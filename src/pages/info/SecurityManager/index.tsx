@@ -116,14 +116,16 @@ const SecurityManager: React.FC<IProps> = props => {
   ];
 
   useEffect(() => {
-    dispatch({
-      type: 'userModel/save',
-      payload: location.state.ent.sid,
-      index: 'entid',
-    });
+    if (location.state != null && location.state.ent != null)
+      dispatch({
+        type: 'userModel/set',
+        payload: location.state.ent.sid,
+        index: 'entid',
+      });
     return () => {
       dispatch({
-        type: 'userModel/clean',
+        type: 'userModel/set',
+        payload: undefined,
         index: 'entid',
       });
     };
