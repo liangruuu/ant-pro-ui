@@ -14,13 +14,16 @@ interface IProps {
   location: any;
   userModel: UserModelState;
   cdEntPersonType: CdEntPersonTypeModelState;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }
 
 const SecurityManagerDetail: React.FC<IProps> = props => {
   const {
     dispatch,
     location,
-    userModel: { userDetail },
     cdEntPersonType: { cdEntPersonTypeList },
   } = props;
 
@@ -51,26 +54,11 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
   };
 
   useEffect(() => {
-    if (userDetail != null) {
-      form.setFieldsValue(userDetail);
-      setUserOld(userDetail);
-    }
-    return () => {
-      dispatch({
-        type: 'userModel/clean',
-        index: 'userDetail',
-      });
-    };
-  }, [userDetail]);
-
-  useEffect(() => {
     if (firstRender) {
       setEntInfo(location.state.ent);
-      if (location.state != null && location.state.sid != null) {
-        dispatch({
-          type: 'userModel/getUserById',
-          payload: { sid: location.state.sid },
-        });
+      if (location.state != null && location.state.user != null) {
+        setUserOld(location.state.user);
+        form.setFieldsValue(location.state.user);
       }
       dispatch({
         type: 'cdEntPersonType/fetchCdEntPersonType',
@@ -214,10 +202,13 @@ const mapStateToProps = () => ({
 }: {
   userModel: UserModelState;
   cdEntPersonType: CdEntPersonTypeModelState;
-  loading: { models: { [key: string]: boolean } };
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }) => ({
   userModel,
   cdEntPersonType,
-  loading: loading.models.CdEntPersonType,
+  loading,
 });
 export default connect(mapStateToProps)(SecurityManagerDetail);

@@ -3,7 +3,7 @@ import { Reducer } from 'react';
 import { message } from 'antd';
 import moment from 'moment';
 import { Ent } from './entity';
-import { saveEnt, fetchList, getEntById } from '../services/ent';
+import { saveEnt, fetchList, getEntById, getAllEntList } from '../services/ent';
 
 export interface EntModelState {
   listData: {
@@ -14,6 +14,7 @@ export interface EntModelState {
   };
   entDetail?: Ent;
   entType?: string;
+  entList?: Ent[];
 }
 
 export interface EntModelType {
@@ -23,6 +24,7 @@ export interface EntModelType {
     fetchList: Effect;
     saveEnt: Effect;
     getEntById: Effect;
+    getAllEntList: Effect;
   };
   reducers: {
     save: Reducer<any, any>;
@@ -88,6 +90,20 @@ const EntModel: EntModelType = {
               estdate: moment(res.data.estdate, 'YYYY-MM-DD '),
             },
             index: 'entDetail',
+          });
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *getAllEntList({ payload }, { call, put }) {
+      try {
+        const res = yield call(getAllEntList, payload);
+        if (res.code === 200) {
+          yield put({
+            type: 'set',
+            payload: res.data,
+            index: 'entList',
           });
         }
       } catch (e) {

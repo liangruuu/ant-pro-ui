@@ -1,34 +1,34 @@
 import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
-import { User, Ent } from './entity';
-import { fetchList, saveUser, deleteUserById } from '@/services/user';
+import { Agencycontract, Ent } from './entity';
+import { fetchList, saveAgencycontract, deleteAgencycontractById } from '@/services/agencycontract';
 
-export interface UserModelState {
+export interface AgencycontractModelState {
   listData: {
     pageSizel: number;
     currentPage: number;
     total: number;
-    dataSource: User[];
+    dataSource: Agencycontract[];
   };
   nowEnt?: Ent;
 }
 
-export interface UserModelType {
-  namespace: 'userModel';
-  state: UserModelState;
+export interface AgencycontractModelType {
+  namespace: 'agencycontractModel';
+  state: AgencycontractModelState;
   effects: {
     fetchList: Effect;
-    saveUser: Effect;
-    deleteUserById: Effect;
+    saveAgencycontract: Effect;
+    deleteAgencycontractById: Effect;
   };
   reducers: {
     save: Reducer<any, any>;
   };
 }
 
-const UserModel: UserModelType = {
-  namespace: 'userModel',
+const AgencycontractModel: AgencycontractModelType = {
+  namespace: 'agencycontractModel',
   state: {
     listData: { pageSizel: 10, currentPage: 0, total: 10, dataSource: [] },
   },
@@ -53,20 +53,20 @@ const UserModel: UserModelType = {
         message.error(e || '未知错误');
       }
     },
-    *saveUser({ payload }, { select, call, put }) {
+    *saveAgencycontract({ payload }, { select, call, put }) {
       try {
-        const res = yield call(saveUser, payload);
+        const res = yield call(saveAgencycontract, payload);
         if (res.code === 200) {
           message.success('保存成功');
-          const userModel: UserModelState = yield select(
-            (state: { userModel: UserModelState }) => state.userModel,
+          const agencycontractModel: AgencycontractModelState = yield select(
+            (state: { agencycontractModel: AgencycontractModelState }) => state.agencycontractModel,
           );
           yield put({
             type: 'fetchList',
             payload: {
-              currentPage: userModel.listData.currentPage,
-              pageSize: userModel.listData.pageSizel,
-              user: { entid: userModel.nowEnt?.sid },
+              currentPage: agencycontractModel.listData.currentPage,
+              pageSize: agencycontractModel.listData.pageSizel,
+              agencycontract: { agencyid: agencycontractModel.nowEnt?.sid },
             },
           });
         }
@@ -74,20 +74,20 @@ const UserModel: UserModelType = {
         message.error(e || '未知错误');
       }
     },
-    *deleteUserById({ payload }, { select, call, put }) {
+    *deleteAgencycontractById({ payload }, { select, call, put }) {
       try {
-        const res = yield call(deleteUserById, payload);
+        const res = yield call(deleteAgencycontractById, payload);
         if (res.code === 200) {
           message.success('保存成功');
-          const userModel: UserModelState = yield select(
-            (state: { userModel: UserModelState }) => state.userModel,
+          const agencycontractModel: AgencycontractModelState = yield select(
+            (state: { agencycontractModel: AgencycontractModelState }) => state.agencycontractModel,
           );
           yield put({
             type: 'fetchList',
             payload: {
-              currentPage: userModel.listData.currentPage,
-              pageSize: userModel.listData.pageSizel,
-              user: { entid: userModel.nowEnt?.sid },
+              currentPage: agencycontractModel.listData.currentPage,
+              pageSize: agencycontractModel.listData.pageSizel,
+              agencycontract: { agencyid: agencycontractModel.nowEnt?.sid },
             },
           });
         }
@@ -110,4 +110,4 @@ const UserModel: UserModelType = {
   },
 };
 
-export default UserModel;
+export default AgencycontractModel;

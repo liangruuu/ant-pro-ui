@@ -97,14 +97,15 @@ export default [
                 path: '/info/proxycontractputonrecords',
                 name: 'proxycontractputonrecords',
                 component: './info/ProxyContractPutOnRecords',
+                hideInMenu: true,
                 authority: ['admin', 'zjyw'],
               },
               {
                 path: '/info/contractputonrecords',
                 name: 'contractputonrecords',
                 component: './info/ContractPutOnRecords',
-                authority: ['admin', 'zjyw'],
                 hideInMenu: true,
+                authority: ['admin', 'zjyw'],
               },
               {
                 path: '/info/addcontract',

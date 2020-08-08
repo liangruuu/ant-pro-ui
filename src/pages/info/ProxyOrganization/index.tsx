@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import router from 'umi/router';
-import { Card, Form, Table, Input, Row, Col, Button, Select } from 'antd';
+import { Card, Form, Table, Input, Row, Col, Button, Select, Divider } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Link } from 'umi';
@@ -93,6 +93,15 @@ const ProxyOrganization: React.FC<IProps> = props => {
             }}
           >
             人员管理
+          </Link>
+          <Divider type="vertical" />
+          <Link
+            to={{
+              pathname: '/info/contractputonrecords',
+              state: { ent: record },
+            }}
+          >
+            合同备案
           </Link>
         </span>
       ),

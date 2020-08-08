@@ -1,58 +1,157 @@
-import React from 'react';
-import { Card, Form, Table, Row, Col, Button } from 'antd';
+import React, { Dispatch, useState, useEffect } from 'react';
+import { Card, Table, Row, Col, Button, Descriptions, Divider, Popconfirm } from 'antd';
 import { Link } from 'umi';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { Ent, Agencycontract } from '@/models/entity';
+import { AgencycontractModelState } from '@/models/agencycontract';
 
 interface IProps {
-  dispatch: any;
+  dispatch: Dispatch<any>;
+  location: any;
+  agencycontractModel: AgencycontractModelState;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }
 
-const CompanyList: React.FC<IProps> = () => {
-  const [form] = Form.useForm();
+const ContractPutOnRecords: React.FC<IProps> = props => {
+  const {
+    dispatch,
+    location,
+    agencycontractModel: {
+      listData: { pageSizel, currentPage, total, dataSource },
+      nowEnt,
+    },
+    loading,
+  } = props;
+
+  // const [form] = Form.useForm();
+  const [firstRender, changeFirstRender] = useState<boolean>(true);
+  const [entInfo, setEntInfo] = useState<Ent>();
+
+  // const onFinish = (values: any) => {
+  //   dispatch({
+  //     type: 'userModel/fetchList',
+  //     payload: {
+  //       currentPage: 0,
+  //       pageSize: pageSizel,
+  //       user: {
+  //         ...values,
+  //         entid: entInfo?.sid,
+  //       },
+  //     },
+  //   });
+  // };
+
+  const handleChange = ({ current, pageSize }: any) => {
+    dispatch({
+      type: 'agencycontractModel/fetchList',
+      payload: {
+        currentPage: current - 1,
+        pageSize,
+        agencycontract: { agencyid: entInfo?.sid },
+      },
+    });
+  };
+
+  const handleDelete = (sid: string) => {
+    dispatch({
+      type: 'agencycontractModel/deleteAgencycontractById',
+      payload: { sid },
+    });
+  };
 
   const columns = [
     {
+      title: '合同名称',
+      dataIndex: 'conname',
+    },
+    {
       title: '合同期起',
-      dataIndex: 'date_start',
+      dataIndex: 'constart',
     },
     {
       title: '合同期至',
-      dataIndex: 'date_end',
+      dataIndex: 'conend',
     },
     {
       title: '合同金额 ',
-      dataIndex: 'price',
+      dataIndex: 'conamount',
     },
     {
       title: '上传附件',
-      dataIndex: 'attachment ',
+      render: (text: Agencycontract, record: Agencycontract) => (
+        <a href={record.docurl}>{record.conname}</a>
+      ),
     },
     {
       title: '上传人（关联责任人）',
-      dataIndex: 'upload_person',
+      dataIndex: 'uploader',
     },
     {
       title: '上传日期',
-      dataIndex: 'upload_date',
+      dataIndex: 'uploaddate',
     },
     {
       title: '操作',
-      render: () => <Link to="/info/addcontract">修改</Link>,
+      render: (text: Agencycontract, record: Agencycontract) => (
+        <span>
+          <Link
+            to={{
+              pathname: '/info/addcontract',
+              state: { agencycontract: record },
+            }}
+          >
+            修改
+          </Link>
+          <Divider type="vertical" />
+          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.sid)}>
+            <a>删除</a>
+          </Popconfirm>
+        </span>
+      ),
     },
   ];
 
-  const data = [
-    {
-      date_start: '2019-10-11',
-      date_end: '2020-2-3',
-      price: '￥10000000000',
-      attachment: 'XX合同.pdf',
-      upload_person: '张三',
-      upload_date: '2019-12-1',
-    },
-  ];
+  useEffect(() => {
+    if (location.state != null) {
+      dispatch({
+        type: 'agencycontractModel/save',
+        payload: location.state.ent,
+        index: 'nowEnt',
+      });
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (firstRender) {
+      if (location.state != null && location.state.ent != null) {
+        setEntInfo(location.state.ent);
+        dispatch({
+          type: 'agencycontractModel/fetchList',
+          payload: {
+            currentPage,
+            pageSize: pageSizel,
+            agencycontract: { agencyid: location.state.ent?.sid },
+          },
+        });
+      } else {
+        setEntInfo(nowEnt);
+        dispatch({
+          type: 'agencycontractModel/fetchList',
+          payload: {
+            currentPage,
+            pageSize: pageSizel,
+            agencycontract: { agencyid: nowEnt?.sid },
+          },
+        });
+      }
+      changeFirstRender(!firstRender);
+    }
+  });
 
   return (
     <PageHeaderWrapper
@@ -61,56 +160,21 @@ const CompanyList: React.FC<IProps> = () => {
       }}
     >
       <Card>
-        <Form
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          form={form}
-          className="ant-advanced-search-form"
-        >
-          <Row gutter={24}>
-            <Col span={8}>
-              <Form.Item label="企业名称" name="entname">
-                <span>企业名称</span>
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item label="统一社会信用代码" name="uniscid">
-                <span>统一社会信用代码</span>
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item label="法定代表人" name="lerep">
-                <span>法定代表人</span>
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item label="法定代表人电话" name="lerep_tel">
-                <span>法定代表人电话</span>
-              </Form.Item>
-            </Col>
-            <Col span={16}>
-              <Form.Item
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 20 }}
-                label="经营地址"
-                name="address"
-              >
-                <span>经营地址</span>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
+        <Descriptions title="实体信息">
+          <Descriptions.Item label="实体名称">{entInfo?.entname}</Descriptions.Item>
+          <Descriptions.Item label="统一社会信用代码">{entInfo?.uniscid}</Descriptions.Item>
+        </Descriptions>
       </Card>
-      <br />
       <Card>
         <Row gutter={24} style={{ marginBottom: 20 }}>
-          <Col span={24} style={{ textAlign: 'right' }}>
+          <Col span={12} style={{ textAlign: 'left' }}>
             <Button
-              style={{ marginRight: '30px' }}
+              style={{ marginLeft: '30px' }}
               type="primary"
               onClick={() => {
                 router.push({
                   pathname: '/info/addcontract',
+                  state: { ent: entInfo },
                 });
               }}
             >
@@ -118,11 +182,29 @@ const CompanyList: React.FC<IProps> = () => {
             </Button>
           </Col>
         </Row>
-        <Table columns={columns} dataSource={data} />
+        <Table<Agencycontract>
+          loading={loading.effects['agencycontractModel/fetchList']}
+          columns={columns}
+          dataSource={dataSource}
+          pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
+          onChange={handleChange}
+        />
       </Card>
     </PageHeaderWrapper>
   );
 };
-const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps)(CompanyList);
+const mapStateToProps = () => ({
+  agencycontractModel,
+  loading,
+}: {
+  agencycontractModel: AgencycontractModelState;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
+}) => ({
+  agencycontractModel,
+  loading,
+});
+export default connect(mapStateToProps)(ContractPutOnRecords);

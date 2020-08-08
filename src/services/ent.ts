@@ -20,3 +20,10 @@ export async function getEntById(params: any) {
     data: params,
   });
 }
+
+export async function getAllEntList(params: any) {
+  return request('/dapi/v1/tongxiang/backend/ent/get_all_ent_list', {
+    method: 'POST',
+    data: params,
+  });
+}

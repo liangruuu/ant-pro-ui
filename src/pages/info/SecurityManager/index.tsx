@@ -23,7 +23,10 @@ interface IProps {
   dispatch: Dispatch<any>;
   location: any;
   userModel: UserModelState;
-  loading: boolean;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }
 
 const SecurityManager: React.FC<IProps> = props => {
@@ -32,7 +35,7 @@ const SecurityManager: React.FC<IProps> = props => {
     location,
     userModel: {
       listData: { pageSizel, currentPage, total, dataSource },
-      entid,
+      nowEnt,
     },
     loading,
   } = props;
@@ -101,7 +104,7 @@ const SecurityManager: React.FC<IProps> = props => {
           <Link
             to={{
               pathname: '/info/securitymanagerdetail',
-              state: { sid: record.sid },
+              state: { user: record },
             }}
           >
             修改
@@ -116,32 +119,38 @@ const SecurityManager: React.FC<IProps> = props => {
   ];
 
   useEffect(() => {
-    if (location.state != null && location.state.ent != null)
+    if (location.state != null) {
       dispatch({
-        type: 'userModel/set',
-        payload: location.state.ent.sid,
-        index: 'entid',
+        type: 'userModel/save',
+        payload: location.state.ent,
+        index: 'nowEnt',
       });
-    return () => {
-      dispatch({
-        type: 'userModel/set',
-        payload: undefined,
-        index: 'entid',
-      });
-    };
-  }, [entid]);
+    }
+  }, [location]);
 
   useEffect(() => {
     if (firstRender) {
-      setEntInfo(location.state.ent);
-      dispatch({
-        type: 'userModel/fetchList',
-        payload: {
-          currentPage,
-          pageSize: pageSizel,
-          user: { entid: location.state.ent.sid },
-        },
-      });
+      if (location.state != null && location.state.ent != null) {
+        setEntInfo(location.state.ent);
+        dispatch({
+          type: 'userModel/fetchList',
+          payload: {
+            currentPage,
+            pageSize: pageSizel,
+            user: { entid: location.state.ent.sid },
+          },
+        });
+      } else {
+        setEntInfo(nowEnt);
+        dispatch({
+          type: 'userModel/fetchList',
+          payload: {
+            currentPage,
+            pageSize: pageSizel,
+            user: { entid: nowEnt?.sid },
+          },
+        });
+      }
       changeFirstRender(!firstRender);
     }
   });
@@ -214,7 +223,7 @@ const SecurityManager: React.FC<IProps> = props => {
           </Row>
         </Form>
         <Table<User>
-          loading={loading}
+          loading={loading.effects['userModel/fetchList']}
           columns={columns}
           dataSource={dataSource}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
@@ -230,9 +239,12 @@ const mapStateToProps = () => ({
   loading,
 }: {
   userModel: UserModelState;
-  loading: { models: { [key: string]: boolean } };
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }) => ({
   userModel,
-  loading: loading.models.userModel,
+  loading,
 });
 export default connect(mapStateToProps)(SecurityManager);

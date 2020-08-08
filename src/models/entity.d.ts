@@ -101,7 +101,20 @@ export interface Agency {
   linkmanid: string;
   linkmanphone: string;
   agencytype: string;
-  regcap: number;
+  regcapc;
+}
+
+export interface Agencycontract {
+  sid: string;
+  conname: string;
+  conamount: Moment;
+  constart: Moment;
+  conend: Moment;
+  docurl: string;
+  uploader: string;
+  uploaddate: Moment;
+  agencyid: string;
+  entid: string;
 }
 
 export interface Cdentpersontype {
