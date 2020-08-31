@@ -51,6 +51,7 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
 
   'menu.info': '基本信息',
+  'menu.info.dashboardworkplace': '工作台',
   'menu.info.companylist': '企业列表',
   'menu.info.companyinfo': '企业基本信息',
   'menu.info.legalperson': '企业法定代表人',

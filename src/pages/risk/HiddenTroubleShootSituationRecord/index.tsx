@@ -4,15 +4,19 @@ import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { PlusOutlined } from '@ant-design/icons';
 import { router } from 'umi';
-import { getAuthority } from '@/utils/authority';
 import { Dispatch } from 'redux';
 import { CdRiskTypeModelState } from '@/models/cd_risk_type';
 import { CdRiskLevelModelState } from '@/models/cd_risk_level';
+import { UserModelState } from '@/models/user';
+import { UserManageModelState } from '@/models/user_manage';
 
 interface IProps {
   dispatch: Dispatch<any>;
+  user: UserModelState;
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
+  userModel: UserManageModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }
 
 const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
@@ -20,10 +24,12 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
     dispatch,
     cdRiskType: { cdRiskTypeList },
     cdRiskLevel: { cdRiskLevelList },
+    user: { currentUser },
+    userModel: { safetyOfficers },
+    loading,
   } = props;
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
-  const [checker] = useState<string>(getAuthority().toString());
   const [checkDate] = useState<Date>(new Date());
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>('');
@@ -57,9 +63,9 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
     dispatch({
       type: 'riskCheck/saveRiskCheckRecord',
       payload: {
-        entId: getAuthority().toString(),
+        entId: currentUser?.userInfo?.entid,
         status: 'checked',
-        checker,
+        checker: currentUser?.userid,
         checkDate: checkDate.toISOString().slice(0, checkDate.toISOString().indexOf('T')),
         ...values,
       },
@@ -74,6 +80,10 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
       });
       dispatch({
         type: 'cdRiskLevel/fetchCdRiskLevel',
+      });
+      dispatch({
+        type: 'userModel/fetchSafetyOfficers',
+        payload: { entId: currentUser?.userInfo?.entid }
       });
       setFirstRender(!firstRender);
     }
@@ -181,7 +191,7 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
             <Col span={8} />
             <Col span={8}>
               <Form.Item label="排查人员">
-                <span>{checker}</span>
+                <span>{currentUser?.name}</span>
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -193,7 +203,11 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
             </Col>
             <Col span={8}>
               <Form.Item label="整改责任人" name="modifyCharger">
-                <Input placeholder="请输入整改责任人" />
+                <Select loading={loading.effects['userModel/fetchSafetyOfficers']} placeholder="请选择整改责任人" >
+                  {safetyOfficers?.map(item => (
+                    <Select.Option value={item.sid}>{item.name}</Select.Option>
+                  ))}
+                </Select>
               </Form.Item>
             </Col>
           </Row>
@@ -214,14 +228,20 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
 const mapStateToProps = () => ({
   cdRiskType,
   cdRiskLevel,
+  user,
+  userModel,
   loading,
 }: {
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
-  loading: { models: { [key: string]: boolean } };
+  user: UserModelState;
+  userModel: UserManageModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
   cdRiskType,
   cdRiskLevel,
-  loading: loading.models.CdEntPersonType,
+  user,
+  userModel,
+  loading,
 });
 export default connect(mapStateToProps)(HiddenTroubleShootSituationRecord);

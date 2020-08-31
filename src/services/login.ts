@@ -17,3 +17,10 @@ export async function fakeAccountLogin(params: LoginParamsType) {
 export async function getFakeCaptcha(mobile: string) {
   return request(`/api/login/captcha?mobile=${mobile}`);
 }
+
+export async function login(params: any) {
+  return request('/dapi/v1/tongxiang/backend/aaa/login', {
+    method: 'POST',
+    data: params,
+  });
+}

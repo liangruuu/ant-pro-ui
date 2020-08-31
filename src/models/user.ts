@@ -1,7 +1,8 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
 
-import { queryCurrent, query as queryUsers } from '@/services/user';
+import { query as queryUsers, queryCurrentUser } from '@/services/user';
+import { User } from './entity';
 
 export interface CurrentUser {
   avatar?: string;
@@ -15,6 +16,7 @@ export interface CurrentUser {
   }[];
   userid?: string;
   unreadCount?: number;
+  userInfo?: User;
 }
 
 export interface UserModelState {
@@ -29,7 +31,7 @@ export interface UserModelType {
     fetchCurrent: Effect;
   };
   reducers: {
-    saveCurrentUser: Reducer<UserModelState>;
+    saveCurrentUser: Reducer<UserModelState,any>;
     changeNotifyCount: Reducer<UserModelState>;
   };
 }
@@ -50,19 +52,25 @@ const UserModel: UserModelType = {
       });
     },
     *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+      const response = yield call(queryCurrentUser, { token: localStorage.getItem('token') });
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: response.data,
       });
     },
   },
 
   reducers: {
-    saveCurrentUser(state, action) {
+    saveCurrentUser(state, { payload }: { payload: User }) {
       return {
         ...state,
-        currentUser: action.payload || {},
+        currentUser: {
+          ...state?.currentUser,
+          userid: payload.sid,
+          name: payload.name,
+          avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+          userInfo: payload,
+        },
       };
     },
     changeNotifyCount(

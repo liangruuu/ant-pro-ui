@@ -7,17 +7,18 @@ import { router } from 'umi';
 import { RiskCheckEntity } from '@/models/entity';
 import { getAuthority } from '@/utils/authority';
 import { Dispatch } from 'redux';
+import { UserModelState } from '@/models/user';
 
 interface IProps {
   dispatch: Dispatch<any>;
   location: any;
+  user: UserModelState;
 }
 
 const RiskManagePromise: React.FC<IProps> = props => {
-  const { dispatch, location } = props;
+  const { dispatch, location, user: { currentUser } } = props;
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
-  const [inspector] = useState<string>(getAuthority().toString());
   const [inspectDate] = useState<Date>(new Date());
   const [data, setData] = useState<RiskCheckEntity>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
@@ -99,11 +100,11 @@ const RiskManagePromise: React.FC<IProps> = props => {
     },
     {
       title: '流程步骤',
-      dataIndex: 'step',
+      dataIndex: 'flowStep',
     },
     {
       title: '操作结果',
-      dataIndex: 'result',
+      dataIndex: 'operateResult',
     },
     {
       title: '具体意见',
@@ -115,24 +116,7 @@ const RiskManagePromise: React.FC<IProps> = props => {
     },
     {
       title: '操作日期',
-      dataIndex: 'date',
-    },
-  ];
-
-  const dataSource = [
-    {
-      no: 1,
-      step: '企业验收',
-      result: '通过',
-      opinion: '已完成整改',
-      operator: 'A安全管理员',
-      date: '2020/4/3',
-    },
-    {
-      no: 2,
-    },
-    {
-      no: 3,
+      dataIndex: 'operateDate',
     },
   ];
 
@@ -141,10 +125,17 @@ const RiskManagePromise: React.FC<IProps> = props => {
       type: 'riskCheck/saveRiskCheckInspect',
       payload: {
         id: data?.id,
-        status: 'inspected',
-        inspector,
+        status: values.inspectResult === 'pass' ? 'inspected' : 'checked',
+        inspector: currentUser?.userid,
         inspectDate: inspectDate.toISOString().slice(0, inspectDate.toISOString().indexOf('T')),
         ...values,
+        modifyFlow: {
+          flowStep: '企业验收',
+          operateResult: values.inspectResult === 'pass' ? '通过' : '不通过',
+          opinion: values.inspectOpinion,
+          operator: currentUser?.userid,
+          operateDate: inspectDate.toISOString().slice(0, inspectDate.toISOString().indexOf('T'))
+        }
       },
     });
     router.goBack();
@@ -276,7 +267,7 @@ const RiskManagePromise: React.FC<IProps> = props => {
           </Card>
           <br />
           <Card title="整改流程" type="inner">
-            <Table columns={columns} dataSource={dataSource} />
+            <Table columns={columns} dataSource={data?.modifyFlowList} />
           </Card>
           <br />
           <Divider>请填写验收信息</Divider>
@@ -297,7 +288,7 @@ const RiskManagePromise: React.FC<IProps> = props => {
               </Col>
               <Col span={6}>
                 <Form.Item label="验收人">
-                  <span>{inspector}</span>
+                  <span>{currentUser?.name}</span>
                 </Form.Item>
               </Col>
               <Col span={6}>
@@ -323,5 +314,11 @@ const RiskManagePromise: React.FC<IProps> = props => {
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({
+  user,
+}: {
+  user: UserModelState;
+}) => ({
+  user,
+});
 export default connect(mapStateToProps)(RiskManagePromise);

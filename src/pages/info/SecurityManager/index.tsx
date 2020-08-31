@@ -15,14 +15,14 @@ import router from 'umi/router';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Dispatch } from 'redux';
-import { UserModelState } from '@/models/user_manage';
+import { UserManageModelState } from '@/models/user_manage';
 import { User, Ent } from '@/models/entity';
 import { Link } from 'umi';
 
 interface IProps {
   dispatch: Dispatch<any>;
   location: any;
-  userModel: UserModelState;
+  userModel: UserManageModelState;
   loading: {
     models: { [key: string]: boolean };
     effects: { [key: string]: boolean };
@@ -94,17 +94,13 @@ const SecurityManager: React.FC<IProps> = props => {
       dataIndex: 'idNumber',
     },
     {
-      title: '人员类别',
-      dataIndex: 'persontype',
-    },
-    {
       title: '操作',
       render: (text: User, record: User) => (
         <span>
           <Link
             to={{
               pathname: '/info/securitymanagerdetail',
-              state: { user: record },
+              state: { ent: entInfo, user: record },
             }}
           >
             修改
@@ -140,6 +136,15 @@ const SecurityManager: React.FC<IProps> = props => {
             user: { entid: location.state.ent.sid },
           },
         });
+      } else if (location.state != null && location.state.entId != null) {
+        dispatch({
+          type: 'userModel/fetchList',
+          payload: {
+            currentPage,
+            pageSize: pageSizel,
+            user: { entid: location.state.entId },
+          },
+        });
       } else {
         setEntInfo(nowEnt);
         dispatch({
@@ -158,19 +163,26 @@ const SecurityManager: React.FC<IProps> = props => {
   return (
     <PageHeaderWrapper
       onBack={() => {
+        dispatch({
+          type: 'userModel/replace',
+          payload: undefined,
+          index: 'nowEnt',
+        });
         router.goBack();
       }}
     >
       <Card>
-        <Descriptions title="实体信息">
-          <Descriptions.Item label="实体类型">
-            {entInfo?.entType === 'ent' ? '企业' : null}
-            {entInfo?.entType === 'proxy' ? '中介机构' : null}
-            {entInfo?.entType === 'insurance' ? '保险机构' : null}
-          </Descriptions.Item>
-          <Descriptions.Item label="实体名称">{entInfo?.entname}</Descriptions.Item>
-          <Descriptions.Item label="统一社会信用代码">{entInfo?.uniscid}</Descriptions.Item>
-        </Descriptions>
+        {entInfo ?
+          <Descriptions title="实体信息">
+            <Descriptions.Item label="实体类型">
+              {entInfo?.entType === 'ent' ? '企业' : null}
+              {entInfo?.entType === 'proxy' ? '中介机构' : null}
+              {entInfo?.entType === 'insurance' ? '保险机构' : null}
+            </Descriptions.Item>
+            <Descriptions.Item label="实体名称">{entInfo?.entname}</Descriptions.Item>
+            <Descriptions.Item label="统一社会信用代码">{entInfo?.uniscid}</Descriptions.Item>
+          </Descriptions>
+          : null}
       </Card>
       <Card>
         <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} form={form} onFinish={onFinish}>
@@ -238,7 +250,7 @@ const mapStateToProps = () => ({
   userModel,
   loading,
 }: {
-  userModel: UserModelState;
+  userModel: UserManageModelState;
   loading: {
     models: { [key: string]: boolean };
     effects: { [key: string]: boolean };

@@ -4,20 +4,20 @@ import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { router } from 'umi';
-import { getAuthority } from '@/utils/authority';
 import { RiskCheckEntity } from '@/models/entity';
 import { Dispatch } from 'redux';
+import { UserModelState } from '@/models/user';
 
 interface IProps {
   dispatch: Dispatch<any>;
+  user: UserModelState;
   location: any;
 }
 
 const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
-  const { dispatch, location } = props;
+  const { dispatch, user: { currentUser }, location } = props;
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
-  const [modifier] = useState<string>(getAuthority().toString());
   const [modifyDate] = useState<Date>(new Date());
   const [data, setData] = useState<RiskCheckEntity>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
@@ -83,9 +83,15 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
       payload: {
         id: data?.id,
         status: 'modified',
-        modifier,
+        modifier: currentUser?.userid,
         modifyDate: modifyDate.toISOString().slice(0, modifyDate.toISOString().indexOf('T')),
         ...values,
+        modifyFlow: {
+          flowStep: '整改',
+          operateResult: values.modifySituation,
+          operator: currentUser?.userid,
+          operateDate: modifyDate.toISOString().slice(0, modifyDate.toISOString().indexOf('T'))
+        }
       },
     });
     router.goBack();
@@ -215,7 +221,7 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
               </Modal>
             </Form.Item>
             <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改人">
-              <span>{modifier}</span>
+              <span>{currentUser?.name}</span>
             </Form.Item>
             <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="整改日期">
               <span>
@@ -237,5 +243,14 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = () => ({
+  user,
+  loading,
+}: {
+  user: UserModelState;
+  loading: { models: { [key: string]: boolean } };
+}) => ({
+  user,
+  loading: loading.models.CdEntPersonType,
+});
 export default connect(mapStateToProps)(HiddenTroubleResolveRecord);

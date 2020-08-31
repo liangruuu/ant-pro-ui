@@ -59,24 +59,26 @@ export interface Ent {
 
 export interface User {
   sid: string;
-  loginname: string;
-  pwd: string;
-  name: string;
-  sex: string;
-  idNumber: string;
-  tele: string;
-  position: string;
-  certificateNumber: string;
-  issueUnit: string;
-  issueDate: Moment;
-  expireDate: Moment;
-  safetyTraining: string;
-  entid: string;
-  deptid: string;
-  job: string;
-  areaid: string;
-  persontype: string;
-  userclass: string;
+  loginname?: string;
+  pwd?: string;
+  name?: string;
+  sex?: string;
+  idNumber?: string;
+  tele?: string;
+  position?: string;
+  certificateNumber?: string;
+  issueUnit?: string;
+  issueDate?: Moment;
+  expireDate?: Moment;
+  safetyTraining?: string;
+  entid?: string;
+  deptid?: string;
+  job?: string;
+  areaid?: string;
+  type?: string;
+  entName?: string;
+  title?: string[];
+  personType?: string[];
 }
 
 export interface Agency {
@@ -218,4 +220,14 @@ export interface RiskCheckEntity {
   modifyPicList: string[];
   modifier: string;
   modifyDate: string;
+  modifyFlowList: ModifyFlowEntity[]
+}
+
+export interface ModifyFlowEntity {
+  id: string;
+  flowStep: string;
+  operateResult: string;
+  opinion: string;
+  operator: string;
+  operateDate: string;
 }

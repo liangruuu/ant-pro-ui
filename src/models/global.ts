@@ -2,7 +2,9 @@ import { Reducer } from 'redux';
 import { Subscription, Effect } from 'dva';
 
 import { NoticeIconData } from '@/components/NoticeIcon';
-import { queryNotices } from '@/services/user';
+import { queryNotices, getMenu } from '@/services/user';
+import { MenuDataItem } from '@ant-design/pro-layout';
+import { message } from 'antd';
 import { ConnectState } from './connect.d';
 
 export interface NoticeItem extends NoticeIconData {
@@ -14,20 +16,23 @@ export interface NoticeItem extends NoticeIconData {
 export interface GlobalModelState {
   collapsed: boolean;
   notices: NoticeItem[];
+  menuData: MenuDataItem[];
 }
 
 export interface GlobalModelType {
   namespace: 'global';
   state: GlobalModelState;
   effects: {
+    getMenu: Effect;
     fetchNotices: Effect;
     clearNotices: Effect;
     changeNoticeReadState: Effect;
   };
   reducers: {
-    changeLayoutCollapsed: Reducer<GlobalModelState>;
-    saveNotices: Reducer<GlobalModelState>;
-    saveClearedNotices: Reducer<GlobalModelState>;
+    saveMenu: Reducer<any>;
+    changeLayoutCollapsed: Reducer<any>;
+    saveNotices: Reducer<any>;
+    saveClearedNotices: Reducer<any>;
   };
   subscriptions: { setup: Subscription };
 }
@@ -38,9 +43,23 @@ const GlobalModel: GlobalModelType = {
   state: {
     collapsed: false,
     notices: [],
+    menuData: [],
   },
 
   effects: {
+    *getMenu({ payload }, { call, put }) {
+      try {
+        const res = yield call(getMenu, payload);
+        if (res.code === 200) {
+          yield put({
+            type: 'saveMenu',
+            payload: res.data,
+          });
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
     *fetchNotices(_, { call, put, select }) {
       const data = yield call(queryNotices);
       yield put({
@@ -102,6 +121,12 @@ const GlobalModel: GlobalModelType = {
   },
 
   reducers: {
+    saveMenu(state, { payload }) {
+      return {
+        ...state,
+        menuData: payload,
+      };
+    },
     changeLayoutCollapsed(state = { notices: [], collapsed: true }, { payload }): GlobalModelState {
       return {
         ...state,

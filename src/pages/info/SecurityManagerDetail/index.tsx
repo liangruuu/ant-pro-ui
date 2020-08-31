@@ -7,12 +7,12 @@ import TextArea from 'antd/lib/input/TextArea';
 import { Dispatch } from 'redux';
 import { CdEntPersonTypeModelState } from '@/models/cd_ent_person_type';
 import { Ent, User } from '@/models/entity';
-import { UserModelState } from '@/models/user_manage';
+import { UserManageModelState } from '@/models/user_manage';
 
 interface IProps {
   dispatch: Dispatch<any>;
   location: any;
-  userModel: UserModelState;
+  userModel: UserManageModelState;
   cdEntPersonType: CdEntPersonTypeModelState;
   loading: {
     models: { [key: string]: boolean };
@@ -24,7 +24,9 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
   const {
     dispatch,
     location,
+    userModel: { userInfo },
     cdEntPersonType: { cdEntPersonTypeList },
+    loading,
   } = props;
 
   const [form] = Form.useForm();
@@ -39,6 +41,7 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
         payload: {
           ...userOld,
           ...values,
+          type: 'update',
         },
       });
     } else {
@@ -47,6 +50,7 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
         payload: {
           ...values,
           entid: entInfo?.sid,
+          type: 'add',
         },
       });
     }
@@ -58,14 +62,31 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
       setEntInfo(location.state.ent);
       if (location.state != null && location.state.user != null) {
         setUserOld(location.state.user);
-        form.setFieldsValue(location.state.user);
+        dispatch({
+          type: 'userModel/fetchUserById',
+          payload: { sid: location.state.user.sid }
+        });
       }
       dispatch({
         type: 'cdEntPersonType/fetchCdEntPersonType',
+        payload: { entType: location.state.ent.entType }
       });
       setFirstRender(!firstRender);
     }
   });
+
+  useEffect(() => {
+    if (userInfo != null) {
+      form.setFieldsValue(userInfo);
+    }
+    return () => {
+      dispatch({
+        type: 'userModel/replace',
+        payload: undefined,
+        index: 'userInfo',
+      });
+    }
+  }, [userInfo]);
 
   return (
     <PageHeaderWrapper
@@ -73,7 +94,7 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
         router.goBack();
       }}
     >
-      <Card>
+      <Card loading={loading.effects['userModel/fetchUserById']}>
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} form={form} onFinish={onFinish}>
           <Row>
             <Col span={10}>
@@ -119,24 +140,14 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
             </Col>
             <Col span={10}>
               <Form.Item
-                name="persontype"
+                name="personType"
                 label="人员类别"
                 rules={[{ required: true, message: '必须输入人员类别!' }]}
               >
-                <Select placeholder="请选择人员类别">
+                <Select placeholder="请选择人员类别" mode="multiple">
                   {cdEntPersonTypeList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
                   ))}
-                  {/* <Select.Option value={100}>应急局人员</Select.Option>
-                  <Select.Option value={200}>企业人员</Select.Option>
-                  <Select.Option value={210}>法定代表人（企业负责人）</Select.Option>
-                  <Select.Option value={220}>安全负责人</Select.Option>
-                  <Select.Option value={230}>安全管理员</Select.Option>
-                  <Select.Option value={290}>企业联络人员</Select.Option>
-                  <Select.Option value={300}>中介人员（保险公司）</Select.Option>
-                  <Select.Option value={310}>业务员</Select.Option>
-                  <Select.Option value={390}>联络员</Select.Option>
-                  <Select.Option value={400}>第三方人员</Select.Option> */}
                 </Select>
               </Form.Item>
             </Col>
@@ -200,7 +211,7 @@ const mapStateToProps = () => ({
   cdEntPersonType,
   loading,
 }: {
-  userModel: UserModelState;
+  userModel: UserManageModelState;
   cdEntPersonType: CdEntPersonTypeModelState;
   loading: {
     models: { [key: string]: boolean };

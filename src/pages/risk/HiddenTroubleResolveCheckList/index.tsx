@@ -8,13 +8,15 @@ import { CdRiskLevelModelState } from '@/models/cd_risk_level';
 import { RiskCheckModelState } from '@/models/risk_check';
 import { RiskCheckEntity } from '@/models/entity';
 import { getAuthority } from '@/utils/authority';
+import { UserModelState } from '@/models/user';
 
 interface IProps {
   dispatch: Dispatch<any>;
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
-  loading: boolean;
+  user: UserModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }
 
 const HiddenTroubleResolveCheckList: React.FC<IProps> = props => {
@@ -25,6 +27,7 @@ const HiddenTroubleResolveCheckList: React.FC<IProps> = props => {
     riskCheck: {
       listData: { pageSizel, currentPage, total, dataSource },
     },
+    user: { currentUser },
     loading,
   } = props;
 
@@ -90,7 +93,7 @@ const HiddenTroubleResolveCheckList: React.FC<IProps> = props => {
         currentPage: 0,
         pageSize: pageSizel,
         riskCheckEntity: {
-          entId: getAuthority().toString(),
+          entId: currentUser?.userInfo?.entid,
           status: 'modified',
           ...values,
         },
@@ -105,7 +108,7 @@ const HiddenTroubleResolveCheckList: React.FC<IProps> = props => {
         currentPage: current - 1,
         pageSize,
         riskCheckEntity: {
-          entId: getAuthority().toString(),
+          entId: currentUser?.userInfo?.entid,
           status: 'modified',
         },
       },
@@ -212,7 +215,7 @@ const HiddenTroubleResolveCheckList: React.FC<IProps> = props => {
       <br />
       <Card>
         <Table<RiskCheckEntity>
-          loading={loading}
+          loading={loading.effects['riskCheck/getRiskCheckList']}
           columns={columns}
           dataSource={dataSource}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
@@ -227,16 +230,19 @@ const mapStateToProps = () => ({
   cdRiskType,
   cdRiskLevel,
   riskCheck,
+  user,
   loading,
 }: {
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
-  loading: { models: { [key: string]: boolean } };
+  user: UserModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
   cdRiskType,
   cdRiskLevel,
   riskCheck,
-  loading: loading.models.riskCheck,
+  user,
+  loading,
 });
 export default connect(mapStateToProps)(HiddenTroubleResolveCheckList);

@@ -7,15 +7,16 @@ import { Dispatch } from 'redux';
 import { CdRiskTypeModelState } from '@/models/cd_risk_type';
 import { CdRiskLevelModelState } from '@/models/cd_risk_level';
 import { RiskCheckModelState } from '@/models/risk_check';
-import { getAuthority } from '@/utils/authority';
 import { RiskCheckEntity } from '@/models/entity';
+import { UserModelState } from '@/models/user';
 
 interface IProps {
   dispatch: Dispatch<any>;
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
-  loading: boolean;
+  user: UserModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }
 
 const TBDHiddenTroubleList: React.FC<IProps> = props => {
@@ -26,6 +27,7 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
     riskCheck: {
       listData: { pageSizel, currentPage, total, dataSource },
     },
+    user: { currentUser },
     loading,
   } = props;
 
@@ -88,7 +90,7 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
         currentPage: 0,
         pageSize: pageSizel,
         riskCheckEntity: {
-          entId: getAuthority().toString(),
+          entId: currentUser?.userInfo?.entid,
           status: 'checked',
           ...values,
         },
@@ -103,7 +105,7 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
         currentPage: current - 1,
         pageSize,
         riskCheckEntity: {
-          entId: getAuthority().toString(),
+          entId: currentUser?.userInfo?.entid,
           status: 'checked',
         },
       },
@@ -125,7 +127,7 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
 
   return (
     <PageHeaderWrapper>
-      <Card title="企业名称">
+      <Card>
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onFinish={onFinish}>
           <Row gutter={24}>
             <Col span={6}>
@@ -209,7 +211,7 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
       </Card>
       <Card>
         <Table<RiskCheckEntity>
-          loading={loading}
+          loading={loading.effects['riskCheck/getRiskCheckList']}
           columns={columns}
           dataSource={dataSource}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
@@ -224,16 +226,19 @@ const mapStateToProps = () => ({
   cdRiskType,
   cdRiskLevel,
   riskCheck,
+  user,
   loading,
 }: {
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
-  loading: { models: { [key: string]: boolean } };
+  user: UserModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
   cdRiskType,
   cdRiskLevel,
   riskCheck,
-  loading: loading.models.riskCheck,
+  user,
+  loading,
 });
 export default connect(mapStateToProps)(TBDHiddenTroubleList);

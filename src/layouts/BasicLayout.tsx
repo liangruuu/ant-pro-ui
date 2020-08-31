@@ -19,6 +19,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
+import { TableOutlined, SmileOutlined, SettingOutlined, FormOutlined, AccountBookOutlined, WechatOutlined, GiftOutlined, AppstoreOutlined, TeamOutlined, BarsOutlined, DashboardOutlined, WarningOutlined, UserOutlined } from '@ant-design/icons';
 
 const noMatch = (
   <Result
@@ -41,6 +42,7 @@ export interface BasicLayoutProps extends ProLayoutProps {
   };
   settings: Settings;
   dispatch: Dispatch;
+  menuData: MenuDataItem[];
 }
 export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
   breadcrumbNameMap: {
@@ -51,11 +53,42 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
  * use Authorized check all menu item
  */
 
-const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
-  menuList.map(item => {
-    const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
-    return Authorized.check(item.authority, localItem, null) as MenuDataItem;
+
+/** 重点：自定义了一个枚举 图标的方法
+  原因：后台传过来的icon:string  再菜单中无法显示图标
+*/
+const iconEnum = {
+  table: <TableOutlined />,
+  smile: <SmileOutlined />,
+  setting: <SettingOutlined />,
+  form: <FormOutlined />,
+  accountBook: <AccountBookOutlined />,
+  wechat: <WechatOutlined />,
+  gift: <GiftOutlined />,
+  appstore: <AppstoreOutlined />,
+  team: <TeamOutlined />,
+  bars: <BarsOutlined />,
+  dashboard: <DashboardOutlined />,
+  warning: <WarningOutlined />,
+  user: <UserOutlined />,
+};
+
+const menuDataRender = (menuList: any) =>
+  menuList.map((item: any) => {
+    // icon:iconEnum[item.icon]  遍历菜单中图标，转化成可展示的图标
+    const localItem = {
+      ...item, icon: iconEnum[item.icon], name: item.code.substring(item.code.lastIndexOf('.') + 1, item.code.length),
+      children: item.children ? menuDataRender(item.children) : []
+    };
+    return Authorized.check(item.authority, localItem, null);
   });
+
+
+// const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
+//   menuList.map(item => {
+//     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
+//     return Authorized.check(item.authority, localItem, null) as MenuDataItem;
+//   });
 
 const defaultFooterDom = (
   <DefaultFooter
@@ -117,6 +150,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     location = {
       pathname: '/',
     },
+    menuData,
   } = props;
   /**
    * constructor
@@ -126,6 +160,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     if (dispatch) {
       dispatch({
         type: 'user/fetchCurrent',
+      });
+      dispatch({
+        type: 'global/getMenu',
+        payload: { token: localStorage.getItem('token') }
       });
     }
   }, []);
@@ -148,9 +186,10 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   return (
     <ProLayout
       style={{}}
-      logo={}
+      logo={undefined}
       formatMessage={formatMessage}
-      menuHeaderRender={(logoDom, titleDom) => (
+      // menuHeaderRender={(logoDom, titleDom) => (
+      menuHeaderRender={() => (
         <Link to="/">
           <div style={{ fontSize: 17, color: "white" }}>
             桐乡市应急管理局安全生产风险防控数字化监管平台
@@ -181,7 +220,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
           );
       }}
       footerRender={footerRender}
-      menuDataRender={menuDataRender}
+      // menuDataRender={menuDataRender}
+      menuDataRender={() => menuDataRender(menuData)}
       rightContentRender={() => (<RightContent />)}
       {...props}
       {...settings}
@@ -195,5 +235,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
 
 export default connect(({ global, settings }: ConnectState) => ({
   collapsed: global.collapsed,
+  menuData: global.menuData,
   settings,
 }))(BasicLayout);

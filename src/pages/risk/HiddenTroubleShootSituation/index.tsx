@@ -8,13 +8,15 @@ import { CdRiskLevelModelState } from '@/models/cd_risk_level';
 import { RiskCheckModelState } from '@/models/risk_check';
 import { getAuthority } from '@/utils/authority';
 import { RiskCheckEntity } from '@/models/entity';
+import { UserModelState } from '@/models/user';
 
 interface IProps {
   dispatch: Dispatch<any>;
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
-  loading: boolean;
+  user: UserModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }
 
 const HiddenTroubleShootSituation: React.FC<IProps> = props => {
@@ -25,6 +27,7 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
     riskCheck: {
       listData: { pageSizel, currentPage, total, dataSource },
     },
+    user: { currentUser },
     loading,
   } = props;
 
@@ -71,7 +74,7 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
     },
     {
       title: '验收意见',
-      dataIndex: 'modifyTimeLimit',
+      dataIndex: 'inspectOpinion',
     },
   ];
 
@@ -82,7 +85,7 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
         currentPage: 0,
         pageSize: pageSizel,
         riskCheckEntity: {
-          entId: getAuthority().toString(),
+          entId: currentUser?.userInfo?.entid,
           ...values,
         },
       },
@@ -96,7 +99,7 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
         currentPage: current - 1,
         pageSize,
         riskCheckEntity: {
-          entId: getAuthority().toString(),
+          entId: currentUser?.userInfo?.entid,
         },
       },
     });
@@ -129,7 +132,7 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
         </Form>
       </Card>
       <br /> */}
-      <Card title="企业名称">
+      <Card>
         <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onFinish={onFinish}>
           <Row gutter={24}>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
@@ -232,7 +235,7 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
           </Row>
         </Form>
         <Table<RiskCheckEntity>
-          loading={loading}
+          loading={loading.effects['riskCheck/getRiskCheckList']}
           columns={columns}
           dataSource={dataSource}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
@@ -247,16 +250,19 @@ const mapStateToProps = () => ({
   cdRiskType,
   cdRiskLevel,
   riskCheck,
+  user,
   loading,
 }: {
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
-  loading: { models: { [key: string]: boolean } };
+  user: UserModelState;
+  loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
   cdRiskType,
   cdRiskLevel,
   riskCheck,
-  loading: loading.models.riskCheck,
+  user,
+  loading,
 });
 export default connect(mapStateToProps)(HiddenTroubleShootSituation);

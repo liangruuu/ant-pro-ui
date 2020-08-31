@@ -2,9 +2,9 @@ import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
 import { User, Ent } from './entity';
-import { fetchList, saveUser, deleteUserById } from '@/services/user';
+import { fetchList, saveUser, deleteUserById, fetchSafetyOfficers, fetchUserById } from '@/services/user';
 
-export interface UserModelState {
+export interface UserManageModelState {
   listData: {
     pageSizel: number;
     currentPage: number;
@@ -12,18 +12,23 @@ export interface UserModelState {
     dataSource: User[];
   };
   nowEnt?: Ent;
+  userInfo?: User;
+  safetyOfficers?: User[];
 }
 
 export interface UserModelType {
   namespace: 'userModel';
-  state: UserModelState;
+  state: UserManageModelState;
   effects: {
     fetchList: Effect;
     saveUser: Effect;
+    fetchUserById: Effect;
     deleteUserById: Effect;
+    fetchSafetyOfficers: Effect;
   };
   reducers: {
-    save: Reducer<any, any>;
+    save: Reducer<UserManageModelState, any>;
+    replace: Reducer<UserManageModelState, any>;
   };
 }
 
@@ -58,8 +63,45 @@ const UserModel: UserModelType = {
         const res = yield call(saveUser, payload);
         if (res.code === 200) {
           message.success('保存成功');
-          const userModel: UserModelState = yield select(
-            (state: { userModel: UserModelState }) => state.userModel,
+          const userModel: UserManageModelState = yield select(
+            (state: { userModel: UserManageModelState }) => state.userModel,
+          );
+          yield put({
+            type: 'fetchList',
+            payload: {
+              currentPage: userModel.listData.currentPage,
+              pageSize: userModel.listData.pageSizel,
+              user: { entid: userModel.nowEnt?.sid },
+            },
+          });
+        } else if (res.code === 400) {
+          message.error(res.data);
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *fetchUserById({ payload }, { call, put }) {
+      try {
+        const res = yield call(fetchUserById, payload);
+        if (res.code === 200) {
+          yield put({
+            type: 'replace',
+            payload: res.data,
+            index: 'userInfo',
+          });
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *deleteUserById({ payload }, { select, call, put }) {
+      try {
+        const res = yield call(deleteUserById, payload);
+        if (res.code === 200) {
+          message.success('保存成功');
+          const userModel: UserManageModelState = yield select(
+            (state: { userModel: UserManageModelState }) => state.userModel,
           );
           yield put({
             type: 'fetchList',
@@ -74,21 +116,14 @@ const UserModel: UserModelType = {
         message.error(e || '未知错误');
       }
     },
-    *deleteUserById({ payload }, { select, call, put }) {
+    *fetchSafetyOfficers({ payload }, { call, put }) {
       try {
-        const res = yield call(deleteUserById, payload);
+        const res = yield call(fetchSafetyOfficers, payload);
         if (res.code === 200) {
-          message.success('保存成功');
-          const userModel: UserModelState = yield select(
-            (state: { userModel: UserModelState }) => state.userModel,
-          );
           yield put({
-            type: 'fetchList',
-            payload: {
-              currentPage: userModel.listData.currentPage,
-              pageSize: userModel.listData.pageSizel,
-              user: { entid: userModel.nowEnt?.sid },
-            },
+            type: 'replace',
+            payload: res.data,
+            index: 'safetyOfficers',
           });
         }
       } catch (e) {
@@ -107,6 +142,12 @@ const UserModel: UserModelType = {
         },
       };
     },
+    replace(state, { payload, index }){
+      return {
+        ...state,
+        [index]: payload,
+      };
+    }
   },
 };
 
