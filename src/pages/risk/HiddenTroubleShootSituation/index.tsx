@@ -6,7 +6,6 @@ import { router } from 'umi';
 import { CdRiskTypeModelState } from '@/models/cd_risk_type';
 import { CdRiskLevelModelState } from '@/models/cd_risk_level';
 import { RiskCheckModelState } from '@/models/risk_check';
-import { getAuthority } from '@/utils/authority';
 import { RiskCheckEntity } from '@/models/entity';
 import { UserModelState } from '@/models/user';
 

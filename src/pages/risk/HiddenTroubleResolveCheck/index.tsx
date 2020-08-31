@@ -5,7 +5,6 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { PlusOutlined } from '@ant-design/icons';
 import { router } from 'umi';
 import { RiskCheckEntity } from '@/models/entity';
-import { getAuthority } from '@/utils/authority';
 import { Dispatch } from 'redux';
 import { UserModelState } from '@/models/user';
 
@@ -16,7 +15,11 @@ interface IProps {
 }
 
 const RiskManagePromise: React.FC<IProps> = props => {
-  const { dispatch, location, user: { currentUser } } = props;
+  const {
+    dispatch,
+    location,
+    user: { currentUser },
+  } = props;
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
   const [inspectDate] = useState<Date>(new Date());
@@ -134,8 +137,8 @@ const RiskManagePromise: React.FC<IProps> = props => {
           operateResult: values.inspectResult === 'pass' ? '通过' : '不通过',
           opinion: values.inspectOpinion,
           operator: currentUser?.userid,
-          operateDate: inspectDate.toISOString().slice(0, inspectDate.toISOString().indexOf('T'))
-        }
+          operateDate: inspectDate.toISOString().slice(0, inspectDate.toISOString().indexOf('T')),
+        },
       },
     });
     router.goBack();
@@ -314,11 +317,7 @@ const RiskManagePromise: React.FC<IProps> = props => {
   );
 };
 
-const mapStateToProps = ({
-  user,
-}: {
-  user: UserModelState;
-}) => ({
+const mapStateToProps = ({ user }: { user: UserModelState }) => ({
   user,
 });
 export default connect(mapStateToProps)(RiskManagePromise);

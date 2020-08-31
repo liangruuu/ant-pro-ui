@@ -31,7 +31,7 @@ export interface UserModelType {
     fetchCurrent: Effect;
   };
   reducers: {
-    saveCurrentUser: Reducer<UserModelState,any>;
+    saveCurrentUser: Reducer<UserModelState, any>;
     changeNotifyCount: Reducer<UserModelState>;
   };
 }
@@ -53,10 +53,12 @@ const UserModel: UserModelType = {
     },
     *fetchCurrent(_, { call, put }) {
       const response = yield call(queryCurrentUser, { token: localStorage.getItem('token') });
-      yield put({
-        type: 'saveCurrentUser',
-        payload: response.data,
-      });
+      if (response.code === 200) {
+        yield put({
+          type: 'saveCurrentUser',
+          payload: response.data,
+        });
+      }
     },
   },
 

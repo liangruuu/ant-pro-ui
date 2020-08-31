@@ -3,8 +3,7 @@ import { Effect } from 'dva';
 import { stringify } from 'querystring';
 import { router } from 'umi';
 
-import { fakeAccountLogin, login } from '@/services/login';
-import { setAuthority } from '@/utils/authority';
+import { login } from '@/services/login';
 import { getPageQuery } from '@/utils/utils';
 
 export interface StateType {
@@ -47,7 +46,6 @@ const Model: LoginModelType = {
           payload: 'ok',
         });
         localStorage.setItem('token', response.data.token);
-        window.location.href = '/';
         // const urlParams = new URL(window.location.href);
         // const params = getPageQuery();
         // let { redirect } = params as { redirect: string };
@@ -63,7 +61,7 @@ const Model: LoginModelType = {
         //     return;
         //   }
         // }
-        router.replace(redirect || '/');
+        router.replace('/');
       } else {
         yield put({
           type: 'changeLoginStatus',
