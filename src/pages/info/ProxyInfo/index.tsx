@@ -63,7 +63,8 @@ const ProxyInfo: React.FC<IProps> = props => {
     }
     return () => {
       dispatch({
-        type: 'entModel/clean',
+        type: 'entModel/set',
+        payload: undefined,
         index: 'entDetail',
       });
     };
