@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Form, Input, Upload, Modal, Row, Col, Button, Divider } from 'antd';
+import { Card, Form, Input, Upload, Modal, Row, Col, Button, Divider, Image } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
@@ -7,51 +7,35 @@ import { router } from 'umi';
 import { RiskCheckEntity } from '@/models/entity';
 import { Dispatch } from 'redux';
 import { UserModelState } from '@/models/user';
+import { RiskCheckModelState } from '@/models/risk_check';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 interface IProps {
   dispatch: Dispatch<any>;
   user: UserModelState;
+  riskCheck: RiskCheckModelState;
   location: any;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }
 
 const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
-  const { dispatch, user: { currentUser }, location } = props;
+  const {
+    dispatch,
+    user: { currentUser },
+    riskCheck: { picBase64List },
+    location,
+  } = props;
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
   const [modifyDate] = useState<Date>(new Date());
   const [data, setData] = useState<RiskCheckEntity>();
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>('');
-  const [fileList1, setFileList1] = useState<any>([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-2',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-3',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-  ]);
-  const [fileList2, setFileList2] = useState<any>([]);
-
-  const uploadProps = {
-    // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    onChange({ file, fileList }: { file: any; fileList: any }) {
-      if (file.status !== 'uploading') {
-        console.log(file, fileList);
-      }
-    },
-  };
+  const [fileList1, setFileList1] = useState<Array<UploadFile>>([]);
+  const [fileList2, setFileList2] = useState<Array<UploadFile>>([]);
 
   const getBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
@@ -74,8 +58,8 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
     setPreviewVisible(true);
   };
 
-  const handleChange = ({ fileList }: any) => setFileList1(fileList);
-  const handleChange2 = ({ fileList }: any) => setFileList2(fileList);
+  const handleChange1 = ({ fileList }: { fileList: Array<UploadFile> }) => setFileList1(fileList);
+  const handleChange2 = ({ fileList }: { fileList: Array<UploadFile> }) => setFileList2(fileList);
 
   const onFinish = (values: any) => {
     dispatch({
@@ -85,13 +69,15 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
         status: 'modified',
         modifier: currentUser?.userid,
         modifyDate: modifyDate.toISOString().slice(0, modifyDate.toISOString().indexOf('T')),
+        modifyFileList: fileList1.map(item => item.response.data),
+        modifyPicList: fileList2.map(item => item.response.data),
         ...values,
         modifyFlow: {
           flowStep: '整改',
           operateResult: values.modifySituation,
           operator: currentUser?.userid,
-          operateDate: modifyDate.toISOString().slice(0, modifyDate.toISOString().indexOf('T'))
-        }
+          operateDate: modifyDate.toISOString().slice(0, modifyDate.toISOString().indexOf('T')),
+        },
       },
     });
     router.goBack();
@@ -101,6 +87,12 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
     if (firstRender) {
       setData(location.state.record);
       setFirstRender(!firstRender);
+      if (location.state.record.riskPicList) {
+        dispatch({
+          type: 'riskCheck/fetchPic',
+          payload: { tokenList: location.state.record.riskPicList },
+        });
+      }
     }
   });
 
@@ -110,7 +102,7 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
         <Form onFinish={onFinish}>
           <Card title="已录入隐患信息" type="inner">
             <Card>
-              <Row gutter={24}>
+              <Row>
                 <Col span={8}>
                   <Form.Item label="隐患类别">
                     <span>{data?.riskType}</span>
@@ -141,31 +133,34 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
                     <span>{data?.modifyTimeLimit}</span>
                   </Form.Item>
                 </Col>
-              </Row>
-            </Card>
-            <br />
-            <Card title="隐患相关照片">
-              <Upload
-                listType="picture-card"
-                fileList={fileList1}
-                onPreview={handlePreview}
-                onChange={handleChange}
-                disabled
-              >
-                {fileList1.length >= 3 ? null : (
-                  <div>
-                    <PlusOutlined />
-                    <div className="ant-upload-text">Upload</div>
-                  </div>
-                )}
-              </Upload>
-              <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
-                <img alt="example" style={{ width: '100%' }} src={previewImage} />
-              </Modal>
-            </Card>
-            <br />
-            <Card>
-              <Row gutter={24}>
+                <Col span={24}>
+                  <Form.Item label="隐患相关照片">
+                    {picBase64List?.map(item => (
+                      <Card
+                        key={item}
+                        bodyStyle={{ padding: 5 }}
+                        style={{
+                          height: 214,
+                          width: 214,
+                          marginRight: 20,
+                          display: 'inline-flex',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <Image
+                          style={{
+                            position: 'absolute',
+                            top: '50%',
+                            transform: 'translate(0, -50%)',
+                            padding: 4,
+                          }}
+                          width={200}
+                          src={item}
+                        />
+                      </Card>
+                    ))}
+                  </Form.Item>
+                </Col>
                 <Col span={8}>
                   <Form.Item label="排查人员">
                     <span>{data?.checker}</span>
@@ -196,7 +191,14 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
               <Input placeholder="（完成整改、已管控）" />
             </Form.Item>
             <Form.Item labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} label="上传文档">
-              <Upload {...uploadProps}>
+              <Upload
+                fileList={fileList1}
+                onPreview={handlePreview}
+                onChange={handleChange1}
+                action="/dapi/v1/tongxiang/backend/resource/upload"
+                name="resource"
+                data={{ owner: currentUser?.userInfo?.tele }}
+              >
                 <Button>
                   <UploadOutlined /> 点击上传
                 </Button>
@@ -208,6 +210,9 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
                 fileList={fileList2}
                 onPreview={handlePreview}
                 onChange={handleChange2}
+                action="/dapi/v1/tongxiang/backend/resource/upload"
+                name="resource"
+                data={{ owner: currentUser?.userInfo?.tele }}
               >
                 {fileList2.length >= 3 ? null : (
                   <div>
@@ -245,15 +250,18 @@ const HiddenTroubleResolveRecord: React.FC<IProps> = props => {
 
 const mapStateToProps = () => ({
   user,
+  riskCheck,
   loading,
 }: {
   user: UserModelState;
+  riskCheck: RiskCheckModelState;
   loading: {
     models: { [key: string]: boolean };
     effects: { [key: string]: boolean };
   };
 }) => ({
   user,
-  loading: loading.models.CdEntPersonType,
+  riskCheck,
+  loading,
 });
 export default connect(mapStateToProps)(HiddenTroubleResolveRecord);

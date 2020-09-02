@@ -134,7 +134,9 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
               <Form.Item label="隐患类别" name="riskType">
                 <Select placeholder="请选择隐患类别">
                   {cdRiskTypeList?.map(item => (
-                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                    <Select.Option key={item.sid} value={item.sid}>
+                      {item.content}
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -148,7 +150,9 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
               <Form.Item label="隐患等级" name="riskLevel">
                 <Select placeholder="请选择隐患等级">
                   {cdRiskLevelList?.map(item => (
-                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                    <Select.Option key={item.sid} value={item.sid}>
+                      {item.content}
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -193,7 +197,9 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
                     29,
                     30,
                   ].map(item => (
-                    <Select.Option value={item}>{item}</Select.Option>
+                    <Select.Option key={item} value={item}>
+                      {item}
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -213,7 +219,9 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
         <Table<RiskCheckEntity>
           loading={loading.effects['riskCheck/getRiskCheckList']}
           columns={columns}
-          dataSource={dataSource}
+          dataSource={dataSource.map(item => {
+            return { ...item, key: item.id };
+          })}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
           onChange={handleChange}
         />

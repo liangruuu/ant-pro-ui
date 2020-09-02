@@ -216,15 +216,15 @@ export interface RiskCheckEntity {
   checkDate: string;
   modifyCharger: string;
   modifySituation: string;
-  modifyFile: string;
+  modifyFileList: string[];
   modifyPicList: string[];
   modifier: string;
   modifyDate: string;
-  modifyFlowList: ModifyFlowEntity[]
+  modifyFlowList: ModifyFlowEntity[];
 }
 
 export interface ModifyFlowEntity {
-  id: string;
+  no: string;
   flowStep: string;
   operateResult: string;
   opinion: string;

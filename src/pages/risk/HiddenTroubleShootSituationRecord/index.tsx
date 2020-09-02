@@ -9,6 +9,8 @@ import { CdRiskTypeModelState } from '@/models/cd_risk_type';
 import { CdRiskLevelModelState } from '@/models/cd_risk_level';
 import { UserModelState } from '@/models/user';
 import { UserManageModelState } from '@/models/user_manage';
+import { RiskCheckModelState } from '@/models/risk_check';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 interface IProps {
   dispatch: Dispatch<any>;
@@ -16,6 +18,7 @@ interface IProps {
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   userModel: UserManageModelState;
+  riskCheck: RiskCheckModelState;
   loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }
 
@@ -33,7 +36,7 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
   const [checkDate] = useState<Date>(new Date());
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>('');
-  const [fileList, setFileList] = useState<any>([]);
+  const [fileList, setFileList] = useState<Array<UploadFile>>([]);
 
   const getBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
@@ -57,7 +60,7 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
   };
 
   // eslint-disable-next-line no-shadow
-  const handleChange = ({ fileList }: any) => setFileList(fileList);
+  const handleChange = ({ fileList }: { fileList: Array<UploadFile> }) => setFileList(fileList);
 
   const onFinish = (values: any) => {
     dispatch({
@@ -67,6 +70,7 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
         status: 'checked',
         checker: currentUser?.userid,
         checkDate: checkDate.toISOString().slice(0, checkDate.toISOString().indexOf('T')),
+        riskPicList: fileList.map(item => item.response.data),
         ...values,
       },
     });
@@ -83,11 +87,21 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
       });
       dispatch({
         type: 'userModel/fetchSafetyOfficers',
-        payload: { entId: currentUser?.userInfo?.entid }
+        payload: { entId: currentUser?.userInfo?.entid },
       });
       setFirstRender(!firstRender);
     }
   });
+
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch({
+  //       type: 'riskCheck/reset',
+  //       payload: undefined,
+  //       index: 'fileTokenList',
+  //     });
+  //   }
+  // }, [fileTokenList]);
 
   return (
     <PageHeaderWrapper>
@@ -98,7 +112,9 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
               <Form.Item label="隐患类别" name="riskType">
                 <Select placeholder="请选择隐患类别">
                   {cdRiskTypeList?.map(item => (
-                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                    <Select.Option key={item.sid} value={item.sid}>
+                      {item.content}
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -112,7 +128,9 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
               <Form.Item label="隐患等级" name="riskLevel">
                 <Select placeholder="请选择隐患等级">
                   {cdRiskLevelList?.map(item => (
-                    <Select.Option value={item.sid}>{item.content}</Select.Option>
+                    <Select.Option key={item.sid} value={item.sid}>
+                      {item.content}
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -162,18 +180,34 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
                     29,
                     30,
                   ].map(item => (
-                    <Select.Option value={item}>{item}</Select.Option>
+                    <Select.Option key={item} value={item}>
+                      {item}
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label="隐患相关照片" name="modifyTimeLimit">
+              <Form.Item label="隐患相关照片">
                 <Upload
                   listType="picture-card"
                   fileList={fileList}
                   onPreview={handlePreview}
                   onChange={handleChange}
+                  action="/dapi/v1/tongxiang/backend/resource/upload"
+                  name="resource"
+                  data={{ owner: currentUser?.userInfo?.tele }}
+                  // customRequest={({ file }) => {
+                  //   const formData = new FormData();
+                  //   formData.set('resource', file);
+                  //   if (currentUser != null && currentUser.userInfo != null && currentUser.userInfo.tele != null) {
+                  //     formData.set('owner', currentUser.userInfo.tele);
+                  //   }
+                  //   dispatch({
+                  //     type: 'riskCheck/uploadFile',
+                  //     payload: formData
+                  //   });
+                  // }}
                 >
                   {fileList.length >= 3 ? null : (
                     <div>
@@ -203,9 +237,14 @@ const HiddenTroubleShootSituationRecord: React.FC<IProps> = props => {
             </Col>
             <Col span={8}>
               <Form.Item label="整改责任人" name="modifyCharger">
-                <Select loading={loading.effects['userModel/fetchSafetyOfficers']} placeholder="请选择整改责任人" >
+                <Select
+                  loading={loading.effects['userModel/fetchSafetyOfficers']}
+                  placeholder="请选择整改责任人"
+                >
                   {safetyOfficers?.map(item => (
-                    <Select.Option value={item.sid}>{item.name}</Select.Option>
+                    <Select.Option key={item.sid} value={item.sid}>
+                      {item.name}
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -230,18 +269,21 @@ const mapStateToProps = () => ({
   cdRiskLevel,
   user,
   userModel,
+  riskCheck,
   loading,
 }: {
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   user: UserModelState;
   userModel: UserManageModelState;
+  riskCheck: RiskCheckModelState;
   loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
   cdRiskType,
   cdRiskLevel,
   user,
   userModel,
+  riskCheck,
   loading,
 });
 export default connect(mapStateToProps)(HiddenTroubleShootSituationRecord);

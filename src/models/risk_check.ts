@@ -7,8 +7,12 @@ import {
   getRiskCheckList,
   saveRiskCheckModify,
   saveRiskCheckInspect,
+  uploadFile,
+  fetchPic,
+  fetchFileNameList,
+  downloadFile,
 } from '@/services/risk_check';
-import { getAuthority } from '@/utils/authority';
+import { UserModelState } from './user';
 
 export interface RiskCheckModelState {
   listData: {
@@ -17,6 +21,9 @@ export interface RiskCheckModelState {
     total: number;
     dataSource: RiskCheckEntity[];
   };
+  fileTokenList?: string[];
+  picBase64List?: string[];
+  fileNameList?: { name: string; token: string }[];
 }
 
 export interface RiskCheckModelType {
@@ -27,9 +34,14 @@ export interface RiskCheckModelType {
     saveRiskCheckRecord: Effect;
     saveRiskCheckModify: Effect;
     saveRiskCheckInspect: Effect;
+    uploadFile: Effect;
+    fetchPic: Effect;
+    fetchFileNameList: Effect;
+    downloadFile: Effect;
   };
   reducers: {
-    save: Reducer<any, any>;
+    save: Reducer<RiskCheckModelState, any>;
+    reset: Reducer<RiskCheckModelState, any>;
   };
 }
 
@@ -67,13 +79,16 @@ const RiskCheck: RiskCheckModelType = {
           const riskCheckState: RiskCheckModelState = yield select(
             (state: { riskCheck: RiskCheckModelState }) => state.riskCheck,
           );
+          const user: UserModelState = yield select(
+            (state: { user: UserModelState }) => state.user,
+          );
           yield put({
             type: 'getRiskCheckList',
             payload: {
               currentPage: riskCheckState.listData.currentPage,
               pageSize: riskCheckState.listData.pageSizel,
               riskCheckEntity: {
-                entId: getAuthority().toString(),
+                entId: user.currentUser?.userInfo?.entid,
               },
             },
           });
@@ -90,13 +105,16 @@ const RiskCheck: RiskCheckModelType = {
           const riskCheckState: RiskCheckModelState = yield select(
             (state: { riskCheck: RiskCheckModelState }) => state.riskCheck,
           );
+          const user: UserModelState = yield select(
+            (state: { user: UserModelState }) => state.user,
+          );
           yield put({
             type: 'getRiskCheckList',
             payload: {
               currentPage: riskCheckState.listData.currentPage,
               pageSize: riskCheckState.listData.pageSizel,
               riskCheckEntity: {
-                entId: getAuthority().toString(),
+                entId: user.currentUser?.userInfo?.entid,
                 status: 'checked',
               },
             },
@@ -114,18 +132,68 @@ const RiskCheck: RiskCheckModelType = {
           const riskCheckState: RiskCheckModelState = yield select(
             (state: { riskCheck: RiskCheckModelState }) => state.riskCheck,
           );
+          const user: UserModelState = yield select((state: { v: UserModelState }) => state.user);
           yield put({
             type: 'getRiskCheckList',
             payload: {
               currentPage: riskCheckState.listData.currentPage,
               pageSize: riskCheckState.listData.pageSizel,
               riskCheckEntity: {
-                entId: getAuthority().toString(),
+                entId: user.currentUser?.userInfo?.entid,
                 status: 'modified',
               },
             },
           });
         }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *uploadFile({ payload }, { call, put }) {
+      try {
+        const res = yield call(uploadFile, payload);
+        if (res.code === 200) {
+          yield put({
+            type: 'reset',
+            payload: res.data,
+            index: 'fileTokenList',
+          });
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *fetchPic({ payload }, { call, put }) {
+      try {
+        const res = yield call(fetchPic, payload);
+        if (res.code === 200) {
+          yield put({
+            type: 'reset',
+            payload: res.data,
+            index: 'picBase64List',
+          });
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *fetchFileNameList({ payload }, { call, put }) {
+      try {
+        const res = yield call(fetchFileNameList, payload);
+        if (res.code === 200) {
+          yield put({
+            type: 'reset',
+            payload: res.data,
+            index: 'fileNameList',
+          });
+        }
+      } catch (e) {
+        message.error(e || '未知错误');
+      }
+    },
+    *downloadFile({ payload }, { call }) {
+      try {
+        yield call(downloadFile, payload);
       } catch (e) {
         message.error(e || '未知错误');
       }
@@ -140,6 +208,12 @@ const RiskCheck: RiskCheckModelType = {
           ...state[index],
           ...payload,
         },
+      };
+    },
+    reset(state, { payload, index }) {
+      return {
+        ...state,
+        [index]: payload,
       };
     },
   },

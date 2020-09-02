@@ -27,3 +27,31 @@ export async function saveRiskCheckInspect(params: any) {
     data: params,
   });
 }
+
+export async function uploadFile(params: any) {
+  return request('/dapi/v1/tongxiang/backend/resource/upload', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function fetchPic(params: any) {
+  return request('/dapi/v1/tongxiang/backend/resource/preview_resource', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function fetchFileNameList(params: any) {
+  return request('/dapi/v1/tongxiang/backend/resource/query_resource_name', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function downloadFile(params: any) {
+  return request('/dapi/v1/tongxiang/backend/resource/query_resource', {
+    method: 'POST',
+    data: params,
+  });
+}

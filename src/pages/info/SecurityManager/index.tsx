@@ -164,7 +164,7 @@ const SecurityManager: React.FC<IProps> = props => {
     <PageHeaderWrapper
       onBack={() => {
         dispatch({
-          type: 'userModel/replace',
+          type: 'userModel/reset',
           payload: undefined,
           index: 'nowEnt',
         });
@@ -172,7 +172,7 @@ const SecurityManager: React.FC<IProps> = props => {
       }}
     >
       <Card>
-        {entInfo ?
+        {entInfo ? (
           <Descriptions title="实体信息">
             <Descriptions.Item label="实体类型">
               {entInfo?.entType === 'ent' ? '企业' : null}
@@ -182,7 +182,7 @@ const SecurityManager: React.FC<IProps> = props => {
             <Descriptions.Item label="实体名称">{entInfo?.entname}</Descriptions.Item>
             <Descriptions.Item label="统一社会信用代码">{entInfo?.uniscid}</Descriptions.Item>
           </Descriptions>
-          : null}
+        ) : null}
       </Card>
       <Card>
         <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} form={form} onFinish={onFinish}>

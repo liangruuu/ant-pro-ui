@@ -64,12 +64,12 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
         setUserOld(location.state.user);
         dispatch({
           type: 'userModel/fetchUserById',
-          payload: { sid: location.state.user.sid }
+          payload: { sid: location.state.user.sid },
         });
       }
       dispatch({
         type: 'cdEntPersonType/fetchCdEntPersonType',
-        payload: { entType: location.state.ent.entType }
+        payload: { entType: location.state.ent.entType },
       });
       setFirstRender(!firstRender);
     }
@@ -81,11 +81,11 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
     }
     return () => {
       dispatch({
-        type: 'userModel/replace',
+        type: 'userModel/reset',
         payload: undefined,
         index: 'userInfo',
       });
-    }
+    };
   }, [userInfo]);
 
   return (

@@ -2,7 +2,13 @@ import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
 import { User, Ent } from './entity';
-import { fetchList, saveUser, deleteUserById, fetchSafetyOfficers, fetchUserById } from '@/services/user';
+import {
+  fetchList,
+  saveUser,
+  deleteUserById,
+  fetchSafetyOfficers,
+  fetchUserById,
+} from '@/services/user';
 
 export interface UserManageModelState {
   listData: {
@@ -28,7 +34,7 @@ export interface UserModelType {
   };
   reducers: {
     save: Reducer<UserManageModelState, any>;
-    replace: Reducer<UserManageModelState, any>;
+    reset: Reducer<UserManageModelState, any>;
   };
 }
 
@@ -86,7 +92,7 @@ const UserModel: UserModelType = {
         const res = yield call(fetchUserById, payload);
         if (res.code === 200) {
           yield put({
-            type: 'replace',
+            type: 'reset',
             payload: res.data,
             index: 'userInfo',
           });
@@ -121,7 +127,7 @@ const UserModel: UserModelType = {
         const res = yield call(fetchSafetyOfficers, payload);
         if (res.code === 200) {
           yield put({
-            type: 'replace',
+            type: 'reset',
             payload: res.data,
             index: 'safetyOfficers',
           });
@@ -142,12 +148,12 @@ const UserModel: UserModelType = {
         },
       };
     },
-    replace(state, { payload, index }){
+    reset(state, { payload, index }) {
       return {
         ...state,
         [index]: payload,
       };
-    }
+    },
   },
 };
 
