@@ -43,49 +43,27 @@ const HiddenTroubleResolveMiddleCheckStatus: React.FC<IProps> = props => {
   const columns = [
     {
       title: '序号',
-      dataIndex: 'index',
+      dataIndex: 'no',
     },
     {
       title: '流程步骤',
-      dataIndex: 'step',
+      dataIndex: 'flowStep',
     },
     {
-      title: '验收结果',
-      dataIndex: 'result',
+      title: '操作结果',
+      dataIndex: 'operateResult',
     },
     {
-      title: '验收意见',
+      title: '具体意见',
       dataIndex: 'opinion',
     },
     {
-      title: '验收人',
-      dataIndex: 'person',
+      title: '操作人',
+      dataIndex: 'operator',
     },
     {
-      title: '验收日期',
-      dataIndex: 'date',
-    },
-  ];
-
-  const dataSource = [
-    {
-      index: 1,
-      step: '企业验收',
-      result: '通过',
-      opinion: '已完成整改',
-      person: 'A安全管理员',
-      date: '2020/4/3',
-    },
-    {
-      index: 2,
-      step: '中介验收',
-      result: '通过',
-      opinion: '已完成整改',
-      person: '中介100',
-      date: '2020/4/5',
-    },
-    {
-      index: 3,
+      title: '操作日期',
+      dataIndex: 'operateDate',
     },
   ];
 
@@ -149,31 +127,6 @@ const HiddenTroubleResolveMiddleCheckStatus: React.FC<IProps> = props => {
     <PageHeaderWrapper>
       <Card>
         <Form>
-          <Card title="企业信息" type="inner">
-            <Row gutter={16}>
-              <Col span={24}>
-                <Form.Item label="企业名称">
-                  <span>XX公司</span>
-                </Form.Item>
-              </Col>
-              <Col span={24}>
-                <Form.Item label="经营地址">
-                  <span>xxxxxxx</span>
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="法定代表人">
-                  <span>赵六</span>
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="联系电话">
-                  <span>13668667696</span>
-                </Form.Item>
-              </Col>
-            </Row>
-          </Card>
-          <br />
           <Card title="已录入隐患信息" type="inner">
             <Card>
               <Row gutter={24}>
@@ -293,11 +246,11 @@ const HiddenTroubleResolveMiddleCheckStatus: React.FC<IProps> = props => {
               </Card>
             </span>
           )}
-          {data?.status === 'inspected' ? (
+          {data?.status !== 'checked' ? (
             <span>
               <br />
               <Card title="验收流程" type="inner">
-                <Table columns={columns} dataSource={dataSource} />
+                <Table columns={columns} dataSource={data?.modifyFlowList} />
               </Card>
               <Card style={{ textAlign: 'right' }}>
                 <Button onClick={() => router.goBack()}>返回</Button>

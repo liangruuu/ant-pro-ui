@@ -31,6 +31,7 @@ import { CdIndustryModelState } from '@/models/cd_industry';
 import TextArea from 'antd/lib/input/TextArea';
 import { EntModelState } from '@/models/ent';
 import { Ent } from '@/models/entity';
+import { UserModelState } from '@/models/user';
 
 interface IProps {
   dispatch: Dispatch<any>;
@@ -46,6 +47,7 @@ interface IProps {
   cdStandLevel: CdStandLevelModelState;
   cdArea: CdAreaModelState;
   cdIndustry: CdIndustryModelState;
+  user: UserModelState;
   loading: {
     models: { [key: string]: boolean };
     effects: { [key: string]: boolean };
@@ -67,6 +69,7 @@ const CompanyInfo: React.FC<IProps> = props => {
     cdStandLevel: { cdStandLevelList },
     cdArea: { cdAreaTree },
     cdIndustry: { cdIndustryTree, cdSuperviseTypeTree },
+    user: { currentUser },
     loading,
   } = props;
 
@@ -149,10 +152,15 @@ const CompanyInfo: React.FC<IProps> = props => {
           type: 'entModel/getEntById',
           payload: { sid: location.state.sid },
         });
+      } else if (currentUser?.userInfo?.title?.includes('企业联络员')){
+        dispatch({
+          type: 'entModel/getEntById',
+          payload: { sid: currentUser.userInfo.entid },
+        });
       }
-      dispatch({
-        type: 'cdAdminOrg/fetchCdAdminOrg',
-      });
+        dispatch({
+          type: 'cdAdminOrg/fetchCdAdminOrg',
+        });
       dispatch({
         type: 'cdRegState/fetchCdRegState',
       });
@@ -550,6 +558,7 @@ const mapStateToProps = () => ({
   cdStandLevel,
   cdArea,
   cdIndustry,
+  user,
   loading,
 }: {
   entModel: EntModelState;
@@ -563,6 +572,7 @@ const mapStateToProps = () => ({
   cdStandLevel: CdStandLevelModelState;
   cdArea: CdAreaModelState;
   cdIndustry: CdIndustryModelState;
+  user: UserModelState;
   loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
   entModel,
@@ -576,6 +586,7 @@ const mapStateToProps = () => ({
   cdStandLevel,
   cdArea,
   cdIndustry,
+  user,
   loading,
 });
 export default connect(mapStateToProps)(CompanyInfo);

@@ -128,6 +128,14 @@ class DashboardWorkplace extends Component<DashboardWorkplaceProps> {
         role: '应急局人员'
       },
       {
+        title: '企业基本信息',
+        href: {
+          pathname: '/info/companyinfo',
+          state: { entId: currentUser?.userInfo?.entid },
+        },
+        role: '企业联络员'
+      },
+      {
         title: '人员管理',
         href: {
           pathname: '/info/securitymanager',
@@ -135,7 +143,6 @@ class DashboardWorkplace extends Component<DashboardWorkplaceProps> {
         },
         role: '企业联络员'
       },
-      
       {
         title: '安全风险管控承诺',
         href: '/risk/dailyriskmanagepromise',

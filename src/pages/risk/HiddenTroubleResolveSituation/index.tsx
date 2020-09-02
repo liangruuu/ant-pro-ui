@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Table, Form, Row, Col, Input, Select, Button, DatePicker } from 'antd';
+import { Card, Table, Form, Row, Col, Input, Select, Button, DatePicker, Descriptions } from 'antd';
 import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { router } from 'umi';
@@ -8,14 +8,20 @@ import { CdRiskLevelModelState } from '@/models/cd_risk_level';
 import { RiskCheckModelState } from '@/models/risk_check';
 import { Dispatch } from 'redux';
 import { RiskCheckEntity } from '@/models/entity';
-import { getAuthority } from '@/utils/authority';
+import { UserModelState } from '@/models/user';
+import { EntModelState } from '@/models/ent';
 
 interface IProps {
   dispatch: Dispatch<any>;
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
-  loading: boolean;
+  user: UserModelState;
+  entModel: EntModelState;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }
 
 const HiddenTroubleResolveSituation: React.FC<IProps> = props => {
@@ -26,6 +32,8 @@ const HiddenTroubleResolveSituation: React.FC<IProps> = props => {
     riskCheck: {
       listData: { pageSizel, currentPage, total, dataSource },
     },
+    user: { currentUser },
+    entModel: { entDetail },
     loading,
   } = props;
 
@@ -96,7 +104,7 @@ const HiddenTroubleResolveSituation: React.FC<IProps> = props => {
         currentPage: current - 1,
         pageSize,
         riskCheckEntity: {
-          entId: getAuthority().toString(),
+          entId: currentUser?.userInfo?.entid,
         },
       },
     });
@@ -104,6 +112,10 @@ const HiddenTroubleResolveSituation: React.FC<IProps> = props => {
 
   useEffect(() => {
     if (firstRender) {
+      dispatch({
+        type: 'entModel/getEntById',
+        payload: { sid: currentUser?.userInfo?.entid },
+      });
       dispatch({
         type: 'cdRiskType/fetchCdRiskType',
       });
@@ -117,30 +129,14 @@ const HiddenTroubleResolveSituation: React.FC<IProps> = props => {
 
   return (
     <PageHeaderWrapper>
-      <Card title="企业信息">
-        <Row gutter={24}>
-          <Col span={24}>
-            <Form.Item label="企业名称">
-              <span>XX公司</span>
-            </Form.Item>
-          </Col>
-          <Col span={24}>
-            <Form.Item label="经营地址">
-              <span>xxxxxxx</span>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="法定代表人">
-              <span>赵六</span>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="联系电话">
-              <span>13668667696</span>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Card>
+      {entDetail ?
+        <Card>
+          <Descriptions title="企业信息">
+            <Descriptions.Item label="企业名称">{entDetail?.entname}</Descriptions.Item>
+            <Descriptions.Item label="统一社会信用代码">{entDetail?.uniscid}</Descriptions.Item>
+            <Descriptions.Item label="经营地址">{entDetail?.oploc}</Descriptions.Item>
+          </Descriptions>
+        </Card> : null}
       <br />
       <Card>
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
@@ -246,7 +242,7 @@ const HiddenTroubleResolveSituation: React.FC<IProps> = props => {
           </Col>
         </Row>
         <Table<RiskCheckEntity>
-          loading={loading}
+          loading={loading.effects['riskCheck/getRiskCheckList']}
           columns={columns}
           dataSource={dataSource}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
@@ -261,16 +257,25 @@ const mapStateToProps = () => ({
   cdRiskType,
   cdRiskLevel,
   riskCheck,
+  user,
+  entModel,
   loading,
 }: {
   cdRiskType: CdRiskTypeModelState;
   cdRiskLevel: CdRiskLevelModelState;
   riskCheck: RiskCheckModelState;
-  loading: { models: { [key: string]: boolean } };
+  user: UserModelState;
+  entModel: EntModelState;
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }) => ({
   cdRiskType,
   cdRiskLevel,
   riskCheck,
-  loading: loading.models.riskCheck,
+  user,
+  entModel,
+  loading,
 });
 export default connect(mapStateToProps)(HiddenTroubleResolveSituation);

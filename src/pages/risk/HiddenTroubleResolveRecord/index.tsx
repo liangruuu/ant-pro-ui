@@ -248,7 +248,10 @@ const mapStateToProps = () => ({
   loading,
 }: {
   user: UserModelState;
-  loading: { models: { [key: string]: boolean } };
+  loading: {
+    models: { [key: string]: boolean };
+    effects: { [key: string]: boolean };
+  };
 }) => ({
   user,
   loading: loading.models.CdEntPersonType,
