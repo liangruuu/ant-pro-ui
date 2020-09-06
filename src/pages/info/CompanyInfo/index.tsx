@@ -32,6 +32,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import { EntModelState } from '@/models/ent';
 import { Ent } from '@/models/entity';
 import { UserModelState } from '@/models/user';
+import moment from 'antd/node_modules/moment';
 
 interface IProps {
   dispatch: Dispatch<any>;
@@ -133,12 +134,15 @@ const CompanyInfo: React.FC<IProps> = props => {
 
   useEffect(() => {
     if (entDetail != null) {
-      form.setFieldsValue(entDetail);
+      form.setFieldsValue({
+        ...entDetail,
+        estdate: moment(entDetail.estdate, 'YYYY-MM-DD '),
+      });
       setEntOld(entDetail);
     }
     return () => {
       dispatch({
-        type: 'entModel/set',
+        type: 'entModel/reset',
         payload: undefined,
         index: 'entDetail',
       });
@@ -152,15 +156,15 @@ const CompanyInfo: React.FC<IProps> = props => {
           type: 'entModel/getEntById',
           payload: { sid: location.state.sid },
         });
-      } else if (currentUser?.userInfo?.title?.includes('企业联络员')){
+      } else if (currentUser?.userInfo?.title?.includes('企业联络员')) {
         dispatch({
           type: 'entModel/getEntById',
           payload: { sid: currentUser.userInfo.entid },
         });
       }
-        dispatch({
-          type: 'cdAdminOrg/fetchCdAdminOrg',
-        });
+      dispatch({
+        type: 'cdAdminOrg/fetchCdAdminOrg',
+      });
       dispatch({
         type: 'cdRegState/fetchCdRegState',
       });

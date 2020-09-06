@@ -67,11 +67,7 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
           payload: { sid: location.state.user.sid },
         });
       }
-      if (
-        location.state != null &&
-        location.state.ent != null &&
-        location.state.ent.entType != null
-      ) {
+      if (location.state != null && location.state.ent != null) {
         dispatch({
           type: 'cdEntPersonType/fetchCdEntPersonType',
           payload: { entType: location.state.ent.entType },

@@ -1,7 +1,6 @@
 import { Effect } from 'dva';
 import { Reducer } from 'react';
 import { message } from 'antd';
-import moment from 'moment';
 import { Ent } from './entity';
 import { saveEnt, fetchList, getEntById, getAllEntList } from '../services/ent';
 
@@ -28,7 +27,7 @@ export interface EntModelType {
   };
   reducers: {
     save: Reducer<any, any>;
-    set: Reducer<any, any>;
+    reset: Reducer<any, any>;
   };
 }
 
@@ -84,11 +83,8 @@ const EntModel: EntModelType = {
         const res = yield call(getEntById, payload);
         if (res.code === 200) {
           yield put({
-            type: 'save',
-            payload: {
-              ...res.data,
-              estdate: moment(res.data.estdate, 'YYYY-MM-DD '),
-            },
+            type: 'reset',
+            payload: res.data,
             index: 'entDetail',
           });
         }
@@ -101,7 +97,7 @@ const EntModel: EntModelType = {
         const res = yield call(getAllEntList, payload);
         if (res.code === 200) {
           yield put({
-            type: 'set',
+            type: 'reset',
             payload: res.data,
             index: 'entList',
           });
@@ -122,7 +118,7 @@ const EntModel: EntModelType = {
         },
       };
     },
-    set(state, { payload, index }) {
+    reset(state, { payload, index }) {
       return {
         ...state,
         [index]: payload,

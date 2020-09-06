@@ -8,6 +8,7 @@ import { CdRegStateModelState } from '@/models/cd_reg_state';
 import { Dispatch } from 'redux';
 import { Ent } from '@/models/entity';
 import { EntModelState } from '@/models/ent';
+import moment from 'antd/node_modules/moment';
 
 interface IProps {
   dispatch: Dispatch<any>;
@@ -58,12 +59,15 @@ const ProxyInfo: React.FC<IProps> = props => {
 
   useEffect(() => {
     if (entDetail != null) {
-      form.setFieldsValue(entDetail);
+      form.setFieldsValue({
+        ...entDetail,
+        estdate: moment(entDetail.estdate, 'YYYY-MM-DD '),
+      });
       setEntOld(entDetail);
     }
     return () => {
       dispatch({
-        type: 'entModel/set',
+        type: 'entModel/reset',
         payload: undefined,
         index: 'entDetail',
       });

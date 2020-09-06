@@ -29,7 +29,7 @@ export interface Ent {
   opscotype?: string;
   regorg?: string;
   regstate?: string;
-  estdate?: Moment;
+  estdate?: string;
   apprdate?: Moment;
   revdate?: Moment;
   sugrevreason?: string;

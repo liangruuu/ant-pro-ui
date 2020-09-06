@@ -18,11 +18,13 @@ import { Dispatch } from 'redux';
 import { UserManageModelState } from '@/models/user_manage';
 import { User, Ent } from '@/models/entity';
 import { Link } from 'umi';
+import { EntModelState } from '@/models/ent';
 
 interface IProps {
   dispatch: Dispatch<any>;
   location: any;
   userModel: UserManageModelState;
+  entModel: EntModelState;
   loading: {
     models: { [key: string]: boolean };
     effects: { [key: string]: boolean };
@@ -37,6 +39,7 @@ const SecurityManager: React.FC<IProps> = props => {
       listData: { pageSizel, currentPage, total, dataSource },
       nowEnt,
     },
+    entModel: { entDetail },
     loading,
   } = props;
 
@@ -145,6 +148,10 @@ const SecurityManager: React.FC<IProps> = props => {
             user: { entid: location.state.entId },
           },
         });
+        dispatch({
+          type: 'entModel/getEntById',
+          payload: { sid: location.state.entId },
+        });
       } else {
         setEntInfo(nowEnt);
         dispatch({
@@ -159,6 +166,19 @@ const SecurityManager: React.FC<IProps> = props => {
       changeFirstRender(!firstRender);
     }
   });
+
+  useEffect(() => {
+    if (entDetail != null) {
+      setEntInfo(entDetail);
+    }
+    return () => {
+      dispatch({
+        type: 'entModel/reset',
+        payload: undefined,
+        index: 'entDetail',
+      });
+    };
+  }, [entDetail]);
 
   return (
     <PageHeaderWrapper
@@ -237,7 +257,9 @@ const SecurityManager: React.FC<IProps> = props => {
         <Table<User>
           loading={loading.effects['userModel/fetchList']}
           columns={columns}
-          dataSource={dataSource}
+          dataSource={dataSource.map(item => {
+            return { ...item, key: item.sid };
+          })}
           pagination={{ total, current: currentPage + 1, pageSize: pageSizel }}
           onChange={handleChange}
         />
@@ -248,15 +270,18 @@ const SecurityManager: React.FC<IProps> = props => {
 
 const mapStateToProps = () => ({
   userModel,
+  entModel,
   loading,
 }: {
   userModel: UserManageModelState;
+  entModel: EntModelState;
   loading: {
     models: { [key: string]: boolean };
     effects: { [key: string]: boolean };
   };
 }) => ({
   userModel,
+  entModel,
   loading,
 });
 export default connect(mapStateToProps)(SecurityManager);

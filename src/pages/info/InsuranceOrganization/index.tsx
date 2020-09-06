@@ -106,13 +106,13 @@ const InsuranceOrganization: React.FC<IProps> = props => {
 
   useEffect(() => {
     dispatch({
-      type: 'entModel/set',
+      type: 'entModel/reset',
       payload: 'insurance',
       index: 'entType',
     });
     return () => {
       dispatch({
-        type: 'entModel/set',
+        type: 'entModel/reset',
         payload: undefined,
         index: 'entType',
       });
