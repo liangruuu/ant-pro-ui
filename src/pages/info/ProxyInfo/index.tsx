@@ -8,7 +8,7 @@ import { CdRegStateModelState } from '@/models/cd_reg_state';
 import { Dispatch } from 'redux';
 import { Ent } from '@/models/entity';
 import { EntModelState } from '@/models/ent';
-import moment from 'antd/node_modules/moment';
+import moment from 'moment';
 
 interface IProps {
   dispatch: Dispatch<any>;

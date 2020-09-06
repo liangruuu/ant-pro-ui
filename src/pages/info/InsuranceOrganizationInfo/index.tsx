@@ -5,7 +5,7 @@ import { connect } from 'dva';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Ent } from '@/models/entity';
 import { EntModelState } from '@/models/ent';
-import moment from 'antd/node_modules/moment';
+import moment from 'moment';
 
 interface IProps {
   dispatch: Dispatch<any>;

@@ -32,7 +32,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import { EntModelState } from '@/models/ent';
 import { Ent } from '@/models/entity';
 import { UserModelState } from '@/models/user';
-import moment from 'antd/node_modules/moment';
+import moment from 'moment';
 
 interface IProps {
   dispatch: Dispatch<any>;
