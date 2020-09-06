@@ -39,7 +39,7 @@ const AgencyModel: AgencyModelType = {
     *fetchList({ payload }, { call, put }) {
       try {
         const res = yield call(fetchList, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: {
@@ -58,7 +58,7 @@ const AgencyModel: AgencyModelType = {
     *saveAgency({ payload }, { call }) {
       try {
         const res = yield call(saveAgency, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           message.success('保存成功');
         }
       } catch (e) {
@@ -68,7 +68,7 @@ const AgencyModel: AgencyModelType = {
     *getAgencyById({ payload }, { call, put }) {
       try {
         const res = yield call(getAgencyById, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: {

@@ -118,16 +118,6 @@ const SecurityManager: React.FC<IProps> = props => {
   ];
 
   useEffect(() => {
-    if (location.state != null) {
-      dispatch({
-        type: 'userModel/save',
-        payload: location.state.ent,
-        index: 'nowEnt',
-      });
-    }
-  }, [location]);
-
-  useEffect(() => {
     if (firstRender) {
       if (location.state != null && location.state.ent != null) {
         setEntInfo(location.state.ent);
@@ -170,6 +160,11 @@ const SecurityManager: React.FC<IProps> = props => {
   useEffect(() => {
     if (entDetail != null) {
       setEntInfo(entDetail);
+      dispatch({
+        type: 'userModel/reset',
+        payload: entDetail,
+        index: 'nowEnt',
+      });
     }
     return () => {
       dispatch({

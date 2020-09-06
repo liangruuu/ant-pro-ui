@@ -53,7 +53,7 @@ const UserModel: UserModelType = {
     },
     *fetchCurrent(_, { call, put }) {
       const response = yield call(queryCurrentUser, { token: localStorage.getItem('token') });
-      if (response.code === 200) {
+      if (response.status === 200) {
         yield put({
           type: 'saveCurrentUser',
           payload: response.data,

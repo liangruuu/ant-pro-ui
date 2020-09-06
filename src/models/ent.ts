@@ -41,7 +41,7 @@ const EntModel: EntModelType = {
     *fetchList({ payload }, { call, put }) {
       try {
         const res = yield call(fetchList, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: {
@@ -60,7 +60,7 @@ const EntModel: EntModelType = {
     *saveEnt({ payload }, { select, call, put }) {
       try {
         const res = yield call(saveEnt, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           message.success('保存成功');
           const entModel: EntModelState = yield select(
             (state: { entModel: EntModelState }) => state.entModel,
@@ -81,7 +81,7 @@ const EntModel: EntModelType = {
     *getEntById({ payload }, { call, put }) {
       try {
         const res = yield call(getEntById, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'reset',
             payload: res.data,
@@ -95,7 +95,7 @@ const EntModel: EntModelType = {
     *getAllEntList({ payload }, { call, put }) {
       try {
         const res = yield call(getAllEntList, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'reset',
             payload: res.data,

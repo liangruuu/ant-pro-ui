@@ -29,7 +29,7 @@ const CdRiskType: CdRiskTypeModelType = {
     *fetchCdRiskType({ payload }, { call, put }) {
       try {
         const res = yield call(fetchCdRiskType, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: res.data,

@@ -55,7 +55,7 @@ const RiskCheck: RiskCheckModelType = {
     *getRiskCheckList({ payload }, { call, put }) {
       try {
         const res = yield call(getRiskCheckList, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: {
@@ -74,7 +74,7 @@ const RiskCheck: RiskCheckModelType = {
     *saveRiskCheckRecord({ payload }, { select, call, put }) {
       try {
         const res = yield call(saveRiskCheckRecord, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           message.success('保存成功');
           const riskCheckState: RiskCheckModelState = yield select(
             (state: { riskCheck: RiskCheckModelState }) => state.riskCheck,
@@ -100,7 +100,7 @@ const RiskCheck: RiskCheckModelType = {
     *saveRiskCheckModify({ payload }, { select, call, put }) {
       try {
         const res = yield call(saveRiskCheckModify, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           message.success('保存成功');
           const riskCheckState: RiskCheckModelState = yield select(
             (state: { riskCheck: RiskCheckModelState }) => state.riskCheck,
@@ -127,7 +127,7 @@ const RiskCheck: RiskCheckModelType = {
     *saveRiskCheckInspect({ payload }, { select, call, put }) {
       try {
         const res = yield call(saveRiskCheckInspect, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           message.success('保存成功');
           const riskCheckState: RiskCheckModelState = yield select(
             (state: { riskCheck: RiskCheckModelState }) => state.riskCheck,
@@ -152,7 +152,7 @@ const RiskCheck: RiskCheckModelType = {
     *uploadFile({ payload }, { call, put }) {
       try {
         const res = yield call(uploadFile, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'reset',
             payload: res.data,
@@ -166,7 +166,7 @@ const RiskCheck: RiskCheckModelType = {
     *fetchPic({ payload }, { call, put }) {
       try {
         const res = yield call(fetchPic, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'reset',
             payload: res.data,
@@ -180,7 +180,7 @@ const RiskCheck: RiskCheckModelType = {
     *fetchFileNameList({ payload }, { call, put }) {
       try {
         const res = yield call(fetchFileNameList, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'reset',
             payload: res.data,

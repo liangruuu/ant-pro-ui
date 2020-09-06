@@ -33,6 +33,7 @@ import { EntModelState } from '@/models/ent';
 import { Ent } from '@/models/entity';
 import { UserModelState } from '@/models/user';
 import moment from 'moment';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 interface IProps {
   dispatch: Dispatch<any>;
@@ -79,7 +80,7 @@ const CompanyInfo: React.FC<IProps> = props => {
   const [firstRender, setFirstRender] = useState<boolean>(true);
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string>('');
-  const [fileList, setFileList] = useState<any>([]);
+  const [fileList, setFileList] = useState<Array<UploadFile>>([]);
   const [entOld, setEntOld] = useState<Ent>();
 
   const layout = {
@@ -109,23 +110,35 @@ const CompanyInfo: React.FC<IProps> = props => {
   };
 
   // eslint-disable-next-line no-shadow
-  const handleChange = ({ fileList }: any) => setFileList(fileList);
+  const handleChange = ({ fileList }: { fileList: Array<UploadFile> }) => setFileList(fileList);
 
   const onFinish = (values: any) => {
     if (entOld != null) {
-      dispatch({
-        type: 'entModel/saveEnt',
-        payload: {
-          ...entOld,
-          ...values,
-        },
-      });
+      if (fileList[0] != null && fileList[0].response != null) {
+        dispatch({
+          type: 'entModel/saveEnt',
+          payload: {
+            ...entOld,
+            ...values,
+            pic: fileList[0].response.data,
+          },
+        });
+      } else {
+        dispatch({
+          type: 'entModel/saveEnt',
+          payload: {
+            ...entOld,
+            ...values,
+          },
+        });
+      }
     } else {
       dispatch({
         type: 'entModel/saveEnt',
         payload: {
           ...values,
           entType: 'ent',
+          pic: fileList[0].response.data,
         },
       });
     }
@@ -203,7 +216,7 @@ const CompanyInfo: React.FC<IProps> = props => {
   });
 
   return (
-    <PageHeaderWrapper>
+    <PageHeaderWrapper onBack={() => router.goBack()}>
       <Card>
         <Form {...layout} name="basicForm" onFinish={onFinish} form={form}>
           <Row gutter={[16, 24]}>
@@ -508,12 +521,15 @@ const CompanyInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item name="pic" label="四色图上传">
+              <Form.Item label="四色图上传">
                 <Upload
                   listType="picture-card"
                   fileList={fileList}
                   onPreview={handlePreview}
                   onChange={handleChange}
+                  action="/dapi/v1/tongxiang/backend/resource/upload"
+                  name="resource"
+                  data={{ owner: currentUser?.userInfo?.tele }}
                 >
                   {fileList.length >= 1 ? null : (
                     <div>

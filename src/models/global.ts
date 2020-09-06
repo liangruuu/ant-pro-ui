@@ -50,7 +50,7 @@ const GlobalModel: GlobalModelType = {
     *getMenu({ payload }, { call, put }) {
       try {
         const res = yield call(getMenu, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'saveMenu',
             payload: res.data,

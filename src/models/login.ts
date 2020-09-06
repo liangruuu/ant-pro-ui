@@ -40,7 +40,7 @@ const Model: LoginModelType = {
       // });
       const response = yield call(login, payload);
       // Login successfully
-      if (response.code === 200) {
+      if (response.status === 200) {
         yield put({
           type: 'changeLoginStatus',
           payload: 'ok',

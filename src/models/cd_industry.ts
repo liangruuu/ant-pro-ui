@@ -29,7 +29,7 @@ const CdIndustry: CdIndustryModelType = {
     *fetchCdIndustry({ payload }, { call, put }) {
       try {
         const res = yield call(fetchCdIndustry, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: res.data,
@@ -43,7 +43,7 @@ const CdIndustry: CdIndustryModelType = {
     *fetchSuperviseTypeTree({ payload }, { call, put }) {
       try {
         const res = yield call(fetchSuperviseTypeTree, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: res.data,

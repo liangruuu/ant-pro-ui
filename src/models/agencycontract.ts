@@ -37,7 +37,7 @@ const AgencycontractModel: AgencycontractModelType = {
     *fetchList({ payload }, { call, put }) {
       try {
         const res = yield call(fetchList, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: {
@@ -56,7 +56,7 @@ const AgencycontractModel: AgencycontractModelType = {
     *saveAgencycontract({ payload }, { select, call, put }) {
       try {
         const res = yield call(saveAgencycontract, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           message.success('保存成功');
           const agencycontractModel: AgencycontractModelState = yield select(
             (state: { agencycontractModel: AgencycontractModelState }) => state.agencycontractModel,
@@ -77,7 +77,7 @@ const AgencycontractModel: AgencycontractModelType = {
     *deleteAgencycontractById({ payload }, { select, call, put }) {
       try {
         const res = yield call(deleteAgencycontractById, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           message.success('保存成功');
           const agencycontractModel: AgencycontractModelState = yield select(
             (state: { agencycontractModel: AgencycontractModelState }) => state.agencycontractModel,

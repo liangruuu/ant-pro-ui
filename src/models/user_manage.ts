@@ -48,7 +48,7 @@ const UserModel: UserModelType = {
     *fetchList({ payload }, { call, put }) {
       try {
         const res = yield call(fetchList, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: {
@@ -67,7 +67,7 @@ const UserModel: UserModelType = {
     *saveUser({ payload }, { select, call, put }) {
       try {
         const res = yield call(saveUser, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           message.success('保存成功');
           const userModel: UserManageModelState = yield select(
             (state: { userModel: UserManageModelState }) => state.userModel,
@@ -80,7 +80,7 @@ const UserModel: UserModelType = {
               user: { entid: userModel.nowEnt?.sid },
             },
           });
-        } else if (res.code === 400) {
+        } else if (res.status === 400) {
           message.error(res.data);
         }
       } catch (e) {
@@ -90,7 +90,7 @@ const UserModel: UserModelType = {
     *fetchUserById({ payload }, { call, put }) {
       try {
         const res = yield call(fetchUserById, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'reset',
             payload: res.data,
@@ -104,7 +104,7 @@ const UserModel: UserModelType = {
     *deleteUserById({ payload }, { select, call, put }) {
       try {
         const res = yield call(deleteUserById, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           message.success('保存成功');
           const userModel: UserManageModelState = yield select(
             (state: { userModel: UserManageModelState }) => state.userModel,
@@ -125,7 +125,7 @@ const UserModel: UserModelType = {
     *fetchSafetyOfficers({ payload }, { call, put }) {
       try {
         const res = yield call(fetchSafetyOfficers, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'reset',
             payload: res.data,

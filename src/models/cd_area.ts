@@ -27,7 +27,7 @@ const CdArea: CdAreaModelType = {
     *fetchCdArea({ payload }, { call, put }) {
       try {
         const res = yield call(fetchCdArea, payload);
-        if (res.code === 200) {
+        if (res.status === 200) {
           yield put({
             type: 'save',
             payload: res.data,

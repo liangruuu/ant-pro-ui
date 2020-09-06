@@ -50,7 +50,7 @@ export async function fetchFileNameList(params: any) {
 }
 
 export async function downloadFile(params: any) {
-  return request('/dapi/v1/tongxiang/backend/resource/query_resource', {
+  return request('/dapi/v1/tongxiang/backend/resource/download_resource', {
     method: 'POST',
     data: params,
   });
