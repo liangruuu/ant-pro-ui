@@ -109,7 +109,12 @@ const SecurityManager: React.FC<IProps> = props => {
             修改
           </Link>
           <Divider type="vertical" />
-          <Popconfirm title="确认删除吗?" onConfirm={() => handleDelete(record.sid)}>
+          <Popconfirm
+            title="确认删除吗?"
+            okText="确认"
+            cancelText="取消"
+            onConfirm={() => handleDelete(record.sid)}
+          >
             <a>删除</a>
           </Popconfirm>
         </span>
