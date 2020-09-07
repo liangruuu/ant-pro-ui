@@ -53,5 +53,6 @@ export async function downloadFile(params: any) {
   return request('/dapi/v1/tongxiang/backend/resource/download_resource', {
     method: 'POST',
     data: params,
+    responseType: 'blob',
   });
 }

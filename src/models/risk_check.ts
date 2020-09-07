@@ -191,9 +191,19 @@ const RiskCheck: RiskCheckModelType = {
         message.error(e || '未知错误');
       }
     },
-    *downloadFile({ payload }, { call }) {
+    *downloadFile({ payload, fileName }, { call }) {
       try {
-        yield call(downloadFile, payload);
+        const res = yield call(downloadFile, payload);
+        const blob = new Blob([res], {
+          type: res.type,
+        });
+        const a = document.createElement('a');
+        const url = window.URL.createObjectURL(blob);
+        const filename = fileName;
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
       } catch (e) {
         message.error(e || '未知错误');
       }

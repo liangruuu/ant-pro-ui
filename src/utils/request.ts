@@ -53,4 +53,13 @@ const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
 });
 
+// request.interceptors.response.use(async (response: Response) => {
+//   const contentDisposition = response.headers.get('Content-Disposition');
+//   if (contentDisposition != null && contentDisposition.indexOf('attachment;') !== -1) {
+//     const fileName = contentDisposition.substring(contentDisposition.indexOf('"') + 1, contentDisposition.lastIndexOf('"'));
+//     return { ...response, fileName };
+//   }
+//   return response;
+// });
+
 export default request;

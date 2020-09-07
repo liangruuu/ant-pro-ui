@@ -220,6 +220,7 @@ const RiskManagePromise: React.FC<IProps> = props => {
                     dispatch({
                       type: 'riskCheck/downloadFile',
                       payload: { token: item.token },
+                      fileName: item.name,
                     });
                   }}
                 >
