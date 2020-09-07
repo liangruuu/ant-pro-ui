@@ -104,6 +104,13 @@ const InsuranceOrganization: React.FC<IProps> = props => {
     });
   };
 
+  const normalize = (value: any) => {
+    if (value === '') {
+      return null;
+    }
+    return value;
+  };
+
   useEffect(() => {
     dispatch({
       type: 'entModel/reset',
@@ -132,12 +139,12 @@ const InsuranceOrganization: React.FC<IProps> = props => {
         <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} form={form} onFinish={onFinish}>
           <Row>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
-              <Form.Item name="entname" label="企业名称">
+              <Form.Item name="entname" label="企业名称" normalize={normalize}>
                 <Input placeholder="请输入企业名称" />
               </Form.Item>
             </Col>
             <Col xs={22} sm={18} md={14} lg={10} xl={8}>
-              <Form.Item name="uniscid" label="统一社会信用代码">
+              <Form.Item name="uniscid" label="统一社会信用代码" normalize={normalize}>
                 <Input placeholder="请输入统一社会信用代码" />
               </Form.Item>
             </Col>
