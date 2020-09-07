@@ -128,6 +128,13 @@ const CompanyList: React.FC<IProps> = props => {
     };
   }, [entType]);
 
+  const normalize = (value: any) => {
+    if (value === '') {
+      return null;
+    }
+    return value;
+  };
+
   useEffect(() => {
     if (firstRender) {
       handleChange({ current: currentPage + 1, pageSize: pageSizel });
@@ -147,17 +154,17 @@ const CompanyList: React.FC<IProps> = props => {
         >
           <Row>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
-              <Form.Item name="entname" label="企业名称">
+              <Form.Item name="entname" label="企业名称" normalize={normalize}>
                 <Input placeholder="请输入企业名称" />
               </Form.Item>
             </Col>
-            <Col xs={22} sm={18} md={14} lg={10} xl={6}>
-              <Form.Item name="lerep" label="法定代表人">
+            {/* <Col xs={22} sm={18} md={14} lg={10} xl={6} >
+              <Form.Item name="lerep" label="法定代表人" normalize={normalize}>
                 <Input placeholder="请输入法定代表人" />
               </Form.Item>
-            </Col>
+            </Col> */}
             <Col xs={22} sm={18} md={14} lg={10} xl={8}>
-              <Form.Item name="uniscid" label="统一社会信用代码">
+              <Form.Item name="uniscid" label="统一社会信用代码" normalize={normalize}>
                 <Input placeholder="请输入统一社会信用代码" />
               </Form.Item>
             </Col>
