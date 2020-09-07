@@ -129,14 +129,15 @@ const HiddenTroubleResolveSituation: React.FC<IProps> = props => {
 
   return (
     <PageHeaderWrapper>
-      {entDetail ?
+      {entDetail ? (
         <Card>
           <Descriptions title="企业信息">
             <Descriptions.Item label="企业名称">{entDetail?.entname}</Descriptions.Item>
             <Descriptions.Item label="统一社会信用代码">{entDetail?.uniscid}</Descriptions.Item>
             <Descriptions.Item label="经营地址">{entDetail?.oploc}</Descriptions.Item>
           </Descriptions>
-        </Card> : null}
+        </Card>
+      ) : null}
       <br />
       <Card>
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
@@ -171,7 +172,7 @@ const HiddenTroubleResolveSituation: React.FC<IProps> = props => {
             </Col>
             <Col span={6}>
               <Form.Item label="排查日期" name="checkDate">
-                <DatePicker.RangePicker allowClear />
+                <DatePicker.RangePicker allowClear placeholder={['起始日期', '截止日期']} />
               </Form.Item>
             </Col>
             <Col span={6}>

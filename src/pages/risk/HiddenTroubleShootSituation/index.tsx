@@ -163,7 +163,7 @@ const HiddenTroubleShootSituation: React.FC<IProps> = props => {
             </Col>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
               <Form.Item label="排查日期" name="checkDate">
-                <DatePicker.RangePicker allowClear />
+                <DatePicker.RangePicker allowClear placeholder={['起始日期', '截止日期']} />
               </Form.Item>
             </Col>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>

@@ -102,12 +102,12 @@ const RiskManagePromise: React.FC<IProps> = () => {
             </Col>
             <Col span={6} style={{ display: expand ? 'block' : 'none' }}>
               <Form.Item label="排查日期">
-                <DatePicker.RangePicker allowClear />
+                <DatePicker.RangePicker allowClear placeholder={['起始日期', '截止日期']} />
               </Form.Item>
             </Col>
             <Col span={6} style={{ display: expand ? 'block' : 'none' }}>
               <Form.Item label="整改时限">
-                <DatePicker.RangePicker allowClear />
+                <DatePicker.RangePicker allowClear placeholder={['起始日期', '截止日期']} />
               </Form.Item>
             </Col>
             <Col span={6} style={{ display: expand ? 'block' : 'none' }}>

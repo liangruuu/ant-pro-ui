@@ -159,7 +159,7 @@ const TBDHiddenTroubleList: React.FC<IProps> = props => {
             </Col>
             <Col span={6}>
               <Form.Item label="排查日期" name="checkDate">
-                <DatePicker.RangePicker allowClear />
+                <DatePicker.RangePicker allowClear placeholder={['起始日期', '截止日期']} />
               </Form.Item>
             </Col>
             <Col span={6}>

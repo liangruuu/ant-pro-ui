@@ -54,7 +54,7 @@ const ChemicalsManage: React.FC<IProps> = () => {
           <Row gutter={24}>
             <Col span={8}>
               <Form.Item label="录入日期">
-                <DatePicker.RangePicker allowClear />
+                <DatePicker.RangePicker allowClear placeholder={['起始日期', '截止日期']} />
               </Form.Item>
             </Col>
             <Col span={8} />
