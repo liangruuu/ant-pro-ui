@@ -132,13 +132,21 @@ const CompanyInfo: React.FC<IProps> = props => {
           },
         });
       }
-    } else {
+    } else if (fileList[0] != null && fileList[0].response != null) {
       dispatch({
         type: 'entModel/saveEnt',
         payload: {
           ...values,
           entType: 'ent',
           pic: fileList[0].response.data,
+        },
+      });
+    } else {
+      dispatch({
+        type: 'entModel/saveEnt',
+        payload: {
+          ...values,
+          entType: 'ent',
         },
       });
     }
