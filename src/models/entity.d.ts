@@ -55,6 +55,7 @@ export interface Ent {
   honestygrade?: string;
   entType: string;
   qualify?: string;
+  riskRecognize: string;
 }
 
 export interface User {

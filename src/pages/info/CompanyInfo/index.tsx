@@ -483,64 +483,64 @@ const CompanyInfo: React.FC<IProps> = props => {
             <Col span={10}>
               <Form.Item name="keyEnt" label="安全生产监管重点企业">
                 <Radio.Group>
-                  <Radio value={1}>是</Radio>
-                  <Radio value={0}>否</Radio>
+                  <Radio value>是</Radio>
+                  <Radio value={false}>否</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="largeScale" label="规模以上生产经营单位">
                 <Radio.Group>
-                  <Radio value={1}>是</Radio>
-                  <Radio value={0}>否</Radio>
+                  <Radio value>是</Radio>
+                  <Radio value={false}>否</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="hazardousChemicals" label="危险化学品">
                 <Radio.Group>
-                  <Radio value={1}>有</Radio>
-                  <Radio value={0}>无</Radio>
+                  <Radio value>有</Radio>
+                  <Radio value={false}>无</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="limitedSpace" label="有限空间">
                 <Radio.Group>
-                  <Radio value={1}>有</Radio>
-                  <Radio value={0}>无</Radio>
+                  <Radio value>有</Radio>
+                  <Radio value={false}>无</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="combustibleDust" label="可燃性粉尘">
                 <Radio.Group>
-                  <Radio value={1}>有</Radio>
-                  <Radio value={0}>无</Radio>
+                  <Radio value>有</Radio>
+                  <Radio value={false}>无</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="metalSmelting" label="金属冶炼">
                 <Radio.Group>
-                  <Radio value={1}>有</Radio>
-                  <Radio value={0}>无</Radio>
+                  <Radio value>有</Radio>
+                  <Radio value={false}>无</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="specialEquipment" label="特种设备">
                 <Radio.Group>
-                  <Radio value={1}>有</Radio>
-                  <Radio value={0}>无</Radio>
+                  <Radio value>有</Radio>
+                  <Radio value={false}>无</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
             <Col span={10}>
               <Form.Item name="gas" label="燃气（餐饮）">
                 <Radio.Group>
-                  <Radio value={1}>有</Radio>
-                  <Radio value={0}>无</Radio>
+                  <Radio value>有</Radio>
+                  <Radio value={false}>无</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
