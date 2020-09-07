@@ -132,7 +132,9 @@ const RiskCheck: RiskCheckModelType = {
           const riskCheckState: RiskCheckModelState = yield select(
             (state: { riskCheck: RiskCheckModelState }) => state.riskCheck,
           );
-          const user: UserModelState = yield select((state: { v: UserModelState }) => state.user);
+          const user: UserModelState = yield select(
+            (state: { user: UserModelState }) => state.user,
+          );
           yield put({
             type: 'getRiskCheckList',
             payload: {

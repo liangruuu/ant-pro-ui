@@ -13,6 +13,7 @@ import {
   Modal,
   DatePicker,
   TreeSelect,
+  Image,
 } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
@@ -34,6 +35,7 @@ import { Ent } from '@/models/entity';
 import { UserModelState } from '@/models/user';
 import moment from 'moment';
 import { UploadFile } from 'antd/lib/upload/interface';
+import { RiskCheckModelState } from '@/models/risk_check';
 
 interface IProps {
   dispatch: Dispatch<any>;
@@ -50,6 +52,7 @@ interface IProps {
   cdArea: CdAreaModelState;
   cdIndustry: CdIndustryModelState;
   user: UserModelState;
+  riskCheck: RiskCheckModelState;
   loading: {
     models: { [key: string]: boolean };
     effects: { [key: string]: boolean };
@@ -72,6 +75,7 @@ const CompanyInfo: React.FC<IProps> = props => {
     cdArea: { cdAreaTree },
     cdIndustry: { cdIndustryTree, cdSuperviseTypeTree },
     user: { currentUser },
+    riskCheck: { picBase64List },
     loading,
   } = props;
 
@@ -120,7 +124,7 @@ const CompanyInfo: React.FC<IProps> = props => {
           payload: {
             ...entOld,
             ...values,
-            pic: fileList[0].response.data,
+            fourpic: fileList[0].response.data,
           },
         });
       } else {
@@ -138,7 +142,7 @@ const CompanyInfo: React.FC<IProps> = props => {
         payload: {
           ...values,
           entType: 'ent',
-          pic: fileList[0].response.data,
+          fourpic: fileList[0].response.data,
         },
       });
     } else {
@@ -159,6 +163,12 @@ const CompanyInfo: React.FC<IProps> = props => {
         ...entDetail,
         estdate: moment(entDetail.estdate, 'YYYY-MM-DD '),
       });
+      if (entDetail.fourpic != null) {
+        dispatch({
+          type: 'riskCheck/fetchPic',
+          payload: { tokenList: [entDetail.fourpic] },
+        });
+      }
       setEntOld(entDetail);
     }
     return () => {
@@ -166,6 +176,11 @@ const CompanyInfo: React.FC<IProps> = props => {
         type: 'entModel/reset',
         payload: undefined,
         index: 'entDetail',
+      });
+      dispatch({
+        type: 'riskCheck/reset',
+        payload: undefined,
+        index: 'picBase64List',
       });
     };
   }, [entDetail]);
@@ -290,6 +305,7 @@ const CompanyInfo: React.FC<IProps> = props => {
                 <Select
                   placeholder="请选择登记机关"
                   loading={loading.effects['cdAdminOrg/fetchCdAdminOrg']}
+                  listHeight={600}
                 >
                   {cdAdminOrgList?.map(item => (
                     <Select.Option value={item.sid}>{item.content}</Select.Option>
@@ -529,7 +545,7 @@ const CompanyInfo: React.FC<IProps> = props => {
               </Form.Item>
             </Col>
             <Col span={10}>
-              <Form.Item label="四色图上传">
+              <Form.Item label="四色图上传（将替换四色图）">
                 <Upload
                   listType="picture-card"
                   fileList={fileList}
@@ -549,6 +565,34 @@ const CompanyInfo: React.FC<IProps> = props => {
                 <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
                   <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
+              </Form.Item>
+            </Col>
+            <Col span={20}>
+              <Form.Item label="已上传的四色图" labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
+                {picBase64List?.map(item => (
+                  <Card
+                    key={item}
+                    bodyStyle={{ padding: 5 }}
+                    style={{
+                      height: 214,
+                      width: 214,
+                      marginRight: 20,
+                      display: 'inline-flex',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <Image
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        transform: 'translate(0, -50%)',
+                        padding: 4,
+                      }}
+                      width={200}
+                      src={item}
+                    />
+                  </Card>
+                ))}
               </Form.Item>
             </Col>
           </Row>
@@ -587,6 +631,7 @@ const mapStateToProps = () => ({
   cdArea,
   cdIndustry,
   user,
+  riskCheck,
   loading,
 }: {
   entModel: EntModelState;
@@ -601,6 +646,7 @@ const mapStateToProps = () => ({
   cdArea: CdAreaModelState;
   cdIndustry: CdIndustryModelState;
   user: UserModelState;
+  riskCheck: RiskCheckModelState;
   loading: { models: { [key: string]: boolean }; effects: { [key: string]: boolean } };
 }) => ({
   entModel,
@@ -615,6 +661,7 @@ const mapStateToProps = () => ({
   cdArea,
   cdIndustry,
   user,
+  riskCheck,
   loading,
 });
 export default connect(mapStateToProps)(CompanyInfo);
