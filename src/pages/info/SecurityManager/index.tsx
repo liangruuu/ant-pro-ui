@@ -79,6 +79,13 @@ const SecurityManager: React.FC<IProps> = props => {
     });
   };
 
+  const normalize = (value: any) => {
+    if (value === '') {
+      return null;
+    }
+    return value;
+  };
+
   const columns = [
     {
       title: '姓名',
@@ -213,17 +220,17 @@ const SecurityManager: React.FC<IProps> = props => {
         <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} form={form} onFinish={onFinish}>
           <Row>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
-              <Form.Item label="姓名" name="name">
+              <Form.Item label="姓名" name="name" normalize={normalize}>
                 <Input placeholder="请输入姓名" />
               </Form.Item>
             </Col>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
-              <Form.Item label="电话" name="tele">
+              <Form.Item label="电话" name="tele" normalize={normalize}>
                 <Input placeholder="请输入电话" />
               </Form.Item>
             </Col>
             <Col xs={22} sm={18} md={14} lg={10} xl={6}>
-              <Form.Item label="身份证号" name="idNumber">
+              <Form.Item label="身份证号" name="idNumber" normalize={normalize}>
                 <Input placeholder="请输入身份证号" />
               </Form.Item>
             </Col>

@@ -8,6 +8,7 @@ import { Dispatch } from 'redux';
 import { CdEntPersonTypeModelState } from '@/models/cd_ent_person_type';
 import { Ent, User } from '@/models/entity';
 import { UserManageModelState } from '@/models/user_manage';
+import moment from 'moment';
 
 interface IProps {
   dispatch: Dispatch<any>;
@@ -79,7 +80,11 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
 
   useEffect(() => {
     if (userInfo != null) {
-      form.setFieldsValue(userInfo);
+      form.setFieldsValue({
+        ...userInfo,
+        issueDate: userInfo.issueDate ? moment(userInfo.issueDate, 'YYYY-MM-DD ') : undefined,
+        expireDate: userInfo.expireDate ? moment(userInfo.expireDate, 'YYYY-MM-DD ') : undefined,
+      });
     }
     return () => {
       dispatch({
@@ -115,8 +120,12 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
                 rules={[{ required: true, message: '必须输入性别!' }]}
               >
                 <Select placeholder="请选择性别">
-                  <Select.Option value="男">男</Select.Option>
-                  <Select.Option value="女">女</Select.Option>
+                  <Select.Option key="男" value="男">
+                    男
+                  </Select.Option>
+                  <Select.Option key="女" value="女">
+                    女
+                  </Select.Option>
                 </Select>
               </Form.Item>
             </Col>
