@@ -122,6 +122,11 @@ const SecurityManager: React.FC<IProps> = props => {
       if (location.state != null && location.state.ent != null) {
         setEntInfo(location.state.ent);
         dispatch({
+          type: 'userModel/reset',
+          payload: location.state.ent,
+          index: 'nowEnt',
+        });
+        dispatch({
           type: 'userModel/fetchList',
           payload: {
             currentPage,

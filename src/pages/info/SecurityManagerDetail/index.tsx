@@ -105,7 +105,7 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
                 label="姓名"
                 rules={[{ required: true, message: '必须输入姓名!' }]}
               >
-                <Input placeholder="请输入姓名" />
+                <Input placeholder="请输入姓名" maxLength={100} />
               </Form.Item>
             </Col>
             <Col span={10}>
@@ -114,7 +114,10 @@ const SecurityManagerDetail: React.FC<IProps> = props => {
                 label="性别"
                 rules={[{ required: true, message: '必须输入性别!' }]}
               >
-                <Input placeholder="请输入性别" />
+                <Select placeholder="请选择性别">
+                  <Select.Option value="男">男</Select.Option>
+                  <Select.Option value="女">女</Select.Option>
+                </Select>
               </Form.Item>
             </Col>
             <Col span={10}>
